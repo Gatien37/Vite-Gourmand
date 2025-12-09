@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Vite & Gourmand</title>
+</head>
+
+
+<body>
+
+    <header>
+        <div class="header-container">
+            <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
+            <nav>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="buttons">
+                <button class="connect-button">Se connecter</button>
+                <button class="signup-button">Créer un compte</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero-detail-menu">
+        <h1>Menu Festif de Noël</h1>
+    </section>
+
+    <section class="detail-menu-content">
+        <div class="menu-present">
+            <div class="menu-image">
+                <img src="assets/images/menu-noel.jpg" alt="Menu de noel">
+            </div>
+            <div class="menu-info">
+                <div class="menu-description">
+                    <h3>Thème : Noël</h3>
+                    <h3>Régime : Classique</h3>
+                    <h3>Nombre de personnes minimum : 6</h3>
+                    <h3>Prix : 24.90€/personne</h3>
+                    <h3>Stock disponible : 20</h3>
+                    <button class="btn-commande">Commander</button>
+                </div>
+        </div>
+            <div class="plats-menu">
+                <div class="plats-card">
+                    <h2>Entrée</h2>
+                    <img src="assets/images/entree-noel.jpg" alt="Entrée du menu de noel">
+                    <p>Terrine de saumon fumé & aneth</p>
+                </div>
+                <div class="plats-card">
+                    <h2>Plat</h2>
+                    <img src="assets/images/plat-noel.jpg" alt="Plat du menu de noel">
+                    <p>Suprême de dinde farci aux marrons</p>
+                </div>
+                <div class="plats-card">
+                    <h2>Dessert</h2>
+                    <img src="assets/images/dessert-noel.jpg" alt="Dessert du menu de noel">
+                    <p>Bûche chocolat-praliné artisanale</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="menu-details-wrapper">
+        <section class="description-menu">
+            <h2>PRÉSENTATION DU MENU</h2>
+            <p>Ce menu festif réunit des saveurs chaleureuses et raffinées pour célébrer Noël dans les meilleures conditions. Préparé avec des produits frais et sélectionnés,
+            il offre un équilibre parfait entre tradition et gourmandise, idéal pour un repas convivial en famille ou entre collègues.</p>
+            <h2>DESCRIPTION COMPLÈTE</h2>
+            <p>Le Menu Festif de Noël a été imaginé pour sublimer votre repas du réveillon. Il débute par une terrine de saumon fumé et d'aneth, délicatement parfumée, servie avec un léger condiment citronné.
+                En plat principal, vous dégusterez un suprême de dinde farci aux marrons, accompagné d'une sauce crémeuse et d'un assortiment de légumes de saison rôtis au four. Pour terminer sur une note sucrée,
+                Julie et José proposent une bûche chocolat-praliné artisanale, réalisée à partir de chocolat noir de qualité et d'un praliné croustillant.
+                Ce menu a été pensé pour être généreux, festif et facile à partager. Chaque préparation est réalisée le jour même afin de garantir une fraîcheur optimale et une expérience gustative authentique.</p>
+            <h2>LISTE DES ALLERGÈNES</h2>
+            <p>Ce menu peut contenir :</p>
+            <ul>
+                <li>Poisson (terrine de saumon)</li>
+                <li>Gluten (bûche pâtissière, farce de la dinde)</li>
+                <li>Lait (crème, chocolat, beurre)</li>
+                <li>Fruits à coque (marrons, praliné)</li>
+                <li>Œufs (dessert)</li>
+                <li>Soja (traces possibles dans certains ingrédients)</li>
+            </ul>
+        </section>
+
+        <section class="conditions">
+            <h2>CONDITIONS DU MENU FESTIF DE NOËL</h2>
+            <ul>
+                <li>Commande minimum : 6 personnes.</li>
+                <li>Commande obligatoire 48h à l'avance pour garantir la fraîcheur des produits.</li>
+                <li>Retrait ou livraison le jour même entre 9h et 18h.</li>
+                <li>Une facturation de 5 €, majorée de 0,59 € par kilomètre parcouru, s'applique pour toute livraison effectuée en dehors de la ville de Bordeaux.</li>
+                <li>Plats livrés froids, à réchauffer chez vous (instructions fournies)</li>
+                <li>Modifications possibles pour certaines allergies (nous contacter avant la commande)</li>
+                <li>Annulation sans frais jusqu'à 24h avant la livraison</li>
+                <li>Paiement sécurisé en ligne ou à la livraison</li>
+            </ul>
+        </section>
+    </section>
+
+    <section class="cta">
+        <a href="#" class="btn-commande">Commander</a>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="horaires">
+                <h3>Horaires d'ouverture</h3>
+                <p>Lundi - Vendredi : 9h - 18h</p>
+                <p>Samedi : 10h - 14h</p>
+                <p>Dimanche : Fermé</p>
+            </div>
+            <div class="contact">
+                <p>Vite & Gourmand, 12 Rue des Gourmets, 33000 Bordeaux</p>
+                <p>Téléphone : 05 56 48 32 10</p>
+                <p>Email : contact@viteetgourmand.fr </p>
+            </div>
+            <div class="legal">
+                <a href="#">Mentions légales</a>
+                <a href="#">Conditions Générales de Vente</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Vite & Gourmand. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

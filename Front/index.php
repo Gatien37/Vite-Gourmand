@@ -3,41 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
     <title>Vite & Gourmand</title>
 </head>
+
 
 <body>
 
     <header>
         <div class="header-container">
-            <img src="assets/images/logo.png" alt="logo Vite & Gourmand">
+            <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
             <nav>
-            <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Menu</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </nav>
             <div class="buttons">
-                <button>Se connecter</button>
-                <button>Créer un compte</button>
+                <button class="connect-button">Se connecter</button>
+                <button class="signup-button">Créer un compte</button>
             </div>
         </div>
     </header>
 
     <section class="hero">
         <h1>Traiteur à Bordeaux depuis 25 ans</h1>
-        <a href="menus.php" class="btn">Découvrir les menus</a>
+        <button>Découvrir les menus</button>
     </section>
+
     <section class="histoire">
-        <h2>Notre Histoire</h2>
         <img src="assets/images/histoire.jpg" alt="assortiment de fruits frais">
-        <p>Depuis plus de 25 ans, Julie et José mettent leur passion de la cuisine au service des familles et des entreprises de la région bordelaise.
-            D'un petit atelier artisanal à un véritable service traiteur reconnu, leur savoir-faire s'est construit autour d'une idée simple : proposer des plats
-            généreux, préparés avec des produits frais et locaux, et livrés avec une
-            exigence de qualité qui ne faiblit jamais.</p>
-        <p>Au fil des années, Vite & Gourmand est devenu un partenaire de confiance pour les grands événements comme pour les moments du quotidien.Derrière chaque menu,
-            il y a l'envie de partager, de simplifier l'organisation, et d'apporter une touche de convivialité à chaque table.</p>
+        <div class="histoire-text">
+            <h2>Notre Histoire</h2>
+            <p>Depuis plus de 25 ans, Julie et José mettent leur passion de la cuisine au service des familles et des entreprises de la région bordelaise.
+                D'un petit atelier artisanal à un véritable service traiteur reconnu, leur savoir-faire s'est construit autour d'une idée simple : proposer des plats
+                généreux, préparés avec des produits frais et locaux, et livrés avec une
+                exigence de qualité qui ne faiblit jamais.</p><br>
+            <p>Au fil des années, Vite & Gourmand est devenu un partenaire de confiance pour les grands événements comme pour les moments du quotidien.Derrière chaque menu,
+                il y a l'envie de partager, de simplifier l'organisation, et d'apporter une touche de convivialité à chaque table.</p>
+        </div>
     </section>
 
     <section class="experience">
@@ -71,36 +81,42 @@
         <h2>Avis</h2>
         <div class="avis-container">
             <div class="avis-card">
-                <div class="stars">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                <div class="avis-header">
+                    <div class="avis-stars">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                    </div>
+                    <h3>Claire M.</h3>
                 </div>
-                <h3>Claire M.</h3>
                 <p>“Les plats étaient délicieux et la livraison parfaitement à l'heure.Toute la famille a adoré notre menu de Noël.Un service fiable et chaleureux.”</p>
             </div>
             <div class="avis-card">
-                <div class="stars">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                <div class="avis-header">
+                    <div class="avis-stars">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                    </div>
+                    <h3>Julien R.</h3>
                 </div>
-                <h3>Julien R.</h3>
                 <p>“Nous avons commandé pour un événement d'entreprise : frais, bien présenté, très généreux. Julie et José ont été aux petits soins. Je recommande vivement !”</p>
             </div>
             <div class="avis-card">
-                <div class="stars">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                <div class="avis-header">
+                    <div class="avis-stars">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+                    </div>
+                    <h3>Sophie L.</h3>
                 </div>
-                <h3>Sophie L.</h3>
                 <p>“Très bon rapport qualité-prix. Le menu était savoureux et bien préparé. Petit bémol sur le dessert un peu sucré, mais globalement excellent.”</p>
             </div>
         </div>
@@ -109,7 +125,7 @@
     <footer>
         <div class="footer-container">
             <div class="horaires">
-                <h3>Horaires d'ouverture</h3>
+                <h3>Horaires</h3>
                 <p>Lundi - Vendredi : 9h - 18h</p>
                 <p>Samedi : 10h - 14h</p>
                 <p>Dimanche : Fermé</p>
@@ -124,7 +140,7 @@
                 <a href="#">Conditions Générales de Vente</a>
             </div>
             <div class="copyright">
-                <p>&copy; 2024 Vite & Gourmand. Tous droits réservés.</p>
+                <p>&copy; 2025 Vite & Gourmand. Tous droits réservés.</p>
             </div>
         </div>
     </footer>

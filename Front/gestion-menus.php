@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des menus - Vite & Gourmand</title>
+</head>
+
+<body>
+    <header>
+        <div class="header-container">
+            <img src="assets/images/logo.png" alt="logo Vite & Gourmand">
+            <nav>
+                <ul>
+                    <li><a href="dashboard-employe.php">Dashboard</a></li>
+                    <li><a href="gestion-menus.php">Menus</a></li>
+                    <li><a href="gestion-commandes.php">Commandes</a></li>
+                    <li><a href="gestion-avis.php">Avis</a></li>
+                </ul>
+            </nav>
+            <div class="buttons">
+                <button>Déconnexion</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="menus-hero">
+        <h1>Gestion des menus</h1>
+        <p>Ajoutez, modifiez ou supprimez les menus disponibles.</p>
+    </section>
+
+    <section class="menus-admin-container">
+        <!-- Bouton ajouter -->
+        <div class="add-menu-container">
+            <a href="form-menu.php" class="btn-commande">➕ Ajouter un menu</a>
+        </div>
+        <!-- Tableau des menus -->
+        <table class="menus-admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom du menu</th>
+                    <th>Prix / pers.</th>
+                    <th>Thème</th>
+                    <th>Régime</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Exemple 1 -->
+                <tr>
+                    <td>1</td>
+                    <td>Menu Festif de Noël</td>
+                    <td>24,90 €</td>
+                    <td>Noël</td>
+                    <td>Classique</td>
+                    <td>
+                        <a href="form-menu.php?id=1" class="btn-commande">Modifier</a>
+                        <a href="#" class="btn-secondary">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- Exemple 2 -->
+                <tr>
+                    <td>2</td>
+                    <td>Menu Vegan Savoureux</td>
+                    <td>19,90 €</td>
+                    <td>Vegan</td>
+                    <td>Végétalien</td>
+                    <td>
+                        <a href="form-menu.php?id=2" class="btn-commande">Modifier</a>
+                        <a href="#" class="btn-secondary">Supprimer</a>
+                    </td>
+                </tr>
+                <!-- Exemple 3 -->
+                <tr>
+                    <td>3</td>
+                    <td>Menu Saveurs du Monde</td>
+                    <td>22,50 €</td>
+                    <td>International</td>
+                    <td>Classique</td>
+                    <td>
+                        <a href="form-menu.php?id=3" class="btn-commande">Modifier</a>
+                        <a href="#" class="btn-secondary">Supprimer</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="horaires">
+                <h3>Horaires d'ouverture</h3>
+                <p>Lundi - Vendredi : 9h - 18h</p>
+                <p>Samedi : 10h - 14h</p>
+                <p>Dimanche : Fermé</p>
+            </div>
+            <div class="contact">
+                <p>Vite & Gourmand, 12 Rue des Gourmets, 33000 Bordeaux</p>
+                <p>Téléphone : 05 56 48 32 10</p>
+                <p>Email : contact@viteetgourmand.fr</p>
+            </div>
+            <div class="legal">
+                <a href="mentions-legales.php">Mentions légales</a>
+                <a href="cgv.php">Conditions Générales de Vente</a>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Vite & Gourmand. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
