@@ -3,24 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mentions légales - Vite & Gourmand</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Vite & Gourmand</title>
 </head>
+
 
 <body>
 
     <header>
         <div class="header-container">
-            <img src="assets/images/logo.png" alt="logo Vite & Gourmand">
+            <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
             <nav>
-            <ul>
-                <li><a href="index.php">Accueil</a></li>
-                <li><a href="menus.php">Menu</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
             </nav>
             <div class="buttons">
-                <button>Se connecter</button>
-                <button>Créer un compte</button>
+                <button class="connect-button">Se connecter</button>
+                <button class="signup-button">Créer un compte</button>
             </div>
         </div>
     </header>

@@ -3,22 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Détail de la commande - Vite & Gourmand</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>Vite & Gourmand</title>
 </head>
 
+
 <body>
+
     <header>
         <div class="header-container">
-            <img src="assets/images/logo.png" alt="logo Vite & Gourmand">
+            <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
             <nav>
                 <ul>
-                    <li><a href="index.php">Accueil</a></li>
-                    <li><a href="menus.php">Menu</a></li>
-                    <li><a href="contact.php">Contact</a></li>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">Contact</a></li>
                 </ul>
             </nav>
             <div class="buttons">
-                <button>Déconnexion</button>
+                <button class="connect-button">Se connecter</button>
+                <button class="signup-button">Créer un compte</button>
             </div>
         </div>
     </header>
@@ -31,7 +40,7 @@
     <section class="order-detail-container">
         <div class="order-card">
             <h2>Commande #CMD-1023</h2>
-            <p class="status en-cours">Statut : En cours de préparation</p>
+            <p class="status-en-cours">Statut : En cours de préparation</p>
             <h3>Informations du menu</h3>
             <p><strong>Menu :</strong> Menu Festif de Noël</p>
             <p><strong>Prix unitaire :</strong> 24,90 €</p>
@@ -47,9 +56,8 @@
             <h3>Message au traiteur</h3>
             <p>Aucun message.</p>
             <div class="order-actions">
+                <a href="laisser-avis.php" class="btn-avis">Laisser un avis</a>
                 <a href="commandes-utilisateur.php" class="btn-secondary">← Retour aux commandes</a>
-                <!-- Bouton d'avis visible uniquement après livraison -->
-                <a href="laisser-avis.php" class="btn-commande">Laisser un avis</a>
             </div>
         </div>
     </section>

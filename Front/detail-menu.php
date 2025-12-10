@@ -37,40 +37,45 @@
     </section>
 
     <section class="detail-menu-content">
-        <div class="menu-present">
-            <div class="menu-image">
-                <img src="assets/images/menu-noel.jpg" alt="Menu de noel">
-            </div>
-            <div class="menu-info">
-                <div class="menu-description">
-                    <h3>Thème : Noël</h3>
-                    <h3>Régime : Classique</h3>
-                    <h3>Nombre de personnes minimum : 6</h3>
-                    <h3>Prix : 24.90€/personne</h3>
-                    <h3>Stock disponible : 20</h3>
-                    <button class="btn-commande">Commander</button>
-                </div>
+
+    <div class="menu-present">
+        <div class="menu-image">
+            <img src="assets/images/menu-noel.jpg" alt="Menu de noel">
         </div>
-            <div class="plats-menu">
-                <div class="plats-card">
-                    <h2>Entrée</h2>
-                    <img src="assets/images/entree-noel.jpg" alt="Entrée du menu de noel">
-                    <p>Terrine de saumon fumé & aneth</p>
-                </div>
-                <div class="plats-card">
-                    <h2>Plat</h2>
-                    <img src="assets/images/plat-noel.jpg" alt="Plat du menu de noel">
-                    <p>Suprême de dinde farci aux marrons</p>
-                </div>
-                <div class="plats-card">
-                    <h2>Dessert</h2>
-                    <img src="assets/images/dessert-noel.jpg" alt="Dessert du menu de noel">
-                    <p>Bûche chocolat-praliné artisanale</p>
-                </div>
-            </div>
+
+        <div class="menu-info">
+            <p><b>Thème :</b> Noël</p>
+            <p><b>Régime :</b> Classique</p>
+            <p><b>Nombre de personnes minimum :</b> 6</p>
+            <p><b>Prix :</b> 24.90€/personne</p>
+            <p><b>Stock disponible :</b> 20</p>
+            <button class="btn-commande">Commander</button>
         </div>
-    </section>
-    <section class="menu-details-wrapper">
+    </div>
+
+    <div class="plats-menu">
+        <div class="plats-card">
+            <h2>Entrée</h2>
+            <img src="assets/images/entree-noel.jpg" alt="Entrée du menu de noel">
+            <p><b>Terrine de saumon fumé & aneth</b></p>
+        </div>
+
+        <div class="plats-card">
+            <h2>Plat</h2>
+            <img src="assets/images/plat-noel.jpg" alt="Plat du menu de noel">
+            <p><b>Suprême de dinde farci aux marrons</b></p>
+        </div>
+
+        <div class="plats-card">
+            <h2>Dessert</h2>
+            <img src="assets/images/dessert-noel.jpg" alt="Dessert du menu de noel">
+            <p><b>Bûche chocolat-praliné artisanale</b></p>
+        </div>
+    </div>
+
+</section>
+
+    <section class="menu-description-wrapper">
         <section class="description-menu">
             <h2>PRÉSENTATION DU MENU</h2>
             <p>Ce menu festif réunit des saveurs chaleureuses et raffinées pour célébrer Noël dans les meilleures conditions. Préparé avec des produits frais et sélectionnés,
@@ -81,7 +86,7 @@
                 Julie et José proposent une bûche chocolat-praliné artisanale, réalisée à partir de chocolat noir de qualité et d'un praliné croustillant.
                 Ce menu a été pensé pour être généreux, festif et facile à partager. Chaque préparation est réalisée le jour même afin de garantir une fraîcheur optimale et une expérience gustative authentique.</p>
             <h2>LISTE DES ALLERGÈNES</h2>
-            <p>Ce menu peut contenir :</p>
+            <p><b>Ce menu peut contenir :</b></p>
             <ul>
                 <li>Poisson (terrine de saumon)</li>
                 <li>Gluten (bûche pâtissière, farce de la dinde)</li>
@@ -91,7 +96,9 @@
                 <li>Soja (traces possibles dans certains ingrédients)</li>
             </ul>
         </section>
+    </section>
 
+    <section class="conditions-wrapper">
         <section class="conditions">
             <h2>CONDITIONS DU MENU FESTIF DE NOËL</h2>
             <ul>
@@ -107,9 +114,7 @@
         </section>
     </section>
 
-    <section class="cta">
-        <a href="#" class="btn-commande">Commander</a>
-    </section>
+    <button class="btn-commande">Commander</button>
 
     <footer>
         <div class="footer-container">
