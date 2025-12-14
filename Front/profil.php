@@ -32,13 +32,13 @@
         </div>
     </header>
 
-    <section class="profil-hero">
+    <section class="hero-section commandes-hero">
         <h1>Mon profil</h1>
         <p>Modifiez vos informations personnelles.</p>
     </section>
 
     <section class="profil-container">
-        <form class="profil-form" action="#" method="POST">
+        <form class="profil-form form-card" action="#" method="POST">
             <!-- Informations personnelles -->
             <h2>Informations personnelles</h2>
             <label for="prenom">Prénom</label>

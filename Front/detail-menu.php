@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="hero-detail-menu">
+    <section class="hero-section commandes-hero">
         <h1>Menu Festif de Noël</h1>
     </section>
 

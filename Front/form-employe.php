@@ -32,13 +32,13 @@
         </div>
     </header>
 
-    <section class="employe-form-hero">
+    <section class="hero-section commandes-hero">
         <h1>Créer / Modifier un employé</h1>
         <p>Complétez les informations ci-dessous pour enregistrer un employé.</p>
     </section>
 
     <section class="employe-form-container">
-        <form class="employe-form" action="#" method="POST">
+        <form class="employe-form form-card" action="#" method="POST">
             <!-- INFOS PERSONNELLES -->
             <h2>Informations personnelles</h2>
             <label for="prenom">Prénom</label>

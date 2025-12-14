@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="legal-hero">
+    <section class="hero-section commandes-hero">
         <h1>Mentions légales</h1>
         <p>Informations légales concernant le site Vite & Gourmand.</p>
     </section>

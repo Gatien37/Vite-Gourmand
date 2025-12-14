@@ -32,13 +32,13 @@
         </div>
     </header>
 
-    <section class="menu-form-hero">
+    <section class="hero-section commandes-hero">
         <h1>Créer / Modifier un menu</h1>
         <p>Complétez les champs ci-dessous pour ajouter ou modifier un menu.</p>
     </section>
 
     <section class="menu-form-container">
-        <form class="menu-form" action="#" method="POST" enctype="multipart/form-data">
+        <form class="menu-form form-card" action="#" method="POST" enctype="multipart/form-data">
             <!-- TITRE -->
             <h2>Informations générales</h2>
             <label for="titre">Titre du menu</label>

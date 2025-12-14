@@ -32,13 +32,13 @@
         </div>
     </header>
     
-    <section class="contact-hero">
+    <section class="hero-section commandes-hero">
         <h1>Contactez-nous</h1>
         <p>Une question ? Un événement à organiser ? Nous sommes là pour vous aider.</p>
     </section>
 
     <section class="contact-container">
-        <div class="contact-form">
+        <div class="contact-form form-card">
             <h2>Envoyer un message</h2>
             <form action="#" method="POST">
                 <label for="nom">Nom</label>

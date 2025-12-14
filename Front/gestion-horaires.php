@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="horaires-hero">
+    <section class="hero-section commandes-hero">
         <h1>Gestion des horaires</h1>
         <p>Modifiez les horaires affichés sur le site.</p>
     </section>

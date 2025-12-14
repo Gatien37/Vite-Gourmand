@@ -32,13 +32,13 @@
         </div>
     </header>
 
-    <section class="reset-hero">
+    <section class="hero-section commandes-hero">
         <h1>Nouveau mot de passe</h1>
         <p>Saisissez votre nouveau mot de passe ci-dessous.</p>
     </section>
 
     <section class="reset-container">
-        <form class="reset-form" action="#" method="POST">
+        <form class="reset-form form-card" action="#" method="POST">
             <label for="password">Nouveau mot de passe</label>
             <input type="password" id="password" name="password" placeholder="Votre nouveau mot de passe">
             <label for="confirm-password">Confirmer le mot de passe</label>

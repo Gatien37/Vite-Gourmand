@@ -31,7 +31,7 @@
         </div>
     </header>
 
-    <section class="ca-hero">
+    <section class="hero-section commandes-hero">
         <h1>Chiffre d'affaires</h1>
         <p>Analysez les revenus par période et par menu.</p>
     </section>

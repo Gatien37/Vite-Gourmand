@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="employe-hero">
+    <section class="hero-section commandes-hero">
         <h1>Tableau de bord employé</h1>
         <p>Gérez les menus, commandes, avis et horaires.</p>
     </section>

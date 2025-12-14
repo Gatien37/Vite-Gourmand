@@ -29,7 +29,7 @@
         </div>
     </header>
 
-    <section class="hero-menus">
+    <section class="hero-section commandes-hero">
             <h1>Tous nos menus</h1>
             <p>Trouvez facilement le menu adapté à votre événement.</p>
     </section>

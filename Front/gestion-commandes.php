@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="commandes-hero">
+    <section class="hero-section commandes-hero">
         <h1>Gestion des commandes</h1>
         <p>Consultez et mettez à jour les commandes clients.</p>
     </section>

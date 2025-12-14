@@ -32,7 +32,7 @@
         </div>
     </header>
 
-<section class="cgv-hero">
+<section class="hero-section commandes-hero">
     <h1>Conditions Générales de Vente</h1>
     <p>Veuillez lire attentivement les conditions suivantes avant toute commande.</p>
 </section>

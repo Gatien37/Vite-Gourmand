@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="confirmation-hero">
+    <section class="hero-section commandes-hero">
         <h1>🎉 Commande confirmée !</h1>
         <p>Merci pour votre confiance. Votre commande a bien été enregistrée.</p>
     </section>

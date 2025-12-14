@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="commande-hero">
+    <section class="hero-section commandes-hero">
         <h1>Passer commande</h1>
         <p>Complétez les informations ci-dessous pour finaliser votre commande.</p>
     </section>
@@ -47,7 +47,7 @@
             <p>Minimum : 6 personnes</p>
         </div>
 
-        <form class="commande-form" action="#" method="POST">
+        <form class="commande-form form-card" action="#" method="POST">
             
             <h2>Informations de commande</h2>
             <label for="quantite">Nombre de personnes</label>

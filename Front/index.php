@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="hero">
+    <section class="hero-section commandes-hero">
         <h1>Traiteur à Bordeaux depuis 25 ans</h1>
         <button>Découvrir les menus</button>
     </section>

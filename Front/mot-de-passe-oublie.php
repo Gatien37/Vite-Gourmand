@@ -32,14 +32,14 @@
         </div>
     </header>
 
-    <section class="forgot-hero">
+    <section class="hero-section commandes-hero">
         <h1>Mot de passe oublié</h1>
         <p>Entrez votre adresse e-mail pour recevoir un lien de réinitialisation.</p>
     </section>
 
     <section class="forgot-container">
 
-        <form class="forgot-form" action="#" method="POST">
+        <form class="forgot-form form-card" action="#" method="POST">
             <label for="email">Adresse e-mail</label>
             <input type="email" id="email" name="email" placeholder="exemple@mail.com">
             <button type="submit" class="btn-commande">Réinitialiser le mot de passe</button>

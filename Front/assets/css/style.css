@@ -20,6 +20,19 @@ h1{
     color: #A43F3B;
 }
 
+/* Form Card Style */
+
+.form-card {
+    background-color: #F7E9D7;
+    padding: 60px 40px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
 /* =================== HEADER ====================== */
 
 .header-container {
@@ -49,6 +62,10 @@ nav ul li a {
     font-size: 18px;
 }
 
+nav ul li a:hover {
+    color: #A43F3B;
+}
+
 .signup-button {
     margin-right: 120px;
     padding: 10px 20px;
@@ -62,6 +79,10 @@ nav ul li a {
     text-decoration: none;
 }
 
+.signup-button:hover {
+    background-color: #8C3230;
+}
+
 .connect-button {
     margin-right: 10px;
     padding: 10px 20px;
@@ -73,6 +94,11 @@ nav ul li a {
     height: 50px;
     width: 150px;
     text-decoration: none;
+}
+
+.connect-button:hover {
+    background-color: #A43F3B;
+    color: white;
 }
 
 /* ================== FOOTER ======================= */
@@ -98,50 +124,29 @@ nav ul li a {
 
 /* ===================== HERO ====================== */
 
-.hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #A43F3B;
-}
 
-.hero-menus {
+.hero-section {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    color: #A43F3B;
     background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
 }
 
-.hero-detail-menu {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: #A43F3B;
-    background-color: #F7E9D7;
-    padding: 60px 0;
-    margin-bottom: 90px;
-}
-
-.hero-menus h1 {
-    font-size: 48px;
+.hero-section p {
+    font-size: 20px;
     margin-bottom: 40px;
+    color: #2C3E50;
 }
 
-.hero-menus p {
-    font-size: 24px;
-    margin-bottom: 40px;
-}
 
-.hero h1 {
+.hero-section h1 {
     font-size: 48px;
     margin-bottom: 50px;
 }
 
-.hero button{
+.hero-section button{
     padding: 10px 20px;
     background-color: #A43F3B;
     color: white;
@@ -151,8 +156,12 @@ nav ul li a {
     height: 76px;
     width: 600px;
     font-size: 32px;
-    margin-bottom: 180px;
 }
+
+.hero-section button:hover {
+    background-color: #8C3230;
+}
+
 
 /* =================  ACCUEIL ================ */
 
@@ -339,6 +348,10 @@ nav ul li a {
     width: 150px;
  }
 
+ .filtre-appliquer:hover {
+    background-color: #8C3230;
+}
+
 /* -------- Liste des menus -------- */
 
 .menus-list {
@@ -399,6 +412,10 @@ nav ul li a {
     align-self: center;
 }
 
+.menu-item button:hover {
+    background-color: #8C3230;
+}
+
 /* ================= PAGE DETAIL MENU =============== */
 
 .detail-menu-content {
@@ -450,6 +467,10 @@ nav ul li a {
     border: none;
     border-radius: 30px;
     align-self: center;
+}
+
+.menu-info button:hover {
+    background-color: #8C3230;
 }
 
 .plats-menu {
@@ -555,23 +576,13 @@ nav ul li a {
     font-size: 20px;
 }
 
+.btn-commande:hover {
+    background-color: #8C3230;
+}
+
 
 /* ================= PAGE LOGIN =============== */
 
-.login-hero {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #F7E9D7;
-    margin-bottom: 80px;
-}
-
-.login-hero p {
-    font-size: 20px;
-    margin-bottom: 40px;
-    color: #2C3E50;
-}
 
 .login-container {
     display: flex;
@@ -613,30 +624,12 @@ nav ul li a {
     font-size: 14px;
 }
 
+.auth-links a:hover {
+    text-decoration: underline;
+}
+
 
 /* ================= PAGE CA =============== */
-
-.ca-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.ca-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.ca-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-}
-
 
 /* -------- Filtres Dates -------- */
 
@@ -680,6 +673,9 @@ nav ul li a {
     margin:auto;
 }
 
+.ca-filter-form button:hover {
+    background-color: #8C3230;
+}
 
 /* -------- Résumé CA -------- */
 
@@ -787,29 +783,6 @@ nav ul li a {
 /* ================= PAGE DETAIL COMMANDE =============== */
 
 
-.order-detail-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.order-detail-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.order-detail-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
-
-
 /* -------- Détail Commande -------- */
 
 .order-detail-container {
@@ -891,6 +864,10 @@ nav ul li a {
     width: auto;
 }
 
+.btn-secondary:hover {
+    background-color: #f0f0f0;
+}
+
 /* -------- Bouton Laisser un avis -------- */
 .order-actions .btn-avis {
     display: inline-flex;
@@ -907,32 +884,13 @@ nav ul li a {
     cursor: pointer;
 }
 
+.order-actions .btn-avis:hover {
+    background-color: #8C3230;
+}
+
 
 
 /* ================= PAGE COMMANDES UTILISATEUR =============== */
-
-/* -------- Hero Mes Commandes -------- */
-
-.orders-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.orders-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.orders-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-}
 
 /* -------- Conteneur Table -------- */
 
@@ -975,13 +933,14 @@ nav ul li a {
 /* -------- Statuts -------- */
 
 .status {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: bold;
-    text-align: center;
 }
+
 
 .status.en-cours {
     background-color: #F7E9D7;
@@ -1014,31 +973,6 @@ nav ul li a {
 
 
 /* ================= PAGE COMMANDE =============== */
-
-/* -------- Hero Commande -------- */
-
-.commande-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.commande-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.commande-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
-
 
 /* -------- Conteneur principal -------- */
 
@@ -1094,14 +1028,7 @@ nav ul li a {
 /* -------- Formulaire Commande -------- */
 
 .commande-form {
-    background-color: #FFFFFF;
-    padding: 40px;
-    border-radius: 20px;
     width: 520px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
 
 .commande-form h2 {
@@ -1166,29 +1093,7 @@ nav ul li a {
 
 /* ================= PAGE CONFIRMATION COMMANDE =============== */
 
-/* -------- Hero Confirmation -------- */
 
-.confirmation-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-    text-align: center;
-}
-
-.confirmation-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.confirmation-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-}
 
 /* -------- Conteneur principal -------- */
 
@@ -1261,30 +1166,7 @@ nav ul li a {
 
 /* ================= PAGE CONTACT =============== */
 
-/* -------- Hero Contact -------- */
 
-.contact-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.contact-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.contact-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    max-width: 700px;
-}
 
 /* -------- Conteneur principal -------- */
 
@@ -1301,11 +1183,7 @@ nav ul li a {
 /* -------- Formulaire -------- */
 
 .contact-form {
-    background-color: #FFFFFF;
-    padding: 40px;
-    border-radius: 20px;
     width: 500px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
 }
 
 .contact-form h2 {
@@ -1433,29 +1311,7 @@ nav ul li a {
 
 /* ================= PAGE DASHBOARD EMPLOYÉ =============== */
 
-/* -------- Hero Employé -------- */
 
-.employe-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.employe-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.employe-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur Dashboard Employé -------- */
 
@@ -1506,29 +1362,7 @@ nav ul li a {
 
 /* ================= PAGE ADMIN =============== */
 
-/* -------- Hero Admin -------- */
 
-.admin-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.admin-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.admin-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur Dashboard Admin -------- */
 
@@ -1580,30 +1414,7 @@ nav ul li a {
 
 /* ================= PAGE FORM EMPLOYÉ =============== */
 
-/* -------- Hero -------- */
 
-.employe-form-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.employe-form-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.employe-form-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-    max-width: 700px;
-}
 
 /* -------- Conteneur -------- */
 
@@ -1612,21 +1423,6 @@ nav ul li a {
     justify-content: center;
     margin-bottom: 120px;
     padding: 0 20px;
-}
-
-/* -------- Formulaire -------- */
-
-.employe-form {
-    background-color: #FFFFFF;
-    width: 100%;
-    max-width: 600px;
-    padding: 50px 40px;
-    border-radius: 30px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
-
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
 
 /* -------- Titres -------- */
@@ -1699,30 +1495,7 @@ nav ul li a {
 
 /* ================= PAGE FORM MENU =============== */
 
-/* -------- Hero -------- */
 
-.menu-form-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.menu-form-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.menu-form-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-    max-width: 800px;
-}
 
 /* -------- Conteneur -------- */
 
@@ -1736,16 +1509,8 @@ nav ul li a {
 /* -------- Formulaire -------- */
 
 .menu-form {
-    background-color: #FFFFFF;
     width: 100%;
     max-width: 700px;
-    padding: 50px 40px;
-    border-radius: 30px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
-
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
 
 /* -------- Titres de sections -------- */
@@ -1826,29 +1591,7 @@ nav ul li a {
 
 /* ================= PAGE GESTION AVIS (ADMIN) =============== */
 
-/* -------- Hero -------- */
 
-.avis-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.avis-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.avis-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur -------- */
 
@@ -1899,31 +1642,6 @@ nav ul li a {
     font-style: italic;
 }
 
-/* -------- Statuts -------- */
-
-.status {
-    display: inline-block;
-    padding: 6px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: bold;
-    text-align: center;
-}
-
-.status.attente {
-    background-color: #F7E9D7;
-    color: #A43F3B;
-}
-
-.status.valide {
-    background-color: #E3F6E9;
-    color: #2E7D32;
-}
-
-.status.refuse {
-    background-color: #FBEAEA;
-    color: #C62828;
-}
 
 /* -------- Actions -------- */
 
@@ -1950,29 +1668,6 @@ nav ul li a {
 
 /* ================= PAGE GESTION COMMANDES (ADMIN) =============== */
 
-/* -------- Hero -------- */
-
-.commandes-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.commandes-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.commandes-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur -------- */
 
@@ -2058,29 +1753,7 @@ nav ul li a {
 
 /* ================= PAGE GESTION DES EMPLOYÉS (ADMIN) =============== */
 
-/* -------- Hero -------- */
 
-.employes-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.employes-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.employes-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur -------- */
 
@@ -2145,16 +1818,6 @@ nav ul li a {
 
 /* -------- Statuts -------- */
 
-.status {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 12px;
-    border-radius: 12px;
-    font-size: 13px;
-    font-weight: bold;
-}
-
 .status.actif {
     background-color: #E8F4EC;
     color: #2E7D32;
@@ -2191,29 +1854,7 @@ nav ul li a {
 
 /* ================= PAGE GESTION HORAIRES =============== */
 
-/* -------- Hero Horaires -------- */
 
-.horaires-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.horaires-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.horaires-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur Formulaire -------- */
 
@@ -2287,29 +1928,7 @@ nav ul li a {
 
 /* ================= PAGE GESTION DES MENUS =============== */
 
-/* -------- Hero -------- */
 
-.menus-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.menus-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.menus-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur -------- */
 
@@ -2389,29 +2008,7 @@ nav ul li a {
 
 /* ================= PAGE INSCRIPTION =============== */
 
-/* -------- Hero -------- */
 
-.register-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.register-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.register-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 /* -------- Conteneur -------- */
 
@@ -2424,16 +2021,10 @@ nav ul li a {
 /* -------- Formulaire -------- */
 
 .register-form {
-    background-color: #F7E9D7;
-    padding: 60px 40px;
     max-width: 600px;
     width: 100%;
-    border-radius: 30px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
 }
+    
 
 .register-form h2 {
     font-size: 24px;
@@ -2482,29 +2073,6 @@ nav ul li a {
 
 /* ================= PAGE AVIS CLIENT ================= */
 
-/* -------- Hero -------- */
-
-.avis-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.avis-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 15px;
-}
-
-.avis-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 
 /* -------- Conteneur -------- */
@@ -2520,15 +2088,8 @@ nav ul li a {
 /* -------- Formulaire -------- */
 
 .avis-form {
-    background-color: #FFFFFF;
-    padding: 40px;
-    border-radius: 30px;
     width: 100%;
     max-width: 600px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
 }
 
 .avis-form h2 {
@@ -2602,30 +2163,6 @@ nav ul li a {
 
 /* ================= PAGE MENTIONS LÉGALES ================= */
 
-/* -------- Hero -------- */
-
-.legal-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.legal-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.legal-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-    max-width: 700px;
-}
 
 
 /* -------- Contenu -------- */
@@ -2659,30 +2196,6 @@ nav ul li a {
 
 /* ================= PAGE MOT DE PASSE OUBLIÉ ================= */
 
-/* -------- Hero -------- */
-
-.forgot-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.forgot-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.forgot-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-    max-width: 600px;
-}
 
 
 /* -------- Conteneur -------- */
@@ -2697,16 +2210,9 @@ nav ul li a {
 /* -------- Formulaire -------- */
 
 .forgot-form {
-    background-color: #F7E9D7;
-    padding: 60px 40px;
     width: 100%;
     max-width: 500px;
-    border-radius: 30px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
 }
 
 .forgot-form label {
@@ -2747,30 +2253,6 @@ nav ul li a {
 
 /* ================= PAGE RÉINITIALISATION MOT DE PASSE ================= */
 
-/* -------- Hero -------- */
-
-.reset-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.reset-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.reset-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-    max-width: 600px;
-}
 
 
 /* -------- Conteneur -------- */
@@ -2785,16 +2267,8 @@ nav ul li a {
 /* -------- Formulaire -------- */
 
 .reset-form {
-    background-color: #F7E9D7;
-    padding: 60px 40px;
     width: 100%;
     max-width: 500px;
-    border-radius: 30px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
-
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
 }
 
 .reset-form label {
@@ -2833,29 +2307,6 @@ nav ul li a {
 
 /* ================= PAGE PROFIL UTILISATEUR ================= */
 
-/* -------- Hero -------- */
-
-.profil-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.profil-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.profil-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 
 /* -------- Conteneur -------- */
@@ -2870,16 +2321,8 @@ nav ul li a {
 /* -------- Formulaire -------- */
 
 .profil-form {
-    background-color: #F7E9D7;
-    padding: 60px 40px;
     width: 100%;
     max-width: 600px;
-    border-radius: 30px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
-
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
 }
 
 .profil-form h2 {
@@ -2927,29 +2370,6 @@ nav ul li a {
 
 /* ================= PAGE STATISTIQUES ================= */
 
-/* -------- Hero -------- */
-
-.stats-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.stats-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-}
-
-.stats-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-}
 
 
 /* -------- Résumé chiffré -------- */
@@ -3019,31 +2439,6 @@ nav ul li a {
 
 /* ================= PAGE CGV ================= */
 
-/* -------- Hero CGV -------- */
-
-.cgv-hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #F7E9D7;
-    padding: 60px 20px;
-    margin-bottom: 80px;
-}
-
-.cgv-hero h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    color: #A43F3B;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-.cgv-hero p {
-    font-size: 20px;
-    color: #2C3E50;
-    text-align: center;
-    max-width: 800px;
-}
 
 
 /* -------- Contenu CGV -------- */

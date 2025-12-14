@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="admin-hero">
+    <section class="hero-section commandes-hero">
         <h1>Espace Administrateur</h1>
         <p>Pilotez l'activité globale de Vite & Gourmand.</p>
     </section>

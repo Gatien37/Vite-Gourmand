@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="avis-hero">
+    <section class="hero-section commandes-hero">
         <h1>Gestion des avis</h1>
         <p>Validez ou refusez les avis déposés par les clients.</p>
     </section>

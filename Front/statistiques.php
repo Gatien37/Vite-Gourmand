@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="stats-hero">
+    <section class="hero-section commandes-hero">
         <h1>Statistiques générales</h1>
         <p>Analysez les performances de Vite & Gourmand.</p>
     </section>

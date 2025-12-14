@@ -32,13 +32,13 @@
         </div>
     </header>
 
-    <section class="register-hero">
+    <section class="hero-section commandes-hero">
         <h1>Créer un compte</h1>
         <p>Rejoignez Vite & Gourmand et commandez vos menus en quelques clics !</p>
     </section>
 
     <section class="register-container">
-        <form class="register-form" action="#" method="POST">
+        <form class="register-form form-card" action="#" method="POST">
 
             <h2>Informations personnelles</h2>
             <label for="prenom">Prénom</label>

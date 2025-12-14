@@ -31,13 +31,13 @@
         </div>
     </header>
     
-    <section class="login-hero">
+    <section class="hero-section commandes-hero">
         <h1>Connexion</h1>
         <p>Accédez à votre espace personnel.</p>
     </section>
 
     <section class="login-container">
-        <form class="login-form" action="#" method="POST">
+        <form class="login-form form-card" action="#" method="POST">
             <label for="email">Adresse e-mail</label>
             <input type="email" id="email" name="email" placeholder="exemple@mail.com" required>
             <label for="password">Mot de passe</label>

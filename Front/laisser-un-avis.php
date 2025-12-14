@@ -32,13 +32,13 @@
         </div>
     </header>
 
-    <section class="avis-hero">
+    <section class="hero-section commandes-hero">
         <h1>Laisser un avis</h1>
         <p>Partagez votre expérience avec Vite & Gourmand.</p>
     </section>
 
     <section class="avis-container">
-        <form class="avis-form" action="#" method="POST">
+        <form class="avis-form form-card" action="#" method="POST">
             <h2>Votre commande</h2>
             <!-- Exemple statique, sera dynamique en PHP -->
             <p><strong>Menu :</strong> Menu Festif de Noël</p>

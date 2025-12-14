@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="menus-hero">
+    <section class="hero-section commandes-hero">
         <h1>Gestion des menus</h1>
         <p>Ajoutez, modifiez ou supprimez les menus disponibles.</p>
     </section>

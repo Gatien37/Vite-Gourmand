@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="employes-hero">
+    <section class="hero-section commandes-hero">
         <h1>Gestion des employés</h1>
         <p>Ajoutez, modifiez ou désactivez des comptes employés.</p>
     </section>

@@ -32,7 +32,7 @@
         </div>
     </header>
 
-    <section class="order-detail-hero">
+    <section class="hero-section commandes-hero">
         <h1>Détail de la commande</h1>
         <p>Retrouvez toutes les informations concernant votre commande.</p>
     </section>
