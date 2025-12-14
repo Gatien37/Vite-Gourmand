@@ -20,14 +20,14 @@
             <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
             <nav>
                 <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Menu</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index.php">Accueil</a></li>
+                    <li><a href="menus.php">Menu</a></li>
+                    <li><a href="contact.php">Contact</a></li>
                 </ul>
             </nav>
             <div class="buttons">
-                <button class="connect-button">Se connecter</button>
-                <button class="signup-button">Créer un compte</button>
+                <a href="connexion.php" class="connect-button">Se connecter</a>
+                <a href="inscription.php" class="signup-button">Créer un compte</a>
             </div>
         </div>
     </header>
@@ -40,7 +40,7 @@
     <section class="menus-admin-container">
         <!-- Bouton ajouter -->
         <div class="add-menu-container">
-            <a href="form-menu.php" class="btn-commande">➕ Ajouter un menu</a>
+            <a href="form-menu.php" class="btn-commande"> Ajouter un menu</a>
         </div>
         <!-- Tableau des menus -->
         <table class="menus-admin-table">

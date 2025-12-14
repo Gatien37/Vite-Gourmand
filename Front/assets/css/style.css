@@ -59,6 +59,7 @@ nav ul li a {
     cursor: pointer;
     height: 50px;
     width: 150px;
+    text-decoration: none;
 }
 
 .connect-button {
@@ -71,6 +72,7 @@ nav ul li a {
     cursor: pointer;
     height: 50px;
     width: 150px;
+    text-decoration: none;
 }
 
 /* ================== FOOTER ======================= */
@@ -907,4 +909,2161 @@ nav ul li a {
 
 
 
+/* ================= PAGE COMMANDES UTILISATEUR =============== */
 
+/* -------- Hero Mes Commandes -------- */
+
+.orders-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.orders-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.orders-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+}
+
+/* -------- Conteneur Table -------- */
+
+.orders-container {
+    max-width: 1000px;
+    margin: 0 auto 100px auto;
+    padding: 0 20px;
+}
+
+/* -------- Table Commandes -------- */
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.orders-table th {
+    background-color: #A43F3B;
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-size: 16px;
+}
+
+.orders-table td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    color: #2C3E50;
+}
+
+.orders-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* -------- Statuts -------- */
+
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.status.en-cours {
+    background-color: #F7E9D7;
+    color: #A43F3B;
+}
+
+.status.livre {
+    background-color: #e6f4ea;
+    color: #2e7d32;
+}
+
+.status.annulee {
+    background-color: #fdecea;
+    color: #c62828;
+}
+
+/* -------- Bouton Détails (réutilise btn-commande) -------- */
+
+.orders-table .btn-commande {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 120px;
+    height: 40px;
+    font-size: 14px;
+    margin: 0;
+    text-decoration: none;
+}
+
+
+/* ================= PAGE COMMANDE =============== */
+
+/* -------- Hero Commande -------- */
+
+.commande-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.commande-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.commande-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+
+/* -------- Conteneur principal -------- */
+
+.commande-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto 100px auto;
+    padding: 0 20px;
+}
+
+
+/* -------- Récap Menu -------- */
+
+.recap-menu {
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 20px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.recap-menu h2 {
+    font-size: 24px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.recap-menu img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.recap-menu h3 {
+    font-size: 20px;
+    color: #2C3E50;
+    margin-bottom: 10px;
+}
+
+.recap-menu p {
+    font-size: 16px;
+    color: #2C3E50;
+    margin-bottom: 8px;
+}
+
+
+/* -------- Formulaire Commande -------- */
+
+.commande-form {
+    background-color: #FFFFFF;
+    padding: 40px;
+    border-radius: 20px;
+    width: 520px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.commande-form h2 {
+    font-size: 22px;
+    color: #A43F3B;
+    margin: 20px 0 10px 0;
+}
+
+.commande-form label {
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+.commande-form input[type="number"],
+.commande-form input[type="date"],
+.commande-form input[type="time"],
+.commande-form input[type="text"],
+.commande-form textarea {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #2C3E50;
+    width: 100%;
+}
+
+.commande-form textarea {
+    resize: none;
+}
+
+
+/* -------- Radios Mode de réception -------- */
+
+.commande-form label input[type="radio"] {
+    margin-right: 8px;
+}
+
+.commande-form label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* -------- Adresse Livraison -------- */
+
+.livraison-adresse {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+
+/* -------- Bouton Validation -------- */
+
+.commande-form .btn-commande {
+    margin-top: 30px;
+    align-self: center;
+}
+
+
+/* ================= PAGE CONFIRMATION COMMANDE =============== */
+
+/* -------- Hero Confirmation -------- */
+
+.confirmation-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+    text-align: center;
+}
+
+.confirmation-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.confirmation-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+}
+
+/* -------- Conteneur principal -------- */
+
+.confirmation-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 120px;
+    padding: 0 20px;
+}
+
+/* -------- Carte Confirmation -------- */
+
+.confirmation-card {
+    background-color: #FFFFFF;
+    padding: 40px;
+    max-width: 600px;
+    width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.confirmation-card h2 {
+    font-size: 28px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.confirmation-card p {
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+/* -------- Message de confirmation -------- */
+
+.confirmation-message {
+    margin: 25px 0;
+    font-size: 15px;
+    color: #2C3E50;
+    line-height: 1.6;
+}
+
+/* -------- Boutons -------- */
+
+.confirmation-card .btn-commande {
+    margin: 30px auto 10px auto;
+    width: 260px;
+    text-decoration: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmation-card .btn-secondary {
+    margin: 0 auto;
+    width: 260px;
+    text-decoration: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+/* ================= PAGE CONTACT =============== */
+
+/* -------- Hero Contact -------- */
+
+.contact-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.contact-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.contact-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    max-width: 700px;
+}
+
+/* -------- Conteneur principal -------- */
+
+.contact-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Formulaire -------- */
+
+.contact-form {
+    background-color: #FFFFFF;
+    padding: 40px;
+    border-radius: 20px;
+    width: 500px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.contact-form h2 {
+    font-size: 28px;
+    color: #A43F3B;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-form label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #2C3E50;
+}
+
+.contact-form textarea {
+    resize: vertical;
+}
+
+.contact-form .btn-commande {
+    margin-top: 30px;
+    width: 100%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -------- Informations de contact -------- */
+
+.contact-infos {
+    background-color: #F7E9D7;
+    padding: 40px;
+    border-radius: 20px;
+    width: 380px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.15);
+}
+
+.contact-infos h2 {
+    font-size: 28px;
+    color: #A43F3B;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.contact-infos p {
+    font-size: 16px;
+    color: #2C3E50;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+
+
+/* ================= PAGE DASHBOARD UTILISATEUR =============== */
+
+/* -------- Conteneur principal -------- */
+
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    max-width: 1100px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Cartes Dashboard -------- */
+
+.dashboard-card {
+    background-color: #FFFFFF;
+    width: 300px;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.dashboard-card h2 {
+    font-size: 24px;
+    color: #A43F3B;
+    margin-bottom: 15px;
+}
+
+.dashboard-card p {
+    font-size: 16px;
+    color: #2C3E50;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* -------- Boutons -------- */
+
+.dashboard-card .btn-commande {
+    width: 100%;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    margin: 0;
+    text-decoration: none;
+}
+
+
+/* ================= PAGE DASHBOARD EMPLOYÉ =============== */
+
+/* -------- Hero Employé -------- */
+
+.employe-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.employe-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.employe-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur Dashboard Employé -------- */
+
+.employe-dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(2, 300px);
+    justify-content: center;
+    gap: 60px;
+    max-width: 900px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Ajustements cartes (héritées) -------- */
+
+.employe-dashboard-container .dashboard-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.employe-dashboard-container .dashboard-card h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.employe-dashboard-container .dashboard-card p {
+    font-size: 16px;
+    margin-bottom: 30px;
+    color: #2C3E50;
+}
+
+/* -------- Boutons -------- */
+
+.employe-dashboard-container .btn-commande {
+    width: 100%;
+    height: 50px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    margin: 0;
+}
+
+
+/* ================= PAGE ADMIN =============== */
+
+/* -------- Hero Admin -------- */
+
+.admin-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.admin-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.admin-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur Dashboard Admin -------- */
+
+.admin-dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    justify-content: center;
+    gap: 50px;
+    max-width: 1100px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Cartes Admin (héritées dashboard-card) -------- */
+
+.admin-dashboard-container .dashboard-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.admin-dashboard-container .dashboard-card h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.admin-dashboard-container .dashboard-card p {
+    font-size: 16px;
+    color: #2C3E50;
+    margin-bottom: 30px;
+}
+
+/* -------- Boutons -------- */
+
+.admin-dashboard-container .btn-commande,
+.admin-dashboard-container .btn-secondary {
+    width: 100%;
+    height: 50px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    margin: 0;
+}
+
+
+/* ================= PAGE FORM EMPLOYÉ =============== */
+
+/* -------- Hero -------- */
+
+.employe-form-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.employe-form-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.employe-form-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+    max-width: 700px;
+}
+
+/* -------- Conteneur -------- */
+
+.employe-form-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 120px;
+    padding: 0 20px;
+}
+
+/* -------- Formulaire -------- */
+
+.employe-form {
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 600px;
+    padding: 50px 40px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* -------- Titres -------- */
+
+.employe-form h2 {
+    font-size: 26px;
+    color: #A43F3B;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+/* -------- Texte info -------- */
+
+.employe-form .info {
+    font-size: 14px;
+    color: #2C3E50;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+/* -------- Labels -------- */
+
+.employe-form label {
+    font-size: 15px;
+    color: #2C3E50;
+    margin-top: 10px;
+}
+
+/* -------- Champs -------- */
+
+.employe-form input,
+.employe-form select {
+    height: 45px;
+    padding: 0 15px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+}
+
+.employe-form input:focus,
+.employe-form select:focus {
+    outline: none;
+    border-color: #A43F3B;
+}
+
+/* -------- Bouton -------- */
+
+.employe-form .btn-commande {
+    margin-top: 40px;
+    width: 100%;
+    height: 55px;
+    font-size: 18px;
+}
+
+/* -------- Lien retour -------- */
+
+.employe-form .auth-links {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.employe-form .auth-links a {
+    font-size: 14px;
+    color: #A43F3B;
+    text-decoration: none;
+}
+
+
+/* ================= PAGE FORM MENU =============== */
+
+/* -------- Hero -------- */
+
+.menu-form-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.menu-form-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.menu-form-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+    max-width: 800px;
+}
+
+/* -------- Conteneur -------- */
+
+.menu-form-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 120px;
+    padding: 0 20px;
+}
+
+/* -------- Formulaire -------- */
+
+.menu-form {
+    background-color: #FFFFFF;
+    width: 100%;
+    max-width: 700px;
+    padding: 50px 40px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* -------- Titres de sections -------- */
+
+.menu-form h2 {
+    font-size: 26px;
+    color: #A43F3B;
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+/* -------- Labels -------- */
+
+.menu-form label {
+    font-size: 15px;
+    color: #2C3E50;
+    margin-top: 10px;
+}
+
+/* -------- Champs texte -------- */
+
+.menu-form input,
+.menu-form select,
+.menu-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+}
+
+.menu-form textarea {
+    resize: vertical;
+}
+
+/* -------- Focus -------- */
+
+.menu-form input:focus,
+.menu-form select:focus,
+.menu-form textarea:focus {
+    outline: none;
+    border-color: #A43F3B;
+}
+
+/* -------- Champs fichier -------- */
+
+.menu-form input[type="file"] {
+    padding: 8px;
+    background-color: #F7E9D7;
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+/* -------- Bouton validation -------- */
+
+.menu-form .btn-commande {
+    margin-top: 40px;
+    width: 100%;
+    height: 55px;
+    font-size: 18px;
+}
+
+/* -------- Lien retour -------- */
+
+.menu-form .auth-links {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.menu-form .auth-links a {
+    font-size: 14px;
+    color: #A43F3B;
+    text-decoration: none;
+}
+
+
+
+/* ================= PAGE GESTION AVIS (ADMIN) =============== */
+
+/* -------- Hero -------- */
+
+.avis-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.avis-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.avis-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur -------- */
+
+.avis-admin-container {
+    max-width: 1200px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Tableau -------- */
+
+.avis-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.avis-admin-table thead {
+    background-color: #A43F3B;
+}
+
+.avis-admin-table th {
+    padding: 15px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+}
+
+.avis-admin-table td {
+    padding: 14px 15px;
+    font-size: 14px;
+    color: #2C3E50;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.avis-admin-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* -------- Commentaire -------- */
+
+.avis-admin-table td:nth-child(5) {
+    max-width: 280px;
+    font-style: italic;
+}
+
+/* -------- Statuts -------- */
+
+.status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.status.attente {
+    background-color: #F7E9D7;
+    color: #A43F3B;
+}
+
+.status.valide {
+    background-color: #E3F6E9;
+    color: #2E7D32;
+}
+
+.status.refuse {
+    background-color: #FBEAEA;
+    color: #C62828;
+}
+
+/* -------- Actions -------- */
+
+.avis-admin-table td:last-child {
+    display: flex;
+    gap: 10px;
+}
+
+/* -------- Boutons (réutilisation design) -------- */
+
+.avis-admin-table .btn-commande,
+.avis-admin-table .btn-secondary {
+    height: 38px;
+    font-size: 14px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin:auto;
+    width: auto;
+}
+
+
+/* ================= PAGE GESTION COMMANDES (ADMIN) =============== */
+
+/* -------- Hero -------- */
+
+.commandes-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.commandes-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.commandes-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur -------- */
+
+.commandes-admin-container {
+    max-width: 1300px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Tableau -------- */
+
+.commandes-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.commandes-admin-table thead {
+    background-color: #A43F3B;
+}
+
+.commandes-admin-table th {
+    padding: 15px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    white-space: nowrap;
+}
+
+.commandes-admin-table td {
+    padding: 14px 15px;
+    font-size: 14px;
+    color: #2C3E50;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.commandes-admin-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* -------- Colonne Total -------- */
+
+.commandes-admin-table td:nth-child(8) {
+    font-weight: bold;
+}
+
+/* -------- Select Statut -------- */
+
+.commandes-admin-table select {
+    padding: 6px 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+    color: #2C3E50;
+}
+
+/* -------- Actions -------- */
+
+.commandes-admin-table td:last-child {
+    text-align: center;
+}
+
+/* -------- Bouton Détails -------- */
+
+.commandes-admin-table .btn-commande {
+    height: 38px;
+    font-size: 14px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin:auto;
+    width: auto;
+}
+
+
+/* ================= PAGE GESTION DES EMPLOYÉS (ADMIN) =============== */
+
+/* -------- Hero -------- */
+
+.employes-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.employes-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.employes-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur -------- */
+
+.employes-admin-container {
+    max-width: 1200px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Bouton Ajouter -------- */
+
+.add-employe-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.add-employe-container .btn-commande {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    font-size: 15px;
+    padding: 0 24px;
+    text-decoration: none;
+}
+
+/* -------- Tableau -------- */
+
+.employes-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.employes-admin-table thead {
+    background-color: #A43F3B;
+}
+
+.employes-admin-table th {
+    padding: 15px;
+    text-align: center;
+    font-size: 15px;
+    color: white;
+    white-space: nowrap;
+}
+
+.employes-admin-table td {
+    padding: 14px 15px;
+    font-size: 14px;
+    color: #2C3E50;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+.employes-admin-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* -------- Statuts -------- */
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.status.actif {
+    background-color: #E8F4EC;
+    color: #2E7D32;
+}
+
+.status.inactif {
+    background-color: #FDECEA;
+    color: #C62828;
+}
+
+/* -------- Actions -------- */
+
+.employes-admin-table td:last-child {
+    display: flex;
+    gap: 10px;
+}
+
+/* -------- Boutons Actions -------- */
+
+
+.employes-admin-table .btn-commande,
+.employes-admin-table .btn-secondary {
+    width: 110px;
+    height: 36px;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    text-align: center;
+    margin:auto;
+}
+
+
+/* ================= PAGE GESTION HORAIRES =============== */
+
+/* -------- Hero Horaires -------- */
+
+.horaires-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.horaires-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.horaires-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur Formulaire -------- */
+
+.horaires-form-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+.horaires-form {
+    background-color: #F7E9D7;
+    padding: 50px 60px;
+    border-radius: 30px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+}
+
+.horaires-form h2 {
+    font-size: 28px;
+    color: #A43F3B;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* -------- Ligne Jour -------- */
+
+.jour {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.jour label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2C3E50;
+    width: 120px;
+}
+
+.jour input {
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+/* -------- Bouton -------- */
+
+.horaires-form .btn-commande {
+    margin-top: 30px;
+}
+
+/* -------- Lien retour -------- */
+
+.horaires-form .auth-links {
+    text-align: center;
+}
+
+.horaires-form .auth-links a {
+    color: #A43F3B;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+/* ================= PAGE GESTION DES MENUS =============== */
+
+/* -------- Hero -------- */
+
+.menus-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.menus-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.menus-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur -------- */
+
+.menus-admin-container {
+    max-width: 1100px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Bouton Ajouter -------- */
+
+.add-menu-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 30px;
+}
+
+.add-menu-container a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+/* -------- Tableau -------- */
+
+.menus-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.menus-admin-table th {
+    background-color: #A43F3B;
+    color: white;
+    padding: 15px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.menus-admin-table td {
+    padding: 14px 15px;
+    font-size: 15px;
+    color: #2C3E50;
+    border-bottom: 1px solid #eee;
+}
+
+.menus-admin-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* -------- Colonne Actions -------- */
+
+.menus-admin-table td:last-child {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* Réduction légère des boutons dans le tableau */
+.menus-admin-table .btn-commande,
+.menus-admin-table .btn-secondary {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin:auto;
+    width: auto;
+}
+
+
+/* ================= PAGE INSCRIPTION =============== */
+
+/* -------- Hero -------- */
+
+.register-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.register-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.register-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+/* -------- Conteneur -------- */
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+}
+
+/* -------- Formulaire -------- */
+
+.register-form {
+    background-color: #F7E9D7;
+    padding: 60px 40px;
+    max-width: 600px;
+    width: 100%;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.register-form h2 {
+    font-size: 24px;
+    color: #A43F3B;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.register-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.register-form input {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+/* -------- Bouton -------- */
+
+.register-form .btn-commande {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* -------- Liens -------- */
+
+.register-form .auth-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.register-form .auth-links a {
+    color: #A43F3B;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+/* ================= PAGE AVIS CLIENT ================= */
+
+/* -------- Hero -------- */
+
+.avis-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.avis-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 15px;
+}
+
+.avis-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+
+/* -------- Conteneur -------- */
+
+.avis-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 100px;
+    padding: 0 20px;
+}
+
+
+/* -------- Formulaire -------- */
+
+.avis-form {
+    background-color: #FFFFFF;
+    padding: 40px;
+    border-radius: 30px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.avis-form h2 {
+    font-size: 24px;
+    color: #A43F3B;
+    margin-top: 10px;
+}
+
+.avis-form p {
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+
+/* -------- Notation -------- */
+
+.rating {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin: 10px 0 20px 0;
+}
+
+.rating label {
+    cursor: pointer;
+    font-size: 22px;
+    color: #A43F3B;
+    display: flex;
+    align-items: center;
+}
+
+.rating input {
+    display: none;
+}
+
+
+/* -------- Commentaire -------- */
+
+.avis-form textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    resize: vertical;
+}
+
+
+/* -------- Bouton -------- */
+
+.avis-form .btn-commande {
+    margin-top: 20px;
+    align-self: center;
+    width: 260px;
+}
+
+
+/* -------- Lien retour -------- */
+
+.avis-form .auth-links {
+    text-align: center;
+}
+
+.avis-form .auth-links a {
+    color: #A43F3B;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+/* ================= PAGE MENTIONS LÉGALES ================= */
+
+/* -------- Hero -------- */
+
+.legal-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.legal-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.legal-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+    max-width: 700px;
+}
+
+
+/* -------- Contenu -------- */
+
+.legal-container {
+    max-width: 900px;
+    margin: 0 auto 120px auto;
+    padding: 40px 30px;
+    background-color: #F7E9D7;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.legal-container h2 {
+    font-size: 26px;
+    color: #A43F3B;
+    margin: 40px 0 15px 0;
+}
+
+.legal-container h2:first-of-type {
+    margin-top: 0;
+}
+
+.legal-container p {
+    font-size: 16px;
+    color: #2C3E50;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+
+/* ================= PAGE MOT DE PASSE OUBLIÉ ================= */
+
+/* -------- Hero -------- */
+
+.forgot-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.forgot-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.forgot-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+    max-width: 600px;
+}
+
+
+/* -------- Conteneur -------- */
+
+.forgot-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 120px;
+}
+
+
+/* -------- Formulaire -------- */
+
+.forgot-form {
+    background-color: #F7E9D7;
+    padding: 60px 40px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.forgot-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.forgot-form input {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+.forgot-form button {
+    margin-top: 30px;
+    align-self: center;
+}
+
+
+
+/* -------- Liens -------- */
+
+.forgot-form .auth-links {
+    display: flex;
+    justify-content: space-between;
+}
+
+.forgot-form .auth-links a {
+    color: #A43F3B;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+
+/* ================= PAGE RÉINITIALISATION MOT DE PASSE ================= */
+
+/* -------- Hero -------- */
+
+.reset-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.reset-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.reset-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+    max-width: 600px;
+}
+
+
+/* -------- Conteneur -------- */
+
+.reset-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 120px;
+}
+
+
+/* -------- Formulaire -------- */
+
+.reset-form {
+    background-color: #F7E9D7;
+    padding: 60px 40px;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.reset-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.reset-form input {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+.reset-form button {
+    margin-top: 30px;
+    align-self: center;
+}
+
+
+/* -------- Liens -------- */
+
+.reset-form .auth-links {
+    display: flex;
+    justify-content: center;
+}
+
+.reset-form .auth-links a {
+    color: #A43F3B;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+/* ================= PAGE PROFIL UTILISATEUR ================= */
+
+/* -------- Hero -------- */
+
+.profil-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.profil-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.profil-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+
+/* -------- Conteneur -------- */
+
+.profil-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 120px;
+}
+
+
+/* -------- Formulaire -------- */
+
+.profil-form {
+    background-color: #F7E9D7;
+    padding: 60px 40px;
+    width: 100%;
+    max-width: 600px;
+    border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profil-form h2 {
+    font-size: 24px;
+    color: #A43F3B;
+    margin-top: 30px;
+}
+
+.profil-form label {
+    font-size: 16px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.profil-form input {
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    color: #2C3E50;
+}
+
+
+/* -------- Bouton -------- */
+
+.profil-form button {
+    margin-top: 40px;
+    align-self: center;
+}
+
+
+/* -------- Liens -------- */
+
+.profil-form .auth-links {
+    display: flex;
+    justify-content: center;
+}
+
+.profil-form .auth-links a {
+    color: #A43F3B;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+
+/* ================= PAGE STATISTIQUES ================= */
+
+/* -------- Hero -------- */
+
+.stats-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.stats-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+}
+
+.stats-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+}
+
+
+/* -------- Résumé chiffré -------- */
+
+.stats-summary {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    background-color: #F7E9D7;
+    padding: 40px 20px;
+    margin-bottom: 100px;
+}
+
+.stats-card {
+    background-color: white;
+    padding: 30px;
+    width: 260px;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.stats-card h2 {
+    font-size: 20px;
+    color: #A43F3B;
+    margin-bottom: 15px;
+}
+
+.stats-value {
+    font-size: 28px;
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+
+/* -------- Graphiques -------- */
+
+.stats-graphs {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    gap: 40px;
+    padding: 0 20px;
+    margin-bottom: 120px;
+}
+
+.stats-graphs .graph-card {
+    flex: 1;
+    background-color: #F7E9D7;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.stats-graphs .graph-card h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #A43F3B;
+    margin-bottom: 30px;
+}
+
+.stats-graphs canvas {
+    width: 100%;
+    height: 300px;
+}
+
+
+/* ================= PAGE CGV ================= */
+
+/* -------- Hero CGV -------- */
+
+.cgv-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #F7E9D7;
+    padding: 60px 20px;
+    margin-bottom: 80px;
+}
+
+.cgv-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: #A43F3B;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.cgv-hero p {
+    font-size: 20px;
+    color: #2C3E50;
+    text-align: center;
+    max-width: 800px;
+}
+
+
+/* -------- Contenu CGV -------- */
+
+.cgv-container {
+    max-width: 900px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+    color: #2C3E50;
+}
+
+.cgv-container h2 {
+    font-size: 24px;
+    color: #A43F3B;
+    margin-top: 40px;
+    margin-bottom: 15px;
+}
+
+.cgv-container p {
+    font-size: 16px;
+    line-height: 1.7;
+    text-align: justify;
+}

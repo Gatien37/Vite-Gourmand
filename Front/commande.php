@@ -20,14 +20,14 @@
             <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
             <nav>
                 <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Menu</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index.php">Accueil</a></li>
+                    <li><a href="menus.php">Menu</a></li>
+                    <li><a href="contact.php">Contact</a></li>
                 </ul>
             </nav>
             <div class="buttons">
-                <button class="connect-button">Se connecter</button>
-                <button class="signup-button">Créer un compte</button>
+                <a href="connexion.php" class="connect-button">Se connecter</a>
+                <a href="inscription.php" class="signup-button">Créer un compte</a>
             </div>
         </div>
     </header>
@@ -39,7 +39,6 @@
 
     <section class="commande-container">
 
-        <!-- RÉCAPITULATIF DU MENU CHOISI -->
         <div class="recap-menu">
             <h2>Votre menu</h2>
             <img src="assets/images/menu-noel.jpg" alt="Image du menu">
@@ -48,7 +47,6 @@
             <p>Minimum : 6 personnes</p>
         </div>
 
-        <!-- FORMULAIRE DE COMMANDE -->
         <form class="commande-form" action="#" method="POST">
             
             <h2>Informations de commande</h2>

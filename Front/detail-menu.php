@@ -20,14 +20,14 @@
             <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
             <nav>
                 <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Menu</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index.php">Accueil</a></li>
+                    <li><a href="menus.php">Menu</a></li>
+                    <li><a href="contact.php">Contact</a></li>
                 </ul>
             </nav>
             <div class="buttons">
-                <button class="connect-button">Se connecter</button>
-                <button class="signup-button">Créer un compte</button>
+                <a href="connexion.php" class="connect-button">Se connecter</a>
+                <a href="inscription.php" class="signup-button">Créer un compte</a>
             </div>
         </div>
     </header>
@@ -119,7 +119,7 @@
     <footer>
         <div class="footer-container">
             <div class="horaires">
-                <h3>Horaires d'ouverture</h3>
+                <h3>Horaires</h3>
                 <p>Lundi - Vendredi : 9h - 18h</p>
                 <p>Samedi : 10h - 14h</p>
                 <p>Dimanche : Fermé</p>
@@ -130,8 +130,8 @@
                 <p>Email : contact@viteetgourmand.fr </p>
             </div>
             <div class="legal">
-                <a href="#">Mentions légales</a>
-                <a href="#">Conditions Générales de Vente</a>
+                <a href="mentions-legales.php">Mentions légales</a>
+                <a href="cgv.php">Conditions Générales de Vente</a>
             </div>
             <div class="copyright">
                 <p>&copy; 2025 Vite & Gourmand. Tous droits réservés.</p>
