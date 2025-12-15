@@ -39,19 +39,19 @@
 
     <section class="stats-summary">
         <div class="stats-card">
-            <h2>📦 Commandes totales</h2>
+            <h3>📦 Commandes totales</h3>
             <p class="stats-value">1245</p>
         </div>
         <div class="stats-card">
-            <h2>💶 Chiffre d'affaires total</h2>
+            <h3>💶 Chiffre d'affaires total</h3>
             <p class="stats-value">48 320 €</p>
         </div>
         <div class="stats-card">
-            <h2>🍽️ Menu le plus vendu</h2>
+            <h3>🍽️ Menu le plus vendu</h3>
             <p class="stats-value">Menu Festif de Noël</p>
         </div>
         <div class="stats-card">
-            <h2>⭐ Note moyenne clients</h2>
+            <h3>⭐ Note moyenne clients</h3>
             <p class="stats-value">4.6 / 5</p>
         </div>
     </section>

@@ -52,15 +52,15 @@
 
     <section class="ca-summary">
         <div class="ca-card">
-            <h2>Total CA</h2>
+            <h3>Total CA</h3>
             <p class="ca-value">12 480 €</p>
         </div>
         <div class="ca-card">
-            <h2>Commandes sur la période</h2>
+            <h3>Commandes sur la période</h3>
             <p class="ca-value">62</p>
         </div>
         <div class="ca-card">
-            <h2>Ticket moyen</h2>
+            <h3>Ticket moyen</h3>
             <p class="ca-value">201 €</p>
         </div>
     </section>

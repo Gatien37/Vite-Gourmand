@@ -40,25 +40,25 @@
     <section class="employe-dashboard-container">
         <!-- GESTION DES MENUS -->
         <div class="dashboard-card">
-            <h2>📋 Menus</h2>
+            <h3>📋 Menus</h3>
             <p>Créer, modifier ou supprimer les menus proposés.</p>
             <a href="gestion-menus.php" class="btn-commande">Gérer les menus</a>
         </div>
         <!-- GESTION DES COMMANDES -->
         <div class="dashboard-card">
-            <h2>📦 Commandes</h2>
+            <h3>📦 Commandes</h3>
             <p>Consultez et mettez à jour les commandes des clients.</p>
             <a href="gestion-commandes.php" class="btn-commande">Gérer les commandes</a>
         </div>
         <!-- GESTION DES AVIS -->
         <div class="dashboard-card">
-            <h2>⭐ Avis</h2>
+            <h3>⭐ Avis</h3>
             <p>Validez, refusez ou modérez les avis clients.</p>
             <a href="gestion-avis.php" class="btn-commande">Gérer les avis</a>
         </div>
         <!-- GESTION DES HORAIRES -->
         <div class="dashboard-card">
-            <h2>🕒 Horaires</h2>
+            <h3>🕒 Horaires</h3>
             <p>Modifier les horaires d'ouverture affichés sur le site.</p>
             <a href="gestion-horaires.php" class="btn-commande">Modifier les horaires</a>
         </div>
