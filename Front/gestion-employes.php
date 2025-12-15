@@ -37,11 +37,12 @@
         <p>Ajoutez, modifiez ou désactivez des comptes employés.</p>
     </section>
 
-    <section class="employes-admin-container">
         <!-- Bouton ajouter employé -->
         <div class="add-employe-container">
             <a href="form-employe.php" class="btn-commande"> Ajouter un employé</a>
         </div>
+
+    <section class="employes-admin-container">
         <!-- Tableau des employés -->
         <table class="employes-admin-table">
             <thead>

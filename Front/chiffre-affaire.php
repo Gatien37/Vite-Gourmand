@@ -67,47 +67,49 @@
 
     <section class="ca-table-section">
         <h2>Détail des ventes</h2>
-        <table class="ca-table">
-            <thead>
-                <tr>
-                    <th>ID Commande</th>
-                    <th>Date</th>
-                    <th>Client</th>
-                    <th>Menu</th>
-                    <th>Quantité</th>
-                    <th>Total (€)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- EXEMPLE 1 -->
-                <tr>
-                    <td>#CMD-1203</td>
-                    <td>12/01/2025</td>
-                    <td>Claire M.</td>
-                    <td>Menu Festif de Noël</td>
-                    <td>6</td>
-                    <td>149,40 €</td>
-                </tr>
-                <!-- EXEMPLE 2 -->
-                <tr>
-                    <td>#CMD-1194</td>
-                    <td>10/01/2025</td>
-                    <td>Julien R.</td>
-                    <td>Menu Saveurs du Monde</td>
-                    <td>4</td>
-                    <td>89,60 €</td>
-                </tr>
-                <!-- EXEMPLE 3 -->
-                <tr>
-                    <td>#CMD-1187</td>
-                    <td>09/01/2025</td>
-                    <td>Sophie L.</td>
-                    <td>Menu Cocktail Premium</td>
-                    <td>10</td>
-                    <td>179,90 €</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-wrapper">
+            <table class="ca-table">
+                <thead>
+                    <tr>
+                        <th>ID Commande</th>
+                        <th>Date</th>
+                        <th>Client</th>
+                        <th>Menu</th>
+                        <th>Quantité</th>
+                        <th>Total (€)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- EXEMPLE 1 -->
+                    <tr>
+                        <td>#CMD-1203</td>
+                        <td>12/01/2025</td>
+                        <td>Claire M.</td>
+                        <td>Menu Festif de Noël</td>
+                        <td>6</td>
+                        <td>149,40 €</td>
+                    </tr>
+                    <!-- EXEMPLE 2 -->
+                    <tr>
+                        <td>#CMD-1194</td>
+                        <td>10/01/2025</td>
+                        <td>Julien R.</td>
+                        <td>Menu Saveurs du Monde</td>
+                        <td>4</td>
+                        <td>89,60 €</td>
+                    </tr>
+                    <!-- EXEMPLE 3 -->
+                    <tr>
+                        <td>#CMD-1187</td>
+                        <td>09/01/2025</td>
+                        <td>Sophie L.</td>
+                        <td>Menu Cocktail Premium</td>
+                        <td>10</td>
+                        <td>179,90 €</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 
     <section class="ca-graph">

@@ -24,7 +24,12 @@
                     <li><a href="menus.php">Menu</a></li>
                     <li><a href="contact.php">Contact</a></li>
                 </ul>
+                
             </nav>
+            <button class="burger">
+                ☰
+            </button>
+
             <div class="buttons">
                 <a href="connexion.php" class="connect-button">Se connecter</a>
                 <a href="inscription.php" class="signup-button">Créer un compte</a>

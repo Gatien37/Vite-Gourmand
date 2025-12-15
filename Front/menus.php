@@ -35,27 +35,31 @@
     </section>
 
     <section class="filtres">
-        <div class="filtre-icone">
+        <div class="filtre-icone filtre-invisible">
             <button class="filtre-btn">Prix maximum</button>
             <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
         </div>
-        <div class="filtre-icone">
+        <div class="filtre-icone filtre-invisible">
             <button class="filtre-btn">Fourchette de prix</button>
             <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
         </div>
-        <div class="filtre-icone">
+        <div class="filtre-icone filtre-visible">
             <button class="filtre-btn">Thème</button>
             <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
         </div>
-        <div class="filtre-icone">
+        <div class="filtre-responsive">
+            <button class="filtre-btn">Filtres avancées</button>
+            <img src="assets/images/icone_parametres.svg" alt="icone paramètres">
+        </div>
+        <div class="filtre-icone filtre-invisible">
             <button class="filtre-btn">Régime</button>
             <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
         </div>
-        <div class="filtre-icone">
+        <div class="filtre-icone filtre-invisible">
             <button class="filtre-btn">Nombre de personnes minimum</button>
             <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
         </div>
-            <button class="filtre-appliquer">Appliquer</button>
+            <button class="filtre-appliquer filtre-invisible">Appliquer</button>
         </div>
     </section>
     

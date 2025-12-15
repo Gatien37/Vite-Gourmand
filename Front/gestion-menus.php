@@ -37,11 +37,11 @@
         <p>Ajoutez, modifiez ou supprimez les menus disponibles.</p>
     </section>
 
-    <section class="menus-admin-container">
         <!-- Bouton ajouter -->
         <div class="add-menu-container">
             <a href="form-menu.php" class="btn-commande"> Ajouter un menu</a>
         </div>
+    <section class="menus-admin-container">
         <!-- Tableau des menus -->
         <table class="menus-admin-table">
             <thead>
