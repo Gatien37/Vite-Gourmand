@@ -2485,9 +2485,9 @@ nav ul li a:hover {
 
 /* ================= RESPONSIVE ================= */
 
-/* --------Mobiles (max-width: 768px) -------- */
+/* --------Tablettes (max-width: 1024px) -------- */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
 
 /* -------- Header -------- */
 
@@ -2498,7 +2498,7 @@ nav ul li a:hover {
         padding: 0 10px;
         height: 60px;
         width: 100%;
-        max-width: 768px;
+        max-width: 1024px;
     }
 
     nav, .buttons {
@@ -2768,6 +2768,11 @@ nav ul li a:hover {
     }
 
 }
+
+
+/*--------- Mobiles (max-width: 768px) --------*/
+
+
 
 
 /*--------- Petits Mobiles (max-width: 480px) --------*/
