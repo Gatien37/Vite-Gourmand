@@ -393,12 +393,11 @@ nav ul li a:hover {
     flex-direction: column;
     justify-content: space-between;
     background: #f8f8f8;
-    padding: 20px;
+    padding: 20px 20px 0px 20px;
     border-radius: 10px;
     width: 380px;
     box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
     max-width: 380px;
-    margin: auto;
 
 }
 
@@ -417,7 +416,6 @@ nav ul li a:hover {
 }
 
 .menu-item button {
-    margin-top: auto;
     background-color: #A43F3B;
     color: white;
     border: none;
