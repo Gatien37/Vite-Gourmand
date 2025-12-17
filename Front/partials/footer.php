@@ -19,4 +19,5 @@
                 <p>&copy; 2025 Vite & Gourmand. Tous droits réservés.</p>
             </div>
         </div>
+        <script src="./assets/js/main.js" defer></script>
     </footer>

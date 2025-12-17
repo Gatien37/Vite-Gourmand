@@ -6,10 +6,6 @@
     box-sizing: border-box;
 }
 
-h1 {
-    font-size: 48px;
-}
-
 h2 {
     font-size: 32px;
     text-align: center;
@@ -24,6 +20,10 @@ h3 {
 
 p  {
     font-size: 16px;
+}
+
+html, body {
+    overflow-x: hidden;
 }
 
 body {
@@ -57,7 +57,6 @@ h1{
 
 .header-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
     background-color: #F7E9D7;
     height: 60px;
@@ -68,6 +67,26 @@ h1{
 .header-container img {
     height: 60px;
     padding-left: 40px;
+}
+
+.main-nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Liens du menu */
+.main-nav ul {
+    display: flex;
+    gap: 40px;
+    margin: 0 auto;
+}
+
+/* Boutons auth */
+.main-nav .buttons {
+    display: flex;
+    gap: 15px;
+    margin-right: 40px;
 }
 
 nav ul {
@@ -86,17 +105,18 @@ nav ul li a:hover {
     color: #A43F3B;
 }
 
-.signup-button {
-    margin-right: 120px;
+.signup-button, .connect-button {
     padding: 10px 20px;
-    background-color: #A43F3B;
-    color: white;
-    border: none;
     border-radius: 30px;
     cursor: pointer;
     height: 50px;
-    width: 150px;
+    width: auto;
     text-decoration: none;
+}
+.signup-button {
+    background-color: #A43F3B;
+    color: white;
+    border: none;
 }
 
 .signup-button:hover {
@@ -104,16 +124,9 @@ nav ul li a:hover {
 }
 
 .connect-button {
-    margin-right: 10px;
-    padding: 10px 20px;
     background-color: white;
     color: #2C3E50;
     border: solid 2px #A43F3B;
-    border-radius: 30px;
-    cursor: pointer;
-    height: 50px;
-    width: 150px;
-    text-decoration: none;
 }
 
 .connect-button:hover {
@@ -2349,38 +2362,6 @@ nav ul li a:hover {
 /* --------Tablettes (max-width: 1024px) -------- */
 
 @media (max-width: 1024px) {
-
-/* -------- Header -------- */
-
-    .header-container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0 10px;
-        height: 60px;
-        width: 100%;
-        max-width: 1024px;
-    }
-
-    nav, .buttons {
-        display: none;
-    }
-
-
-    .burger {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: none;
-        border: none;
-        font-size: 28px;
-        color: #A43F3B;
-        cursor: pointer;
-    }
-
-    .header-container img{
-        padding-left: 0;
-    }
     
 /*-------- Footer --------*/
 
@@ -2627,13 +2608,12 @@ nav ul li a:hover {
         flex-direction: column;
         align-items: center;
     }
-
 }
 
 
 /*--------- Mobiles (max-width: 768px) --------*/
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     h1 {
         font-size: 32px;
     }
@@ -2648,6 +2628,54 @@ nav ul li a:hover {
     
     p  {
         font-size: 16px;
+    }
+
+    /* burger visible */
+    .burger {
+        display: block;
+        margin-left: auto;
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #2C3E50;
+        padding-right: 10px;
+    }
+
+    /* menu caché par défaut */
+    .main-nav {
+        display: none;
+    }
+
+    /* menu ouvert */
+    .main-nav.nav-open {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        background-color: #F7E9D7;
+        padding: 20px 0;
+        z-index: 3000;
+    }
+
+    .main-nav.nav-open ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .main-nav.nav-open .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding-top: 20px;
+        margin: auto;
+        width: 100%;
     }
 }
 
