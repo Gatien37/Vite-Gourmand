@@ -42,7 +42,7 @@
                     <td><span class="status attente">En attente</span></td>
                     <td>
                         <a href="#" class="btn-commande">Valider</a>
-                        <a href="#" class="btn-secondary">Refuser</a>
+                        <a href="#" class="btn-secondary btn-delete">Refuser</a>
                     </td>
                 </tr>
                 <!-- AVIS EXEMPLE 2 -->
@@ -55,7 +55,7 @@
                     <td>12/12/2024</td>
                     <td><span class="status valide">Validé</span></td>
                     <td>
-                        <a href="#" class="btn-secondary">Refuser</a>
+                        <a href="#" class="btn-secondary btn-delete">Refuser</a>
                     </td>
                 </tr>
                 <!-- AVIS EXEMPLE 3 -->

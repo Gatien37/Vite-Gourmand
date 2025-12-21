@@ -182,7 +182,7 @@ nav ul li a:hover {
     margin-bottom: 50px;
 }
 
-.hero-section button{
+.hero-section .button{
     padding: 10px 20px;
     background-color: #A43F3B;
     color: white;
@@ -193,9 +193,11 @@ nav ul li a:hover {
     width: 100%;
     max-width: 600px;
     font-size: 32px;
+    text-align: center;
+    text-decoration: none;
 }
 
-.hero-section button:hover {
+.hero-section .button:hover {
     background-color: #8C3230;
 }
 
@@ -1060,6 +1062,11 @@ nav ul li a:hover {
 .commande-form .btn-commande {
     margin-top: 30px;
     align-self: center;
+}
+
+#commande-error{
+    color: red;
+    text-align: center;
 }
 
 
@@ -1967,12 +1974,23 @@ nav ul li a:hover {
     color: #2C3E50;
 }
 
+.required {
+  color: #c62828;
+  margin-left: 4px;
+  font-weight: bold;
+}
+
 /* -------- Bouton -------- */
 
 .register-form .btn-commande {
     margin-top: 40px;
     margin-bottom: 20px;
     width: 100%;
+}
+
+#form-errors {
+    color: #c62828;
+    text-align: center;
 }
 
 /* -------- Liens -------- */
@@ -2629,6 +2647,13 @@ nav ul li a:hover {
     p  {
         font-size: 16px;
     }
+
+
+    .hero-section .button{
+        font-size: 26px;
+        height: 60px;
+    }
+    
 
     /* burger visible */
     .burger {

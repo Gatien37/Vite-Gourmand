@@ -13,7 +13,7 @@
 
     <section class="hero-section commandes-hero">
         <h1>Traiteur à Bordeaux depuis 25 ans</h1>
-        <button>Découvrir les menus</button>
+        <a href="menus.php" class="button">Découvrir les menus</a>
     </section>
 
     <section class="histoire">

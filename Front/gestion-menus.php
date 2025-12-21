@@ -43,7 +43,7 @@
                     <td>Classique</td>
                     <td>
                         <a href="form-menu.php?id=1" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary">Supprimer</a>
+                        <a href="#" class="btn-secondary btn-delete">Supprimer</a>
                     </td>
                 </tr>
                 <!-- Exemple 2 -->
@@ -55,7 +55,7 @@
                     <td>Végétalien</td>
                     <td>
                         <a href="form-menu.php?id=2" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary">Supprimer</a>
+                        <a href="#" class="btn-secondary btn-delete">Supprimer</a>
                     </td>
                 </tr>
                 <!-- Exemple 3 -->
@@ -67,7 +67,7 @@
                     <td>Classique</td>
                     <td>
                         <a href="form-menu.php?id=3" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary">Supprimer</a>
+                        <a href="#" class="btn-secondary btn-delete">Supprimer</a>
                     </td>
                 </tr>
             </tbody>

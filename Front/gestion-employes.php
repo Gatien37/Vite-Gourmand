@@ -44,7 +44,7 @@
                     <td><span class="status actif">Actif</span></td>
                     <td>
                         <a href="form-employe.php?id=1" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary">Désactiver</a>
+                        <a href="#" class="btn-secondary btn-delete">Désactiver</a>
                     </td>
                 </tr>
                 <!-- Exemple 2 -->
@@ -56,7 +56,7 @@
                     <td><span class="status actif">Actif</span></td>
                     <td>
                         <a href="form-employe.php?id=2" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary">Désactiver</a>
+                        <a href="#" class="btn-secondary btn-delete">Désactiver</a>
                     </td>
                 </tr>
                 <!-- Exemple 3 -->

@@ -41,7 +41,7 @@
                     <td>19h30</td>
                     <td>Livraison</td>
                     <td>
-                        <select name="statut">
+                        <select name="statut" class="select-statut">
                             <option>En attente</option>
                             <option selected>En cours</option>
                             <option>Livrée</option>
@@ -60,7 +60,7 @@
                     <td>12h00</td>
                     <td>Retrait</td>
                     <td>
-                        <select name="statut">
+                        <select name="statut" class="select-statut">
                             <option selected>En attente</option>
                             <option>En cours</option>
                             <option>Livrée</option>
@@ -81,7 +81,7 @@
                     <td>Livraison</td>
 
                     <td>
-                        <select name="statut">
+                        <select name="statut" class="select-statut">
                             <option>En attente</option>
                             <option>En cours</option>
                             <option selected>Livrée</option>
