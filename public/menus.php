@@ -1,15 +1,24 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+
+$sql = "SELECT nom, prix_base FROM menu";
+$stmt = $pdo->query($sql);
+$menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
     $title = "Accueil";
-    require_once __DIR__ . '/partials/head.php';
+    require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
 <body>
 
     <!-- Header -->
-    <?php require_once __DIR__ . '/partials/header.php'; ?>
+    <?php require_once __DIR__ . '/../partials/header.php'; ?>
 
     <section class="hero-section commandes-hero">
             <h1>Tous nos menus</h1>
@@ -45,6 +54,21 @@
         </div>
     </section>
     
+    <!-- Test PDO Section -->
+    <section>
+        <h2>Menus (test PDO)</h2>
+
+        <?php foreach ($menus as $menu): ?>
+            <p>
+                <?= htmlspecialchars($menu['nom']) ?> –
+                <?= number_format($menu['prix_base']) ?> €
+            </p>
+        <?php endforeach; ?>
+    </section>
+
+
+
+
     <section class="menus-list">
         <div class="menu-item">
             <img src="assets/images/menu-vegan.jpg" alt="Plat du menu vegan">
@@ -91,6 +115,6 @@
     </section>
     
     <!-- Footer -->
-    <?php require_once __DIR__ . '/partials/footer.php'; ?>
+    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

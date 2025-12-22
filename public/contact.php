@@ -3,13 +3,13 @@
 <head>
     <?php
     $title = "Accueil";
-    require_once __DIR__ . '/partials/head.php';
+    require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
 <body>
 
     <!-- Header -->
-    <?php require_once __DIR__ . '/partials/header.php'; ?>
+    <?php require_once __DIR__ . '/../partials/header.php'; ?>
     
     <section class="hero-section commandes-hero">
         <h1>Contactez-nous</h1>
@@ -55,6 +55,6 @@
     </section>
 
     <!-- Footer -->
-    <?php require_once __DIR__ . '/partials/footer.php'; ?>
+    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
