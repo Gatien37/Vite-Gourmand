@@ -1,6 +1,5 @@
 
-console.log('main.js chargé');
-
+console.log('✅main.js exécuté');
 
 // ===== MENU BURGER =====
 
@@ -10,6 +9,21 @@ const nav = document.getElementById('main-nav');
 burger.addEventListener('click', () => {
   nav.classList.toggle('nav-open');
 });
+
+
+// ===== FILTRES AVANCÉS =====
+
+const toggle = document.getElementById("toggle-filtres");
+const avances = document.getElementById("filtres-avances");
+
+if (toggle && avances) {
+  toggle.addEventListener("click", () => {
+    avances.classList.toggle("is-open");
+  });
+} else {
+  console.warn("Filtres avancés non trouvés dans le DOM");
+}
+
 
 
 

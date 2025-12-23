@@ -16,10 +16,11 @@ CREATE TABLE menu (
     nom VARCHAR(100) NOT NULL,
     description TEXT,
     theme VARCHAR(100),
+    regime VARCHAR(100),
     nb_personnes_min INT NOT NULL,
     prix_base DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL,
-    statut VARCHAR(50) DEFAULT 'disponible'
+    image VARCHAR(255)
 );
 
 CREATE TABLE commande (
@@ -64,3 +65,5 @@ CREATE TABLE horaire (
     ouverture TIME NOT NULL,
     fermeture TIME NOT NULL
 );
+
+

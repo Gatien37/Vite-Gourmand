@@ -348,23 +348,19 @@ nav ul li a:hover {
 }
 
 .filtre-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 10px 20px;
-    border: none;
+    border: 1px solid #2C3E50;
     cursor: pointer;
     height: 40px;
     font-size: 16px;
     background-color: white;
-    border-radius: 30px;
+    border-radius: 10px;
+    margin-right: 8px;
 }
 
-.filtre-icone {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    margin-right: 8px;
-    border-radius: 10px;
- }
 
  .filtre-appliquer {
     margin-right: 0;
@@ -382,14 +378,18 @@ nav ul li a:hover {
     background-color: #8C3230;
 }
 
- .filtre-responsive{
+ 
+.filtres-avances {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+#toggle-filtres {
     display: none;
-    align-items: center;
-    justify-content: center;
-    background-color: white;
-    margin-right: 8px;
-    border-radius: 10px;
- }
+}
+
+
 
 /* -------- Liste des menus -------- */
 
@@ -430,18 +430,21 @@ nav ul li a:hover {
     margin-bottom: 15px;
 }
 
-.menu-item button {
-    background-color: #A43F3B;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    height: 50px;
-    width: 150px;
-    align-self: center;
+.btn-menu {
+    display:inline-block;
+     width:150px;
+     height:50px;
+     background: #A43F3B;
+     color:white;
+     text-decoration:none;
+     line-height:50px;
+     text-align:center;
+     border-radius:30px;
+     align-self:center;
+     margin: 0 auto 20px auto;
 }
 
-.menu-item button:hover {
+.btn-menu:hover {
     background-color: #8C3230;
 }
 
@@ -2603,21 +2606,34 @@ nav ul li a:hover {
 
     .menus-list {
         grid-template-columns: 1fr;
+        justify-items: center;
     }
 
     .menu-item .btn-commande{
         margin:0;
     }
 
-    .filtre-invisible{
-        display:none;
+    #toggle-filtres {
+        display: flex;
     }
 
-    .filtre-responsive, .filtre-visible{
-        display:flex;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        align-self: center;
+    #toggle-filtres:hover {
+        background-color: #A43F3B;
+        color: white;
     }
+
+    .filtres-avances {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .filtres-avances.is-open {
+        display: flex;
+    }
+
 
 
 /*------ Page Statistiques ---------*/
@@ -2702,6 +2718,11 @@ nav ul li a:hover {
         margin: auto;
         width: 100%;
     }
+
+    
+    .filtres{
+        flex-direction: column;
+    }
 }
 
 
@@ -2760,5 +2781,6 @@ nav ul li a:hover {
         font-size: 14px;
 
     }
+
 
 }

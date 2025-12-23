@@ -6,25 +6,67 @@ VALUES
 ('Admin ViteGourmand', 'admin@vitegourmand.fr', 'hash_password_admin', NULL, 'admin');
 
 
-INSERT INTO menu (nom, description, theme, nb_personnes_min, prix_base, stock, statut)
+INSERT INTO menu (nom, description, theme, regime, nb_personnes_min, prix_base, stock, image)
 VALUES
 (
-  'Menu Bordelais',
-  'Entrée, plat et dessert inspirés de la tradition bordelaise.',
-  'tradition',
-  10,
+  'Menu Vegan Savoureux',
+  'Un menu 100 % vegan, coloré et savoureux, préparé avec des ingrédients frais et de saison.',
+  'Classique',
+  'Vegan',
+  4,
   25.00,
   5,
-  'disponible'
+  'menu-vegan.jpg'
 ),
 (
-  'Menu Vegan',
-  'Menu 100% végétal à base de produits frais et locaux.',
-  'vegan',
-  8,
-  22.00,
+  'Menu Festif de Noel',
+  'Des plats chaleureux et raffinés pour un repas de Noël réussi.',
+  'Noël',
+  'Classique',
+  4,
+  30.00,
   3,
-  'disponible'
+  'menu-noel.jpg'
+),
+(
+  'Menu Gourmand Végétarien',
+  'Un menu coloré et savoureux, 100 % végétarien et riche en goût.',
+  'Classique',
+  'Végétarien',
+  4,
+  25.00,
+  3,
+  'menu-vegetarien.jpg'
+),
+(
+  'Menu Anniversaire Enfant',
+  'Un menu joyeux, simple et savoureux, parfait pour les anniversaires d\'enfants.',
+  'Événement',
+  'Classique',
+  8,
+  13.00,
+  3,
+  'menu-anniversaire.jpg'
+),
+(
+  'Menu Cocktail Premium',
+  'Un menu raffiné pour vos apéritifs d\'entreprise ou cocktails dinatoires.',
+  'Événement',
+  'Classique',
+  10,
+  20.00,
+  3,
+  'menu-cocktail.jpg'
+),
+(
+  'Menu Pâques Gourmand',
+  'Ce menu met à l\'honneur les saveurs du printemps à travers des plats raffinés et équilibrés.',
+  'Pâques',
+  'Classique',
+  6,
+  25.00,
+  4,
+  'menu-paques.jpg'
 );
 
 
@@ -101,3 +143,8 @@ SELECT
 FROM commande c
 JOIN utilisateur u ON c.utilisateur_id = u.id
 JOIN menu m ON c.menu_id = m.id;
+
+
+TRUNCATE TABLE menu;
+SOURCE seed.sql;
+

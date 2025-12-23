@@ -1,9 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
-
-$sql = "SELECT nom, prix_base FROM menu";
-$stmt = $pdo->query($sql);
-$menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
+require_once __DIR__ . '/../models/menuModel.php';
 ?>
 
 
@@ -25,94 +22,79 @@ $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <p>Trouvez facilement le menu adapté à votre événement.</p>
     </section>
 
-    <section class="filtres">
-        <div class="filtre-icone filtre-invisible">
-            <button class="filtre-btn">Prix maximum</button>
-            <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
-        </div>
-        <div class="filtre-icone filtre-invisible">
-            <button class="filtre-btn">Fourchette de prix</button>
-            <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
-        </div>
-        <div class="filtre-icone filtre-visible">
-            <button class="filtre-btn">Thème</button>
-            <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
-        </div>
-        <div class="filtre-responsive">
-            <button class="filtre-btn">Filtres avancées</button>
-            <img src="assets/images/icone_parametres.svg" alt="icone paramètres">
-        </div>
-        <div class="filtre-icone filtre-invisible">
-            <button class="filtre-btn">Régime</button>
-            <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
-        </div>
-        <div class="filtre-icone filtre-invisible">
-            <button class="filtre-btn">Nombre de personnes minimum</button>
-            <img src="assets/images/icone_fleche_bas.svg" alt="flèche bas">
-        </div>
-            <button class="filtre-appliquer filtre-invisible">Appliquer</button>
-        </div>
-    </section>
-    
-    <!-- Test PDO Section -->
-    <section>
-        <h2>Menus (test PDO)</h2>
+    <!-- Filtres -->
 
-        <?php foreach ($menus as $menu): ?>
-            <p>
-                <?= htmlspecialchars($menu['nom']) ?> –
-                <?= number_format($menu['prix_base']) ?> €
-            </p>
-        <?php endforeach; ?>
-    </section>
+    <?php
+        $filters = [
+        'theme' => $_GET['theme'] ?? null,
+        'regime' => $_GET['regime'] ?? null,
+        'nb_personnes_min' => $_GET['nb_personnes_min'] ?? null,
+        'prix_max' => $_GET['prix_max'] ?? null,
+        'fourchette_prix' => $_GET['fourchette_prix'] ?? null,
+    ];
+    $menus = getFilteredMenus($pdo, $filters);
+    ?>
 
+    <form method="GET" class="filtres">
 
+    <select name="theme" class="filtre-btn filtre-visible">
+        <option value="">Thèmes</option>
+        <option value="noel">Noël</option>
+        <option value="paques">Pâques</option>
+        <option value="evenement">Événement</option>
+        <option value="classique">Classique</option>
+    </select>
 
+    <!-- bouton mobile -->
+    <button type="button" class="filtre-btn" id="toggle-filtres">
+        Filtres avancés
+    </button>
 
-    <section class="menus-list">
-        <div class="menu-item">
-            <img src="assets/images/menu-vegan.jpg" alt="Plat du menu vegan">
-            <h2>Menu Vegan Savoureux</h2>
-            <p>Un menu 100 % vegan, coloré et savoureux, préparé avec des ingrédients frais et de saison. </p>
-            <p>Minimum : 4 personnes</p>
-            <button class="btn-commande">Voir le détail</button>
-        </div>
-        <div class="menu-item">
-            <img src="assets/images/menu-noel.jpg" alt="Menu de noel">
-            <h2>Menu Festif de Noel</h2>
-            <p>Des plats chaleureux et raffinés pour un repas de Noël réussi.</p>
-            <p>Minimum : 4 personnes</p>
-            <button class="btn-commande">Voir le détail</button>
-        </div>
-        <div class="menu-item">
-            <img src="assets/images/menu-vegetarien.jpg" alt="Menu végétarien">
-            <h2>Menu Gourmand Végétarien</h2>
-            <p>Un menu coloré et savoureux, 100 % végétarien et riche en goût.</p>
-            <p>Minimum : 4 personnes</p>
-            <button class="btn-commande">Voir le détail</button>
-        </div>
-        <div class="menu-item">
-            <img src="assets/images/menu-anniversaire.jpg" alt="Menu anniversaire">
-            <h2>Menu Anniversaire Enfant</h2>
-            <p>Un menu joyeux, simple et savoureux, parfait pour les anniversaires d'enfants.</p>
-            <p>Minimum : 8 personnes</p>
-            <button class="btn-commande">Voir le détail</button>
-        </div>
-        <div class="menu-item">
-            <img src="assets/images/menu-cocktail.jpg" alt="Menu cocktail">
-            <h2>Menu Cocktail Premium</h2>
-            <p>Un menu raffiné pour vos apéritifs d'entreprise ou cocktails dinatoires.</p>
-            <p>Minimum : 10 personnes</p>
-            <button class="btn-commande">Voir le détail</button>
-        </div>
-        <div class="menu-item">
-            <img src="assets/images/menu-monde.jpg" alt="Menu monde">
-            <h2>Menu Saveurs du Monde</h2>
-            <p>Un voyage culinaire à travers plusieurs inspirations du monde.</p>
-            <p>Minimum : 6 personnes</p>
-            <button class="btn-commande">Voir le détail</button>
-        </div>
-    </section>
+    <!-- filtres secondaires -->
+    <div class="filtres-avances" id="filtres-avances">
+
+        <select name="regime" class="filtre-btn">
+            <option value="">Régimes</option>
+            <option value="vegan">Vegan</option>
+            <option value="vegetarien">Végétarien</option>
+            <option value="classique">Classique</option>
+        </select>
+
+        <select name="prix_max" class="filtre-btn">
+            <option value="">Prix max</option>
+            <option value="15">15€</option>
+            <option value="25">25€</option>
+            <option value="30">30€</option>
+        </select>
+
+        <select name="fourchette_prix" class="filtre-btn">
+            <option value="">Fourchette de prix</option>
+            <option value="10-20">entre 10€ et 20€</option>
+            <option value="20-30">entre 20€ et 30€</option>
+        </select>
+
+        <select name="nb_personnes_min" class="filtre-btn">
+            <option value="">Personnes min</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+        </select>
+
+    </div>
+
+    <button type="submit" class="filtre-appliquer">
+        Appliquer
+    </button>
+</form>
+
+    <!-- Liste des menus -->
+
+<section class="menus-list">
+    <?php foreach ($menus as $menu): ?>
+        <?php require __DIR__ . '/../partials/menu-card.php'; ?>
+    <?php endforeach; ?>
+</section>
+
     
     <!-- Footer -->
     <?php require_once __DIR__ . '/../partials/footer.php'; ?>
