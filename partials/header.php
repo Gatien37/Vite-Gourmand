@@ -28,6 +28,9 @@
     <a href="deconnexion.php" class="connect-button">
       Se déconnecter
     </a>
+    <a href="espace-utilisateur.php" class="signup-button">
+      Mon Profil
+    </a>
 
   <?php else: ?>
 
