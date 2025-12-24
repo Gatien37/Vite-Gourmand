@@ -2,8 +2,7 @@
 
 INSERT INTO utilisateur (nom, email, mot_de_passe, gsm, role)
 VALUES
-('Jean Dupont', 'jean.dupont@test.fr', 'hash_password_jean', '0612345678', 'user'),
-('Admin ViteGourmand', 'admin@vitegourmand.fr', 'hash_password_admin', NULL, 'admin');
+('Test User', 'test@vite-gourmand.fr', '$2y$10$HHkl.g5774FbX/WFpKe1GubDNl5aDDnVglXJASOiQTK8WCdeb6ewm', '0600000000', 'user');
 
 
 INSERT INTO menu (nom, description, presentation, description_longue, theme, regime, nb_personnes_min, prix_base, stock, image)

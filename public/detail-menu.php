@@ -52,9 +52,22 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
             <p><b>Prix :</b> <?= number_format((float)$menu['prix_base'], 2) ?> €/personne</p>
             <p><b>Stock disponible :</b> <?= (int)$menu['stock'] ?></p>
 
-            <button class="btn-commande" data-menu-id="<?= $menuId ?>">
-                Commander
-            </button>
+
+        <!-- Bouton Commander --> 
+        <?php
+
+            $isLogged = isset($_SESSION['user']);
+
+            if ($isLogged) {
+                $commandeUrl = "commande.php?menu_id=" . $menuId;
+            } else {
+                $commandeUrl = "connexion.php?redirect=commande&menu_id=" . $menuId;
+            }
+            ?>
+
+            <a href="<?= $commandeUrl ?>" class="btn-commande">Commander</a>
+
+
         </div>
     </div>
 

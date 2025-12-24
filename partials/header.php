@@ -1,4 +1,11 @@
 <header>
+
+  <?php
+  if (session_status() === PHP_SESSION_NONE) {
+      session_start();
+  }
+  ?>
+
   <div class="header-container">
     <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
 
@@ -13,10 +20,27 @@
         <li><a href="contact.php">Contact</a></li>
       </ul>
 
+      <!-- Boutons de connexion / déconnexion -->
+       
       <div class="buttons">
-        <a href="connexion.php" class="connect-button">Se connecter</a>
-        <a href="inscription.php" class="signup-button">Créer un compte</a>
-      </div>
+  <?php if (isset($_SESSION['user'])): ?>
+
+    <a href="deconnexion.php" class="connect-button">
+      Se déconnecter
+    </a>
+
+  <?php else: ?>
+
+    <a href="connexion.php" class="connect-button">
+      Se connecter
+    </a>
+    <a href="inscription.php" class="signup-button">
+      Créer un compte
+    </a>
+
+  <?php endif; ?>
+</div>
+
     </nav>
   </div>
 </header>

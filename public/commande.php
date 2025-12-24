@@ -1,3 +1,24 @@
+<?php
+session_start();
+
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/menuModel.php';
+
+if (!isset($_SESSION['user'])) {
+    header('Location: connexion.php');
+    exit;
+}
+
+if (!isset($_GET['menu_id']) || !is_numeric($_GET['menu_id'])) {
+    header('Location: menus.php');
+    exit;
+}
+
+$menuId = (int) $_GET['menu_id'];
+$menu = getMenuById($pdo, $menuId);
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

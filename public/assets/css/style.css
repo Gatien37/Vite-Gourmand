@@ -431,7 +431,7 @@ nav ul li a:hover {
 }
 
 .btn-menu {
-    display:inline-block;
+     display:inline-block;
      width:150px;
      height:50px;
      background: #A43F3B;
@@ -485,19 +485,21 @@ nav ul li a:hover {
     box-shadow: 0 4px 20px rgba(44, 62, 80, 0.15);
 }
 
-.menu-info button {
-    margin:auto;
-    margin-top: 20px;
-    width: 200px;
-    height: 50px;
-    background-color: #A43F3B;
-    color: white;
-    border: none;
-    border-radius: 30px;
-    align-self: center;
+.menu-info .btn-commande {
+    display:inline-block;
+    width:200px;
+    height:50px;
+    background: #A43F3B;
+    color:white;
+    text-decoration:none;
+    line-height:50px;
+    text-align:center;
+    border-radius:30px;
+    align-self:center;
+    margin: 20px auto 0 auto;
 }
 
-.menu-info button:hover {
+.menu-info .btn-commande:hover {
     background-color: #8C3230;
 }
 
