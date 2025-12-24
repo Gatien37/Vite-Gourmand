@@ -42,3 +42,43 @@ function getFilteredMenus(PDO $pdo, array $filters): array
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function getMenuById(PDO $pdo, int $id): array|false
+{
+    $sql = "SELECT * FROM menu WHERE id = :id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function getPlatsByMenu(PDO $pdo, int $menuId): array
+{
+    $sql = "
+        SELECT p.*
+        FROM plat p
+        INNER JOIN menu_plat mp ON p.id = mp.plat_id
+        WHERE mp.menu_id = :menu_id
+        ORDER BY FIELD(p.type, 'entree', 'plat', 'dessert')
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['menu_id' => $menuId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function getAllergenesByMenu(PDO $pdo, int $menuId): array
+{
+    $sql = "
+        SELECT DISTINCT a.nom
+        FROM allergene a
+        INNER JOIN plat_allergene pa ON pa.allergene_id = a.id
+        INNER JOIN menu_plat mp ON mp.plat_id = pa.plat_id
+        WHERE mp.menu_id = :menu_id
+        ORDER BY a.nom
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['menu_id' => $menuId]);
+
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}

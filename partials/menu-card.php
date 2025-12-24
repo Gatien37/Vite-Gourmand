@@ -6,7 +6,7 @@
 
             <h2><?= htmlspecialchars($menu['nom']) ?></h2>
 
-            <p><?= htmlspecialchars($menu['description']) ?></p>
+            <p><b><?= htmlspecialchars($menu['description']) ?></b></p>
 
             <p>Minimum : <?= (int)$menu['nb_personnes_min'] ?> personnes</p>
 

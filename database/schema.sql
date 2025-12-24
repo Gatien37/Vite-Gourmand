@@ -23,6 +23,37 @@ CREATE TABLE menu (
     image VARCHAR(255)
 );
 
+ALTER TABLE menu
+ADD presentation TEXT AFTER description,
+ADD description_longue TEXT AFTER presentation;
+
+CREATE TABLE plat (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(100) NOT NULL,
+    description TEXT,
+    type VARCHAR(100),
+    image VARCHAR(255)
+);
+
+ALTER TABLE plat
+DROP COLUMN allergenes;
+
+
+CREATE TABLE allergene (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(100) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE plat_allergene (
+    plat_id INT NOT NULL,
+    allergene_id INT NOT NULL,
+    PRIMARY KEY (plat_id, allergene_id),
+    FOREIGN KEY (plat_id) REFERENCES plat(id) ON DELETE CASCADE,
+    FOREIGN KEY (allergene_id) REFERENCES allergene(id) ON DELETE CASCADE
+);
+
+
 CREATE TABLE commande (
     id INT PRIMARY KEY AUTO_INCREMENT,
     utilisateur_id INT NOT NULL,
@@ -48,16 +79,17 @@ CREATE TABLE avis (
     FOREIGN KEY (commande_id) REFERENCES commande(id)
 );
 
-CREATE TABLE plat (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    menu_id INT NOT NULL,
-    nom VARCHAR(100) NOT NULL,
-    description TEXT,
-    type VARCHAR(100),
-    allergenes VARCHAR(255),
 
-    FOREIGN KEY (menu_id) REFERENCES menu(id)
+CREATE TABLE menu_plat (
+  menu_id INT NOT NULL,
+  plat_id INT NOT NULL,
+  PRIMARY KEY (menu_id, plat_id),
+  FOREIGN KEY (menu_id) REFERENCES menu(id)
+    ON DELETE CASCADE,
+  FOREIGN KEY (plat_id) REFERENCES plat(id)
+    ON DELETE CASCADE
 );
+
 
 CREATE TABLE horaire (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -65,5 +97,3 @@ CREATE TABLE horaire (
     ouverture TIME NOT NULL,
     fermeture TIME NOT NULL
 );
-
-
