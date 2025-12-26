@@ -7,7 +7,7 @@
                 <p>Dimanche : Fermé</p>
             </div>
             <div class="contact">
-                <p>Vite & Gourmand, 12 Rue des Gourmets, 33000 Bordeaux</p>
+                <p>Vite & Gourmand, 12 Rue Lafaurie de Monbadon, 33000 Bordeaux</p>
                 <p>Téléphone : 05 56 48 32 10</p>
                 <p>Email : contact@viteetgourmand.fr </p>
             </div>
