@@ -1,173 +1,155 @@
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('✅ main.js exécuté');
 
-console.log('✅main.js exécuté');
+  /* ================= MENU BURGER ================= */
 
-// ===== MENU BURGER =====
+  const burger = document.getElementById('burger');
+  const nav = document.getElementById('main-nav');
 
-const burger = document.getElementById('burger');
-const nav = document.getElementById('main-nav');
+  if (burger && nav) {
+    burger.addEventListener('click', () => {
+      nav.classList.toggle('nav-open');
+    });
+  }
 
-burger.addEventListener('click', () => {
-  nav.classList.toggle('nav-open');
-});
+  /* ================= AFFICHAGE ADRESSE LIVRAISON ================= */
 
+  const receptionRadios = document.querySelectorAll('input[name="reception"]');
+  const livraisonAdresse = document.querySelector('.livraison-adresse');
 
-// ===== FILTRES AVANCÉS =====
+  function toggleLivraisonAdresse() {
+    const selected = document.querySelector('input[name="reception"]:checked');
+    if (!livraisonAdresse) return;
 
-const toggle = document.getElementById("toggle-filtres");
-const avances = document.getElementById("filtres-avances");
-
-if (toggle && avances) {
-  toggle.addEventListener("click", () => {
-    avances.classList.toggle("is-open");
-  });
-} else {
-  console.warn("Filtres avancés non trouvés dans le DOM");
-}
-
-
-
-
-// ===== CONFIRMATION BOUTON SUPPRIMER =====
-
-const deleteButtons = document.querySelectorAll('.btn-delete');
-
-deleteButtons.forEach(button => {
-  button.addEventListener('click', (e) => {
-    const confirmation = confirm(
-      "Confirmez-vous la suppression de cet élément ?"
+    livraisonAdresse.classList.toggle(
+      'is-hidden',
+      !selected || selected.value !== 'livraison'
     );
+  }
 
-    if (!confirmation) {
-      e.preventDefault();
+  receptionRadios.forEach(radio =>
+    radio.addEventListener('change', toggleLivraisonAdresse)
+  );
+
+  toggleLivraisonAdresse();
+
+  /* ================= CALCUL PRIX COMMANDE ================= */
+
+  const form = document.querySelector('#commande-form');
+  if (!form) return;
+
+  const prixBase = parseFloat(form.dataset.prixBase);
+  const minPersonnes = parseInt(form.dataset.minPersonnes, 10);
+
+  const nbInput = document.querySelector('#nb_personnes');
+  const adresseInput = document.querySelector('#adresse');
+  const villeInput = document.querySelector('#ville');
+  const codePostalInput = document.querySelector('#code_postal');
+
+  const prixMenuEl = document.querySelector('#prix-menu');
+  const reductionEl = document.querySelector('#reduction');
+  const reductionLine = document.querySelector('#reduction-line');
+  const prixLivraisonEl = document.querySelector('#prix-livraison');
+  const prixTotalEl = document.querySelector('#prix-total');
+
+  /* ================= GÉOLOCALISATION ================= */
+
+  const TRAITEUR_LAT = 44.841225;
+  const TRAITEUR_LON = -0.579018;
+
+  function calculerDistanceKm(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(lat1 * Math.PI / 180) *
+      Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) ** 2;
+
+    return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  async function geocodeAdresse(adresse, codePostal, ville) {
+    const query = encodeURIComponent(`${adresse} ${codePostal} ${ville}`);
+    const url = `https://api-adresse.data.gouv.fr/search/?q=${query}&limit=1`;
+
+    try {
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!data.features.length) return null;
+
+      const [lon, lat] = data.features[0].geometry.coordinates;
+      return { lat, lon };
+    } catch {
+      return null;
     }
-  });
-});
+  }
 
-// Confirmation annulation commande
+  /* ================= CALCUL FINAL ================= */
 
-const statusSelects = document.querySelectorAll('.select-statut');
+  async function calculPrixPreview() {
+    const nb = parseInt(nbInput.value, 10);
 
-statusSelects.forEach(select => {
-  let previousValue = select.value;
-
-  select.addEventListener('change', () => {
-    if (select.value === 'Annulée') {
-      const confirmCancel = confirm(
-        "Confirmez-vous la suppression de cette commande ?"
-      );
-
-      if (!confirmCancel) {
-        select.value = previousValue;
-      }
-    }
-
-    previousValue = select.value;
-  });
-});
-
-
-
-// ===== VALIDATION FORMULAIRE INSCRIPTION =====
-
-const registerForm = document.querySelector('#register-form');
-
-if (registerForm) {
-  registerForm.addEventListener('submit', (e) => {
-    const prenom = document.querySelector('#prenom');
-    const nom = document.querySelector('#nom');
-    const email = document.querySelector('#email');
-    const password = document.querySelector('#password');
-    const confirmPassword = document.querySelector('#confirm-password');
-    const error = document.querySelector('#form-error');
-
-    error.textContent = "";
-
-    // Champs obligatoires
-    if (
-      prenom.value.trim() === "" ||
-      nom.value.trim() === "" ||
-      email.value.trim() === "" ||
-      password.value.trim() === "" ||
-      confirmPassword.value.trim() === ""
-    ) {
-      error.textContent = "Tous les champs obligatoires doivent être remplis.";
-      e.preventDefault();
+    if (isNaN(nb) || nb < minPersonnes) {
+      prixMenuEl.textContent = '0 €';
+      prixLivraisonEl.textContent = '0 €';
+      prixTotalEl.textContent = '0 €';
+      reductionLine.classList.add('is-hidden');
       return;
     }
 
-    // Email basique
-    if (!email.value.includes("@")) {
-      error.textContent = "Veuillez entrer une adresse email valide.";
-      e.preventDefault();
-      return;
+    // Prix menu
+    let prixMenu = nb * prixBase;
+
+    // Réduction
+    let reduction = 0;
+    if (nb >= minPersonnes + 5) {
+      reduction = prixMenu * 0.10;
+      reductionEl.textContent = `- ${reduction.toFixed(2)} €`;
+      reductionLine.classList.remove('is-hidden');
+    } else {
+      reductionLine.classList.add('is-hidden');
     }
 
-    // Mot de passe confirmé
-    if (password.value !== confirmPassword.value) {
-      error.textContent = "Les mots de passe ne correspondent pas.";
-      e.preventDefault();
-      return;
-    }
-  });
-}
-
-
-// ===== VALIDATION FORMULAIRE COMMANDE =====
-
-const commandeForm = document.querySelector('#commande-form');
-
-if (commandeForm) {
-  commandeForm.addEventListener('submit', (e) => {
-    const quantite = document.querySelector('#quantite');
-    const date = document.querySelector('#date');
-    const heure = document.querySelector('#heure');
+    // Livraison
+    let prixLivraison = 0;
     const reception = document.querySelector('input[name="reception"]:checked');
 
-    const adresse = document.querySelector('#adresse');
-    const ville = document.querySelector('#ville');
-    const codePostal = document.querySelector('#code-postal');
+    if (reception && reception.value === 'livraison') {
+      prixLivraison = 5;
 
-    const error = document.querySelector('#commande-error');
-    error.textContent = "";
+      const adresse = adresseInput.value.trim();
+      const ville = villeInput.value.trim().toLowerCase();
+      const cp = codePostalInput.value.trim();
 
-    // Champs obligatoires
-    if (
-      quantite.value.trim() === "" ||
-      date.value === "" ||
-      heure.value === ""
-    ) {
-      error.textContent = "Veuillez remplir tous les champs obligatoires.";
-      e.preventDefault();
-      return;
-    }
-
-    // Minimum personnes
-    if (parseInt(quantite.value) < 6) {
-      error.textContent = "Le minimum de commande est de 6 personnes.";
-      e.preventDefault();
-      return;
-    }
-
-    // Mode de réception
-    if (!reception) {
-      error.textContent = "Veuillez choisir un mode de réception.";
-      e.preventDefault();
-      return;
-    }
-
-    // Livraison → adresse obligatoire
-    if (reception.value === "livraison") {
-      if (
-        adresse.value.trim() === "" ||
-        ville.value.trim() === "" ||
-        codePostal.value.trim() === ""
-      ) {
-        error.textContent = "Veuillez remplir l'adresse complète de livraison.";
-        e.preventDefault();
-        return;
+      if (adresse && ville && cp && ville !== 'bordeaux') {
+        const coords = await geocodeAdresse(adresse, cp, ville);
+        if (coords) {
+          const distance = calculerDistanceKm(
+            TRAITEUR_LAT,
+            TRAITEUR_LON,
+            coords.lat,
+            coords.lon
+          );
+          prixLivraison += distance * 0.59;
+        }
       }
     }
-  });
-}
 
+    const total = prixMenu - reduction + prixLivraison;
 
+    prixMenuEl.textContent = prixMenu.toFixed(2) + ' €';
+    prixLivraisonEl.textContent = prixLivraison.toFixed(2) + ' €';
+    prixTotalEl.textContent = total.toFixed(2) + ' €';
+  }
+
+  /* ================= ÉCOUTEURS ================= */
+
+  nbInput.addEventListener('input', calculPrixPreview);
+  receptionRadios.forEach(r => r.addEventListener('change', calculPrixPreview));
+  adresseInput.addEventListener('blur', calculPrixPreview);
+  villeInput.addEventListener('blur', calculPrixPreview);
+  codePostalInput.addEventListener('blur', calculPrixPreview);
+});

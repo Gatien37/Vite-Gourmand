@@ -3,6 +3,10 @@ session_start();
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/menuModel.php';
+require_once __DIR__ . '/../services/commandeService.php';
+require_once __DIR__ . '/../services/mailService.php';
+
+/* ================== SÉCURITÉ ================== */
 
 if (!isset($_SESSION['user'])) {
     header('Location: connexion.php');
@@ -17,80 +21,139 @@ if (!isset($_GET['menu_id']) || !is_numeric($_GET['menu_id'])) {
 $menuId = (int) $_GET['menu_id'];
 $menu = getMenuById($pdo, $menuId);
 
+if (!$menu) {
+    header('Location: menus.php');
+    exit;
+}
+
+$error = null;
+
+/* ================== TRAITEMENT FORMULAIRE ================== */
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $resultat = traiterCommande(
+        $pdo,
+        $menu,
+        $_POST,
+        $_SESSION['user']
+    );
+
+    if ($resultat['error']) {
+        $error = $resultat['error'];
+    } else {
+        envoyerMailConfirmation(
+            $_SESSION['user']['email'],
+            $resultat['recap']
+        );
+
+        header('Location: confirmation.php');
+        exit;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Commande";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-    <section class="hero-section commandes-hero">
-        <h1>Passer commande</h1>
-        <p>Complétez les informations ci-dessous pour finaliser votre commande.</p>
-    </section>
+<section class="hero-section commandes-hero">
+    <h1>Passer commande</h1>
+    <p>Complétez les informations ci-dessous pour finaliser votre commande.</p>
+</section>
 
-    <section class="commande-container">
+<section class="commande-container">
 
-        <div class="recap-menu">
-            <h2>Votre menu</h2>
-            <img src="assets/images/menu-noel.jpg" alt="Image du menu">
-            <h3>Menu Festif de Noël</h3>
-            <p>Prix : 24,90 € / personne</p>
-            <p>Minimum : 6 personnes</p>
+    <!-- ===== RÉCAP MENU ===== -->
+    <div class="recap-menu">
+        <h2>Votre menu</h2>
+
+        <img src="assets/images/<?= htmlspecialchars($menu['image']) ?>"
+             alt="<?= htmlspecialchars($menu['nom']) ?>">
+
+        <h3><?= htmlspecialchars($menu['nom']) ?></h3>
+
+        <p>Prix : <?= number_format((float)$menu['prix_base'], 2) ?> € / personne</p>
+        <p>Minimum : <?= (int)$menu['nb_personnes_min'] ?> personnes</p>
+    </div>
+
+    <!-- ===== FORMULAIRE ===== -->
+    <form
+        id="commande-form"
+        class="commande-form form-card"
+        method="POST"
+        action="commande.php?menu_id=<?= $menuId ?>"
+        data-prix-base="<?= (float)$menu['prix_base'] ?>"
+        data-min-personnes="<?= (int)$menu['nb_personnes_min'] ?>"
+    >
+
+        <h2>Informations de commande</h2>
+
+        <label for="nb_personnes">Nombre de personnes *</label>
+        <input type="number" id="nb_personnes" name="nb_personnes" min="<?= (int)$menu['nb_personnes_min'] ?>" data-min="<?= (int)$menu['nb_personnes_min'] ?>" required>
+
+        <label for="date">Date *</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="heure">Heure *</label>
+        <input type="time" id="heure" name="heure" required>
+
+        <h2>Mode de réception *</h2>
+        <label>
+            <input type="radio" name="reception" value="retrait">
+            Retrait sur place (gratuit)
+        </label>
+        <label>
+            <input type="radio" name="reception" value="livraison">
+            Livraison (5 € + 0.59€/km en dehors de Bordeaux)
+        </label>
+
+        <div class="livraison-adresse is-hidden">
+            <label for="adresse">Adresse *</label>
+            <input type="text" id="adresse" name="adresse">
+
+            <label for="code_postal">Code postal *</label>
+            <input type="text" id="code_postal" name="code_postal" required>
+
+            <label for="ville">Ville *</label>
+            <input type="text" id="ville" name="ville">
+
         </div>
 
-        <form id="commande-form" class="commande-form form-card" action="#" method="POST">
-            
-            <h2>Informations de commande</h2>
-            <label for="quantite">Nombre de personnes <span class="required">*</span></label>
-            <input type="number" id="quantite" name="quantite" min="6" placeholder="Ex : 8">
-            <label for="date">Date de livraison / retrait <span class="required">*</span></label>
-            <input type="date" id="date" name="date">
-            <label for="heure">Heure souhaitée <span class="required">*</span></label>
-            <input type="time" id="heure" name="heure">
+          <!-- ===== RÉCAP PRIX ===== -->
+        <div class="price-summary">
+            <h3>Détail du prix</h3>
 
-            <h2>Mode de réception <span class="required">*</span></h2>
-            <label>
-                <input type="radio" name="reception" value="retrait">
-                Retrait sur place (gratuit)
-            </label>
-            <label>
-                <input type="radio" name="reception" value="livraison">
-                Livraison (5 € + 0,59 €/km)
-            </label>
-            <div class="livraison-adresse">
-                <label for="adresse">Adresse de livraison <span class="required">*</span></label>
-                <input type="text" id="adresse" name="adresse" placeholder="Votre adresse">
-
-                <label for="ville">Ville <span class="required">*</span></label>
-                <input type="text" id="ville" name="ville" placeholder="Votre ville">
-
-                <label for="code-postal">Code postal <span class="required">*</span></label>
-                <input type="text" id="code-postal" name="code_postal" placeholder="Code postal">
-            </div>
-
-            <h2>Message au traiteur (optionnel)</h2>
-            <textarea id="message" name="message" rows="4" placeholder="Ex : Allergies, instructions spéciales…"></textarea>
-
-            <p class="required-info">
-                <span class="required">*</span> Champs obligatoires
+            <p>Menu : <span id="prix-menu">0 €</span></p>
+            <p id="reduction-line" class="is-hidden">
+                <span>Réduction : </span><span id="reduction">-0 €</span>
             </p>
-            <p id="commande-error"></p>
-            <button type="submit" class="btn-commande">Valider la commande</button>
-        </form>
+            <p>Livraison : <span id="prix-livraison">0 €</span></p>
 
-    </section>
+            <p class="price-total">
+                <strong>Total : <span id="prix-total">0 €</span></strong>
+            </p>
+        </div>
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+        <?php if ($error): ?>
+            <p id="commande-error"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
+
+        <button type="submit" class="btn-commande">Valider la commande</button>
+    </form>
+
+</section>
+
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

@@ -1061,11 +1061,72 @@ nav ul li a:hover {
     margin-top: 10px;
 }
 
+.livraison-adresse.is-hidden {
+    display: none;
+}
+
+/* -------- Récapitulatif Prix -------- */
+
+.price-summary {
+    background-color: #FFFFFF;
+    padding: 25px 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.15);
+    margin-top: 30px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.price-summary h3 {
+    text-align: center;
+    color: #A43F3B;
+    margin-bottom: 10px;
+}
+
+/* Lignes de prix */
+
+.price-summary p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+}
+
+#reduction-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#reduction-line.is-hidden {
+    display: none;
+}
+
+
+#reduction {
+    color: #2E7D32;
+}
+
+/* Total */
+.price-summary .price-total {
+    margin-top: 10px;
+    padding-top: 12px;
+    border-top: 1px solid #ddd;
+    font-size: 18px;
+}
+
+.price-summary .price-total span {
+    color: #A43F3B;
+    font-size: 20px;
+}
+
 
 /* -------- Bouton Validation -------- */
 
 .commande-form .btn-commande {
-    margin-top: 30px;
+    margin: 30px auto 0 auto;
     align-self: center;
 }
 
