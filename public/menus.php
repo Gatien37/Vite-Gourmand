@@ -90,10 +90,23 @@ require_once __DIR__ . '/../models/menuModel.php';
     <!-- Liste des menus -->
 
 <section class="menus-list">
-    <?php foreach ($menus as $menu): ?>
-        <?php require __DIR__ . '/../partials/menu-card.php'; ?>
-    <?php endforeach; ?>
+
+    <?php if (empty($menus)): ?>
+
+        <p class="no-result">
+            Aucun menu ne correspond à cette recherche.
+        </p>
+
+    <?php else: ?>
+
+        <?php foreach ($menus as $menu): ?>
+            <?php require __DIR__ . '/../partials/menu-card.php'; ?>
+        <?php endforeach; ?>
+
+    <?php endif; ?>
+
 </section>
+
 
     
     <!-- Footer -->

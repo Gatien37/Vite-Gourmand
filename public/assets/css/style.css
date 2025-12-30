@@ -403,6 +403,15 @@ nav ul li a:hover {
     margin-bottom: 60px;
 }
 
+.no-result {
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 18px;
+    color: #2C3E50;
+    margin: 60px 0;
+}
+
+
 .menu-item {
     display: flex;
     flex-direction: column;
@@ -489,12 +498,7 @@ nav ul li a:hover {
     display:inline-block;
     width:200px;
     height:50px;
-    background: #A43F3B;
-    color:white;
-    text-decoration:none;
     line-height:50px;
-    text-align:center;
-    border-radius:30px;
     align-self:center;
     margin: 20px auto 0 auto;
 }
@@ -580,17 +584,20 @@ nav ul li a:hover {
 /* -------- Bouton Commander -------- */
 
 .btn-commande {
-    display: block;
-    margin: 0 auto;
-    width: 300px;
-    height: 60px;
-    background-color: #A43F3B;
-    color: white;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width:250px;
+    height:60px;
+    background: #A43F3B;
+    color:white;
+    text-decoration:none;
+    text-align:center;
+    border-radius:30px;
+    margin: 0 auto 60px auto;
     border: none;
-    border-radius: 30px;
-    align-self: center;
-    margin-bottom: 80px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .btn-commande:hover {
@@ -950,20 +957,15 @@ nav ul li a:hover {
     color: #c62828;
 }
 
-/* -------- Bouton Détails (réutilise btn-commande) -------- */
+/* -------- Bouton Détails -------- */
 
 .orders-table .btn-commande {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
     width: 120px;
     height: 40px;
-    font-size: 14px;
     margin: 0;
-    text-decoration: none;
+    font-size: 14px;
 }
-
 
 /* ================= PAGE COMMANDE =============== */
 
@@ -1180,12 +1182,9 @@ nav ul li a:hover {
 .confirmation-card .btn-commande {
     margin: 30px auto 10px auto;
     width: 260px;
-    text-decoration: none;
-
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
 }
+
 
 .confirmation-card .btn-secondary {
     margin: 0 auto;
@@ -1251,10 +1250,7 @@ nav ul li a:hover {
 .contact-form .btn-commande {
     margin-top: 30px;
     width: 100%;
-
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* -------- Informations de contact -------- */
@@ -1314,11 +1310,7 @@ nav ul li a:hover {
     width: 100%;
     height: 50px;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
     margin: 0;
-    text-decoration: none;
 }
 
 
@@ -1361,12 +1353,7 @@ nav ul li a:hover {
 .employe-dashboard-container .btn-commande {
     width: 100%;
     height: 50px;
-
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 16px;
     margin: 0;
 }
 
@@ -1411,11 +1398,9 @@ nav ul li a:hover {
 .admin-dashboard-container .btn-secondary {
     width: 100%;
     height: 50px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     font-size: 16px;
     margin: 0;
 }
@@ -1745,9 +1730,6 @@ nav ul li a:hover {
     font-size: 14px;
     padding: 0 18px;
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
     margin:auto;
     width: auto;
 }
@@ -1775,12 +1757,9 @@ nav ul li a:hover {
 
 .add-employe-container .btn-commande {
     display: inline-flex;
-    align-items: center;
-    justify-content: center;
     height: 44px;
     font-size: 15px;
     padding: 0 24px;
-    text-decoration: none;
 }
 
 /* -------- Tableau -------- */
@@ -2135,7 +2114,6 @@ nav ul li a:hover {
 
 .avis-form .btn-commande {
     margin-top: 20px;
-    align-self: center;
     width: 260px;
 }
 
@@ -2820,7 +2798,6 @@ nav ul li a:hover {
     .btn-commande {
         width: 100%;
         height: 50px;
-        font-size: 16px;
     }
 
     .form-card,

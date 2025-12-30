@@ -37,6 +37,14 @@ function getFilteredMenus(PDO $pdo, array $filters): array
         $params['prixMaxRange'] = (float)$max;
     }
 
+    if (empty($params)) {
+        $sql = "
+            SELECT id, nom, description, nb_personnes_min, image, prix_base
+            FROM menu
+        ";
+    }
+
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 

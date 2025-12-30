@@ -54,17 +54,7 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
 
 
         <!-- Bouton Commander --> 
-        <?php
-
-            $isLogged = isset($_SESSION['user']);
-
-            if ($isLogged) {
-                $commandeUrl = "commande.php?menu_id=" . $menuId;
-            } else {
-                $commandeUrl = "connexion.php?redirect=commande&menu_id=" . $menuId;
-            }
-            ?>
-
+            <?php require __DIR__ . '/../partials/button-commande.php'; ?>
             <a href="<?= $commandeUrl ?>" class="btn-commande">Commander</a>
 
 
@@ -130,9 +120,9 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
         </section>
     </section>
 
-    <button class="btn-commande" data-menu-id="<?= $menuId ?>">
-        Commander
-    </button>
+    <!-- Bouton Commander --> 
+            <?php require __DIR__ . '/../partials/button-commande.php'; ?>
+            <a href="<?= $commandeUrl ?>" class="btn-commande">Commander</a>
 
 
     <!-- Footer -->
