@@ -53,10 +53,16 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
             <p><b>Stock disponible :</b> <?= (int)$menu['stock'] ?></p>
 
 
-        <!-- Bouton Commander --> 
+            <!-- Bouton Commander --> 
             <?php require __DIR__ . '/../partials/button-commande.php'; ?>
-            <a href="<?= $commandeUrl ?>" class="btn-commande">Commander</a>
 
+            <?php if ($menu['stock'] > 0): ?>
+                <a href="<?= $commandeUrl ?>" class="btn-commande">Commander</a>
+
+            <?php else: ?>
+                <button class="btn-commande btn-disabled" disabled>Bientôt disponible</button>
+
+            <?php endif; ?>
 
         </div>
     </div>
@@ -121,8 +127,15 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
     </section>
 
     <!-- Bouton Commander --> 
-            <?php require __DIR__ . '/../partials/button-commande.php'; ?>
-            <a href="<?= $commandeUrl ?>" class="btn-commande">Commander</a>
+    <?php require __DIR__ . '/../partials/button-commande.php'; ?>
+
+    <?php if ($menu['stock'] > 0): ?>
+        <a href="<?= $commandeUrl ?>" class="btn-commande">Commander</a>
+
+    <?php else: ?>
+        <button class="btn-commande btn-disabled" disabled>Bientôt disponible</button>
+
+    <?php endif; ?>
 
 
     <!-- Footer -->

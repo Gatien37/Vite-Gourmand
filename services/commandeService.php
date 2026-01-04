@@ -25,6 +25,10 @@ function traiterCommande($pdo, $menu, $post, $user) {
     $fraisLivraison = calculerFraisLivraison($reception, $adresse, $ville, $cp);
     $total = $prixMenu - $reduction + $fraisLivraison;
 
+    if ($menu['stock'] < $nb) {
+    return ['error' => 'Stock insuffisant pour ce menu'];
+    }
+
     $stmt = $pdo->prepare("
         INSERT INTO commande (utilisateur_id, menu_id, date_prestation, adresse, ville, nb_personnes, prix_total)
         VALUES (?, ?, ?, ?, ?, ?, ?)
@@ -41,6 +45,17 @@ function traiterCommande($pdo, $menu, $post, $user) {
     ]);
 
     $commandeId = $pdo->lastInsertId();
+
+    $updateStock = $pdo->prepare("
+        UPDATE menu
+        SET stock = stock - :nb
+        WHERE id = :menu_id
+    ");
+
+    $updateStock->execute([
+        'nb' => $nb,
+        'menu_id' => $menu['id']
+    ]);
 
 
     return [

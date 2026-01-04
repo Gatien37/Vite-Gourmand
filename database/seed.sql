@@ -152,6 +152,13 @@ VALUES
   'parmentier-vegetal.jpg'
 );
 
+UPDATE menu
+SET stock = stock + 50;
+
+UPDATE menu
+SET stock = stock + 50
+WHERE nom = "Menu Festif de Noel";
+
 
 INSERT INTO plat (nom, description, type, image)
 VALUES

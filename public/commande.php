@@ -84,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <p>Prix : <?= number_format((float)$menu['prix_base'], 2) ?> € / personne</p>
         <p>Minimum : <?= (int)$menu['nb_personnes_min'] ?> personnes</p>
+        <p>Stock disponible pour <?= (int)$menu['stock'] ?> personnes</p>
     </div>
 
     <!-- ===== FORMULAIRE ===== -->
@@ -95,6 +96,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         data-prix-base="<?= (float)$menu['prix_base'] ?>"
         data-min-personnes="<?= (int)$menu['nb_personnes_min'] ?>"
     >
+
+        <?php if ($error): ?>
+            <p id="commande-error"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
 
         <h2>Informations de commande</h2>
 
@@ -143,10 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <strong>Total : <span id="prix-total">0 €</span></strong>
             </p>
         </div>
-
-        <?php if ($error): ?>
-            <p id="commande-error"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
+        
 
         <button type="submit" class="btn-commande">Valider la commande</button>
     </form>
