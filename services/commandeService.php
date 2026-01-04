@@ -40,8 +40,12 @@ function traiterCommande($pdo, $menu, $post, $user) {
         $total
     ]);
 
+    $commandeId = $pdo->lastInsertId();
+
+
     return [
         'error' => null,
+        'commande_id' => $commandeId,
         'recap' => [
             'menu' => $menu['nom'],
             'total' => $total,

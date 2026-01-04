@@ -17,14 +17,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const receptionRadios = document.querySelectorAll('input[name="reception"]');
   const livraisonAdresse = document.querySelector('.livraison-adresse');
 
+  const adresse = document.getElementById('adresse');
+  const ville = document.getElementById('ville');
+  const codePostal = document.getElementById('code_postal');
+
   function toggleLivraisonAdresse() {
     const selected = document.querySelector('input[name="reception"]:checked');
     if (!livraisonAdresse) return;
 
-    livraisonAdresse.classList.toggle(
-      'is-hidden',
-      !selected || selected.value !== 'livraison'
-    );
+    const isLivraison = selected && selected.value === 'livraison';
+
+    livraisonAdresse.classList.toggle('is-hidden', !isLivraison);
+
+    adresse.required = isLivraison;
+    ville.required = isLivraison;
+    codePostal.required = isLivraison;
   }
 
   receptionRadios.forEach(radio =>
@@ -32,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
   );
 
   toggleLivraisonAdresse();
+
 
   /* ================= CALCUL PRIX COMMANDE ================= */
 

@@ -1,3 +1,20 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/commandeModel.php';
+
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+    header('Location: index.php');
+    exit;
+}
+
+$commande = getCommandeById($pdo, (int)$_GET['id']);
+
+if (!$commande) {
+    header('Location: index.php');
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -19,13 +36,24 @@
     <section class="confirmation-container">
         <div class="confirmation-card">
             <h2>Récapitulatif</h2>
-            <p><strong>Menu :</strong> Menu Festif de Noël</p>
-            <p><strong>Nombre de personnes :</strong> 8</p>
-            <p><strong>Date :</strong> 24 décembre 2024</p>
-            <p><strong>Heure :</strong> 19h30</p>
-            <p><strong>Mode de réception :</strong> Livraison</p>
-            <p><strong>Adresse :</strong> 25 Rue des Lilas, 33000 Bordeaux</p>
-            <p><strong>Total :</strong> 199,20 €</p>
+            <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
+            <p><strong>Nombre de personnes :</strong> <?= (int)$commande['nb_personnes'] ?></p>
+            <p><strong>Date :</strong>
+                <?= date('d/m/Y', strtotime($commande['date_prestation'])) ?>
+            </p>
+            <p><strong>Heure :</strong>
+                <?= date('H:i', strtotime($commande['date_prestation'])) ?>
+            </p>
+            <p><strong>Adresse :</strong>
+                <?= htmlspecialchars($commande['adresse']) ?>,
+                <?= htmlspecialchars($commande['ville']) ?>
+            </p>
+            <p><strong>Total :</strong>
+                <?= number_format($commande['prix_total'], 2, ',', ' ') ?> €
+            </p>
+            <p><strong>Statut :</strong>
+                <?= htmlspecialchars($commande['statut']) ?>
+            </p>
 
             <p class="confirmation-message">
                 Un e-mail de confirmation vient de vous être envoyé.<br>

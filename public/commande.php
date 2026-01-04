@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $resultat['recap']
         );
 
-        header('Location: confirmation.php');
+        header('Location: confirmation.php?id=' . $resultat['commande_id']);
         exit;
     }
 }
