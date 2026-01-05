@@ -2033,6 +2033,22 @@ nav ul li a:hover {
   font-weight: bold;
 }
 
+.password-rules {
+    list-style: none;
+    padding-left: 0;
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.password-rules li {
+    margin-bottom: 4px;
+    color: #a43f3b;
+}
+
+.password-rules li.valid {
+    display: none;
+}
+
 /* -------- Bouton -------- */
 
 .register-form .btn-commande {
@@ -2041,9 +2057,10 @@ nav ul li a:hover {
     width: 100%;
 }
 
-#form-errors {
+#form-errors, .alert-success {
     color: #c62828;
     text-align: center;
+    margin-bottom: 30px;
 }
 
 /* -------- Liens -------- */

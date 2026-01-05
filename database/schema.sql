@@ -11,6 +11,43 @@ CREATE TABLE utilisateur (
     role VARCHAR(50) DEFAULT 'user'
 );
 
+ALTER TABLE utilisateur
+ADD prenom VARCHAR(50) NOT NULL,
+ADD adresse VARCHAR(255) NOT NULL,
+ADD ville VARCHAR(100) NOT NULL,
+ADD code_postal VARCHAR(10) NOT NULL;
+
+ALTER TABLE utilisateur
+MODIFY prenom VARCHAR(50) NOT NULL AFTER id;
+
+ALTER TABLE utilisateur
+MODIFY nom VARCHAR(50) NOT NULL AFTER prenom;
+
+ALTER TABLE utilisateur
+MODIFY email VARCHAR(100) NOT NULL UNIQUE AFTER nom;
+
+ALTER TABLE utilisateur
+MODIFY gsm VARCHAR(150) AFTER email;
+
+ALTER TABLE utilisateur
+MODIFY adresse VARCHAR(255) NOT NULL AFTER gsm;
+
+ALTER TABLE utilisateur
+MODIFY ville VARCHAR(100) NOT NULL AFTER adresse;
+
+ALTER TABLE utilisateur
+MODIFY code_postal VARCHAR(10) NOT NULL AFTER ville;
+
+ALTER TABLE utilisateur
+MODIFY mot_de_passe VARCHAR(255) NOT NULL AFTER code_postal;
+
+ALTER TABLE utilisateur
+MODIFY role VARCHAR(50) DEFAULT 'user' AFTER mot_de_passe;
+
+ALTER TABLE utilisateur
+MODIFY actif BOOLEAN DEFAULT TRUE AFTER role;
+
+
 CREATE TABLE menu (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100) NOT NULL,

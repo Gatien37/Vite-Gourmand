@@ -161,3 +161,31 @@ document.addEventListener('DOMContentLoaded', () => {
   villeInput.addEventListener('blur', calculPrixPreview);
   codePostalInput.addEventListener('blur', calculPrixPreview);
 });
+
+
+  /* ================= PASSWORD VALIDATION ================= */
+
+
+const passwordInput = document.getElementById('password');
+const rules = document.querySelectorAll('#password-rules li');
+
+if (passwordInput) {
+  passwordInput.addEventListener('input', () => {
+    const value = passwordInput.value;
+
+    checkRule('length', value.length >= 10);
+    checkRule('uppercase', /[A-Z]/.test(value));
+    checkRule('lowercase', /[a-z]/.test(value));
+    checkRule('number', /[0-9]/.test(value));
+    checkRule('special', /[^A-Za-z0-9]/.test(value));
+  });
+}
+
+function checkRule(ruleName, isValid) {
+  const rule = document.querySelector(`[data-rule="${ruleName}"]`);
+  if (!rule) return;
+
+  rule.classList.toggle('valid', isValid);
+  rule.textContent = (isValid ? '✅ ' : '❌ ') + rule.textContent.slice(2);
+}
+

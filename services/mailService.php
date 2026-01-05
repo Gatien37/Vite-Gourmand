@@ -21,3 +21,21 @@ Merci pour votre confiance.
 
     @mail($email, 'Confirmation de commande', $message, $headers);
 }
+
+
+function envoyerMailBienvenue(string $email, string $prenom): void
+{
+    $subject = "Bienvenue chez Vite & Gourmand 🎉";
+
+    $message = "
+        Bonjour $prenom,
+
+        Bienvenue chez Vite & Gourmand !
+        Votre compte a bien été créé. Vous pouvez maintenant vous connecter et passer commande.
+
+        À très vite,
+        L'équipe Vite & Gourmand
+    ";
+
+    @mail($email, $subject, $message);
+}

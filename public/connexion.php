@@ -18,6 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($user && password_verify($password, $user['mot_de_passe'])) {
 
+        session_regenerate_id(true);
+
         $_SESSION['user'] = [
             'id'    => $user['id'],
             'email' => $user['email'],
@@ -60,6 +62,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
 
     <section class="login-container">
+
+        <?php if (!empty($_SESSION['success'])): ?>
+            <div class="alert-success">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+
         <form class="login-form form-card" action="#" method="POST">
             <label for="email">Adresse e-mail</label>
             <input type="email" id="email" name="email" placeholder="exemple@mail.com" required>
