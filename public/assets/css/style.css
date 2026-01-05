@@ -613,7 +613,7 @@ nav ul li a:hover {
 }
 
 
-/* ================= PAGE LOGIN =============== */
+/* ================= PAGE CONNEXION =============== */
 
 
 .login-container {
@@ -637,6 +637,7 @@ nav ul li a:hover {
     width: 300px;
     background-color: white;
 }
+
 
 .login-container button {
     margin-top: 40px;
@@ -2019,7 +2020,7 @@ nav ul li a:hover {
     color: #2C3E50;
 }
 
-.register-form input {
+.register-form input, .login-form input {
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
@@ -2057,7 +2058,7 @@ nav ul li a:hover {
     width: 100%;
 }
 
-#form-errors, .alert-success {
+#form-errors, .alert-success, .error-message {
     color: #c62828;
     text-align: center;
     margin-bottom: 30px;

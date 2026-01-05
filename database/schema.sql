@@ -47,6 +47,8 @@ MODIFY role VARCHAR(50) DEFAULT 'user' AFTER mot_de_passe;
 ALTER TABLE utilisateur
 MODIFY actif BOOLEAN DEFAULT TRUE AFTER role;
 
+ALTER TABLE utilisateur DROP COLUMN actif;
+
 
 CREATE TABLE menu (
     id INT PRIMARY KEY AUTO_INCREMENT,
