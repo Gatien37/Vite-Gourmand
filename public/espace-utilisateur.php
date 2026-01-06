@@ -27,13 +27,6 @@
             <a href="commande-utilisateur.php" class="btn-commande">Voir mes commandes</a>
         </div>
 
-        <!-- BLOC AVIS -->
-        <div class="dashboard-card">
-            <h2>Mes avis</h2>
-            <p>Laissez un avis sur vos commandes.</p>
-            <a href="laisser-un-avis.php" class="btn-commande">Laisser un avis</a>
-        </div>
-
     </section>
 
     <!-- Footer -->

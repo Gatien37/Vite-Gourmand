@@ -278,51 +278,50 @@ nav ul li a:hover {
 .avis {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-bottom: 100px;
     background-color: #F7E9D7;
-}
-
-.avis-header {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 10px;
+    padding: 30px 60px;
+    margin-bottom: 100px;
 }
 
 .avis h2 {
-    margin-top: 30px;
+    margin: 30px 0;
 }
 
 .avis-container {
     display: flex;
-    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-start;
-    gap: 40px;        
-    margin-top: 50px;
+    max-width: 1200px;
+}
+
+.avis-card {
+    width: 300px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+}
+
+.avis-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
 }
 
 .avis-stars {
     display: flex;
-    flex-direction: row;
     gap: 5px;
 }
 
-.avis-card {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch; 
-    background: #f8f8f8;
-    padding: 20px;
-    border-radius: 10px;
-    max-width: 300px;
-    text-align: center;
-    margin-bottom: 60px;
-    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.3);
+.avis-stars img.star {
+    opacity: 0.3;
+}
+
+.avis-stars img.star.active {
+    opacity: 1;
 }
 
 .avis-card p {
@@ -330,6 +329,15 @@ nav ul li a:hover {
     text-align: justify;
 }
 
+.avis-footer {
+    margin-top: 20px;
+}
+
+.avis-footer a{
+    font-size: 14px;
+    color: #A43F3B;
+    text-decoration: none;
+}
 
 /* ================= PAGE MENUS =============== */
 
@@ -2091,7 +2099,7 @@ nav ul li a:hover {
 
 /* -------- Conteneur -------- */
 
-.avis-container {
+.avis-page-container {
     display: flex;
     justify-content: center;
     margin-bottom: 100px;
@@ -2116,16 +2124,19 @@ nav ul li a:hover {
     margin: 10px 0 20px 0;
 }
 
-.rating label {
+.star {
+    font-size: 26px;
     cursor: pointer;
-    font-size: 22px;
-    color: #A43F3B;
-    display: flex;
-    align-items: center;
+    color: #ccc;
+    transition: color 0.2s ease, transform 0.1s ease;
 }
 
-.rating input {
-    display: none;
+.star.active {
+    color: #f5b301;
+}
+
+.star:hover {
+    transform: scale(1.1);
 }
 
 
@@ -2796,6 +2807,18 @@ nav ul li a:hover {
     .filtres{
         flex-direction: column;
     }
+
+    /* page index avis */
+    .avis {
+        padding: 30px 20px;
+    }
+    
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
 }
 
 

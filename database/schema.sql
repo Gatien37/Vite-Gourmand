@@ -130,6 +130,9 @@ CREATE TABLE avis (
     FOREIGN KEY (commande_id) REFERENCES commande(id)
 );
 
+ALTER TABLE avis ADD UNIQUE (commande_id);
+
+
 
 CREATE TABLE menu_plat (
   menu_id INT NOT NULL,

@@ -106,6 +106,14 @@ $commandes = getCommandesByUtilisateur($pdo, $userId);
 
                                     <?php endif; ?>
 
+                                    <?php if ($commande['statut'] === 'terminee'): ?>
+                                        <a href="laisser-un-avis.php?commande_id=<?= (int)$commande['id'] ?>"
+                                        class="btn-commande">
+                                            Laisser un avis
+                                        </a>
+                                    <?php endif; ?>
+
+
                                 </td>
                             </tr>
                         <?php endforeach; ?>

@@ -1,3 +1,11 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/avisModel.php';
+
+$avisList = getAvisValides($pdo, 3);
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -56,50 +64,48 @@
         </div>
     </section>
 
-    <section class="avis">
-        <h2>Avis</h2>
+<section class="avis">
+    <h2>Avis clients</h2>
+
+    <?php if (empty($avisList)): ?>
+        <p>Aucun avis client pour le moment.</p>
+    <?php else: ?>
         <div class="avis-container">
-            <div class="avis-card">
-                <div class="avis-header">
-                    <div class="avis-stars">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
+            <?php foreach ($avisList as $avis): ?>
+                <div class="avis-card">
+
+                    <div class="avis-header">
+                        <div class="avis-stars">
+                            <?php for ($i = 1; $i <= 5; $i++): ?>
+                                <img
+                                    src="assets/images/icone_star.svg"
+                                    alt="étoile"
+                                    class="star <?= $i <= $avis['note'] ? 'active' : '' ?>"
+                                >
+                            <?php endfor; ?>
+                        </div>
+
+                        <h3>
+                            <?= htmlspecialchars($avis['prenom']) ?>
+                            <?= strtoupper(substr($avis['nom'], 0, 1)) ?>.
+                        </h3>
                     </div>
-                    <h3>Claire M.</h3>
+
+                    <p>
+                        “<?= nl2br(htmlspecialchars($avis['commentaire'])) ?>”
+                    </p>
+
                 </div>
-                <p>“Les plats étaient délicieux et la livraison parfaitement à l'heure.Toute la famille a adoré notre menu de Noël.Un service fiable et chaleureux.”</p>
-            </div>
-            <div class="avis-card">
-                <div class="avis-header">
-                    <div class="avis-stars">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    </div>
-                    <h3>Julien R.</h3>
-                </div>
-                <p>“Nous avons commandé pour un événement d'entreprise : frais, bien présenté, très généreux. Julie et José ont été aux petits soins. Je recommande vivement !”</p>
-            </div>
-            <div class="avis-card">
-                <div class="avis-header">
-                    <div class="avis-stars">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                        <img src="assets/images/icone_star.svg" alt="étoile de notation">
-                    </div>
-                    <h3>Sophie L.</h3>
-                </div>
-                <p>“Très bon rapport qualité-prix. Le menu était savoureux et bien préparé. Petit bémol sur le dessert un peu sucré, mais globalement excellent.”</p>
-            </div>
+            <?php endforeach; ?>
         </div>
-    </section>
+    <?php endif; ?>
+
+    <div class="avis-footer">
+        <a href="avis.php">Voir tous les avis</a>
+    </div>
+
+</section>
+
 
     <!-- Footer -->
     <?php require_once __DIR__ . '/../partials/footer.php'; ?>
