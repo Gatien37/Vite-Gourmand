@@ -108,6 +108,18 @@ CREATE TABLE commande (
     FOREIGN KEY (menu_id) REFERENCES menu(id)
 );
 
+
+CREATE TABLE commande_suivi (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    commande_id INT NOT NULL,
+    statut VARCHAR(50) NOT NULL,
+    date_statut DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (commande_id) REFERENCES commande(id)
+);
+
+
+
 CREATE TABLE avis (
     id INT PRIMARY KEY AUTO_INCREMENT,
     commande_id INT NOT NULL,

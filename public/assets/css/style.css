@@ -899,7 +899,7 @@ nav ul li a:hover {
 
 
 
-/* ================= PAGE COMMANDES UTILISATEUR =============== */
+/* ================= PAGE COMMANDE UTILISATEUR =============== */
 
 /* -------- Conteneur Table -------- */
 
@@ -937,6 +937,12 @@ nav ul li a:hover {
 
 .orders-table tr:nth-child(even) {
     background-color: #f8f8f8;
+}
+
+.orders-table .btn-secondary{
+    padding: 6px 12px;
+    font-size: 14px;
+    height: auto;
 }
 
 /* -------- Statuts -------- */

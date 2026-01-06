@@ -1,3 +1,18 @@
+<?php
+session_start();
+
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/commandeModel.php';
+
+if (!isset($_SESSION['user'])) {
+    header('Location: connexion.php');
+    exit;
+}
+
+$userId = $_SESSION['user']['id'];
+$commandes = getCommandesByUtilisateur($pdo, $userId);
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -16,6 +31,21 @@
         <p>Consultez vos commandes passées et en cours.</p>
     </section>
 
+    <?php if (!empty($_SESSION['success'])): ?>
+        <p class="alert-success">
+            <?= htmlspecialchars($_SESSION['success']) ?>
+        </p>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
+
+    <?php if (!empty($_SESSION['error'])): ?>
+        <p class="error-message">
+            <?= htmlspecialchars($_SESSION['error']) ?>
+        </p>
+        <?php unset($_SESSION['error']); ?>
+    <?php endif; ?>
+
+
     <section class="orders-container">
         <div class="table-wrapper">
             <table class="orders-table">
@@ -31,34 +61,58 @@
                 </thead>
 
                 <tbody>
-                    <!-- Exemple 1 -->
-                    <tr>
-                        <td>#CMD-1023</td>
-                        <td>Menu Festif de Noël</td>
-                        <td>24/12/2024</td>
-                        <td><span class="status en-cours">En cours</span></td>
-                        <td>199,20 €</td>
-                        <td><a href="commande-detail.php" class="btn-commande">Détails</a></td>
-                    </tr>
-                    <!-- Exemple 2 -->
-                    <tr>
-                        <td>#CMD-0987</td>
-                        <td>Menu Saveurs du Monde</td>
-                        <td>10/11/2024</td>
-                        <td><span class="status livre">Livrée</span></td>
-                        <td>149,40 €</td>
-                        <td><a href="commande-detail.php" class="btn-commande">Détails</a></td>
-                    </tr>
-                    <!-- Exemple 3 -->
-                    <tr>
-                        <td>#CMD-0874</td>
-                        <td>Menu Cocktail Premium</td>
-                        <td>02/10/2024</td>
-                        <td><span class="status annulee">Annulée</span></td>
-                        <td>0,00 €</td>
-                        <td><a href="commande-detail.php" class="btn-commande">Détails</a></td>
-                    </tr>
+
+                    <?php if (empty($commandes)): ?>
+                        <tr>
+                            <td colspan="6">Aucune commande enregistrée.</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php foreach ($commandes as $commande): ?>
+                            <tr>
+                                <td>#CMD-<?= (int)$commande['id'] ?></td>
+                                <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
+                                <td><?= date('d/m/Y', strtotime($commande['date_prestation'])) ?></td>
+                                <td>
+                                    <span class="status <?= htmlspecialchars($commande['statut']) ?>">
+                                        <?= ucfirst(str_replace('_', ' ', $commande['statut'])) ?>
+                                    </span>
+                                </td>
+                                <td><?= number_format((float)$commande['prix_total'], 2) ?> €</td>
+                                <td>
+
+                                    <a href="commande-detail.php?id=<?= (int)$commande['id'] ?>" class="btn-commande">
+                                        Détails
+                                    </a>
+
+                                    <?php if ($commande['statut'] === 'en_attente'): ?>
+
+                                        <a href="commande-modifier.php?id=<?= (int)$commande['id'] ?>"
+                                        class="btn-secondary">
+                                            Modifier
+                                        </a>
+
+                                        <form method="POST"
+                                            action="commande-annuler.php"
+                                            style="display:inline;"
+                                            onsubmit="return confirm('Voulez-vous vraiment annuler cette commande ?');">
+
+                                            <input type="hidden" name="commande_id" value="<?= (int)$commande['id'] ?>">
+
+                                            <button type="submit" class="btn-secondary">
+                                                Annuler
+                                            </button>
+
+                                        </form>
+
+                                    <?php endif; ?>
+
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
                 </tbody>
+
             </table>
         </div>
     </section>
