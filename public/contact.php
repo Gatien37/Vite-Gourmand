@@ -1,3 +1,37 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+
+$message = '';
+$success = false;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $email = trim($_POST['email'] ?? '');
+    $sujet = trim($_POST['sujet'] ?? '');
+    $contenu = trim($_POST['message'] ?? '');
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $message = "Adresse e-mail invalide.";
+    } elseif (empty($sujet) || empty($contenu)) {
+        $message = "Veuillez remplir tous les champs.";
+    } else {
+
+        $to = "contact@viteetgourmand.fr";
+        $headers = "From: $email";
+        $body = "Message envoyé depuis le formulaire de contact :\n\n"
+              . "Email : $email\n"
+              . "Sujet : $sujet\n\n"
+              . $contenu;
+
+        mail($to, $sujet, $body, $headers);
+
+        $message = "Votre message a bien été envoyé. Nous vous répondrons rapidement.";
+        $success = true;
+    
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,22 +52,25 @@
 
     <section class="contact-container">
         <div class="contact-form form-card">
+
+            <?php if (!empty($message)): ?>
+                <p class="<?= $success ? 'alert-success' : 'error-message' ?>">
+                    <?= $message ?>
+                </p>
+            <?php endif; ?>
+
+
             <h2>Envoyer un message</h2>
             <form action="#" method="POST">
-                <label for="nom">Nom</label>
-                <input type="text" id="nom" name="nom" placeholder="Votre nom">
 
                 <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" placeholder="Votre adresse e-mail">
-
-                <label for="telephone">Téléphone</label>
-                <input type="text" id="telephone" name="telephone" placeholder="Votre numéro">
+                <input type="email" id="email" name="email" required placeholder="Votre adresse e-mail">
 
                 <label for="sujet">Sujet</label>
-                <input type="text" id="sujet" name="sujet" placeholder="Sujet de votre message">
+                <input type="text" id="sujet" name="sujet" required placeholder="Sujet de votre message">
 
                 <label for="message">Message</label>
-                <textarea id="message" name="message" rows="6" placeholder="Votre message"></textarea>
+                <textarea id="message" name="message" rows="6" required placeholder="Votre message"></textarea>
 
                 <button class="btn-commande" type="submit">Envoyer</button>
             </form>
