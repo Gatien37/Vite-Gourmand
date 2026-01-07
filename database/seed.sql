@@ -1,8 +1,10 @@
 -- Données de test pour la base de données ViteGourmand
 
-INSERT INTO utilisateur (nom, email, mot_de_passe, gsm, role)
+INSERT INTO utilisateur (prenom, nom, email, gsm, adresse, ville, code_postal, mot_de_passe, role)
 VALUES
-('Test User', 'test@vite-gourmand.fr', '$2y$10$HHkl.g5774FbX/WFpKe1GubDNl5aDDnVglXJASOiQTK8WCdeb6ewm', '0600000000', 'user');
+('Test','User', 'test@vite-gourmand.fr', '0600000000', '123 Rue Exemple', 'Paris', '75001', '$2y$10$HHkl.g5774FbX/WFpKe1GubDNl5aDDnVglXJASOiQTK8WCdeb6ewm', 'user');
+
+DELETE FROM utilisateur WHERE id = 3;
 
 
 INSERT INTO menu (nom, description, presentation, description_longue, theme, regime, nb_personnes_min, prix_base, stock, image)
@@ -418,6 +420,9 @@ VALUES
   500.00,
   'confirmee'
 );
+
+DELETE FROM commande WHERE utilisateur_id = 3;
+
 
 
 INSERT INTO avis (commande_id, note, commentaire, valide)

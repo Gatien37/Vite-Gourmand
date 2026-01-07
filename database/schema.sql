@@ -18,6 +18,10 @@ ADD ville VARCHAR(100) NOT NULL,
 ADD code_postal VARCHAR(10) NOT NULL;
 
 ALTER TABLE utilisateur
+ADD reset_token VARCHAR(255) AFTER mot_de_passe,
+ADD reset_expires DATETIME AFTER reset_token;
+
+ALTER TABLE utilisateur
 MODIFY prenom VARCHAR(50) NOT NULL AFTER id;
 
 ALTER TABLE utilisateur
