@@ -1,66 +1,62 @@
+<?php
+require_once __DIR__ . '/../middlewares/requireAdmin.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../services/employeService.php';
+
+$error = null;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $result = creerEmploye($pdo, $_POST);
+
+    if (!empty($result['error'])) {
+        $error = $result['error'];
+    } else {
+        header('Location: gestion-employes.php');
+        exit;
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php
-    $title = "Accueil";
-    require_once __DIR__ . '/../partials/head.php';
-    ?>
+    <?php require_once __DIR__ . '/../partials/head.php'; ?>
 </head>
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-    <section class="hero-section commandes-hero">
-        <h1>Créer / Modifier un employé</h1>
-        <p>Complétez les informations ci-dessous pour enregistrer un employé.</p>
-    </section>
+<section class="hero-section commandes-hero">
+    <h1>Créer un employé</h1>
+    <p>Création d'un compte employé.</p>
+</section>
 
-    <section class="employe-form-container">
-        <form class="employe-form form-card" action="#" method="POST">
-            <!-- INFOS PERSONNELLES -->
-            <h2>Informations personnelles</h2>
-            <label for="prenom">Prénom</label>
-            <input type="text" id="prenom" name="prenom" placeholder="Ex : Julie">
-            <label for="nom">Nom</label>
-            <input type="text" id="nom" name="nom" placeholder="Ex : Martin">
-            <label for="email">Adresse e-mail</label>
-            <input type="email" id="email" name="email" placeholder="email@exemple.com">
+<section class="employe-form-container">
+    <form method="POST" class="employe-form form-card">
 
-            <!-- MOT DE PASSE -->
-            <h2>Mot de passe</h2>
-            <p class="info">
-                (Laissez vide pour conserver l'ancien mot de passe lors d'une modification)
-            </p>
-            <label for="password">Nouveau mot de passe</label>
-            <input type="password" id="password" name="password" placeholder="Laisser vide si inchangé">
+        <?php if ($error): ?>
+            <p class="alert-error"><?= htmlspecialchars($error) ?></p>
+        <?php endif; ?>
 
-            <!-- RÔLE -->
-            <h2>Rôle</h2>
-            <label for="role">Sélectionnez le rôle</label>
-            <select id="role" name="role">
-                <option value="employe">Employé</option>
-                <option value="admin">Administrateur</option>
-            </select>
+        <label>Email *</label>
+        <input type="email" name="email" required>
 
-            <!-- STATUT -->
-            <h2>Statut du compte</h2>
-            <label for="statut">Statut</label>
-            <select id="statut" name="statut">
-                <option value="actif">Actif</option>
-                <option value="inactif">Inactif</option>
-            </select>
+        <label>Mot de passe *</label>
+        <input type="password" name="password" required>
 
-            <!-- BOUTONS -->
-            <button type="submit" class="btn-commande">Enregistrer l'employé</button>
+        <label>Confirmer le mot de passe *</label>
+        <input type="password" name="confirm_password" required>
 
-            <div class="auth-links">
-                <a href="gestion-employes.php">← Retour à la liste des employés</a>
-            </div>
-        </form>
-    </section>
+        <button class="btn-commande">Créer l'employé</button>
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+        <div class="auth-links">
+            <a href="gestion-employes.php">← Retour</a>
+        </div>
+    </form>
+</section>
+
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
+

@@ -42,3 +42,15 @@ function updateAdresseUtilisateur(PDO $pdo, int $id, array $data): void
         'id' => $id
     ]);
 }
+
+
+function getEmployes(PDO $pdo): array
+{
+    $sql = "
+        SELECT id, prenom, nom, email, actif
+        FROM utilisateur
+        WHERE role = 'employe'
+        ORDER BY nom
+    ";
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}

@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/../middlewares/requireEmploye.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

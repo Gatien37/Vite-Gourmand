@@ -49,6 +49,10 @@ MODIFY actif BOOLEAN DEFAULT TRUE AFTER role;
 
 ALTER TABLE utilisateur DROP COLUMN actif;
 
+ALTER TABLE utilisateur
+ADD actif BOOLEAN DEFAULT TRUE;
+
+
 
 CREATE TABLE menu (
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -151,3 +155,8 @@ CREATE TABLE horaire (
     ouverture TIME NOT NULL,
     fermeture TIME NOT NULL
 );
+
+ALTER TABLE horaire
+MODIFY ouverture TIME NULL,
+MODIFY fermeture TIME NULL;
+

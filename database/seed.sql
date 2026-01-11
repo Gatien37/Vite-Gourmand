@@ -432,11 +432,14 @@ VALUES
 
 INSERT INTO horaire (jour, ouverture, fermeture)
 VALUES
-('Lundi', '09:00:00', '18:00:00'),
-('Mardi', '09:00:00', '18:00:00'),
-('Mercredi', '09:00:00', '18:00:00'),
-('Jeudi', '09:00:00', '18:00:00'),
-('Vendredi', '09:00:00', '18:00:00');
+('lundi', NULL, NULL),
+('mardi', '10:00:00', '19:00:00'),
+('mercredi', '10:00:00', '19:00:00'),
+('jeudi', '10:00:00', '19:00:00'),
+('vendredi', '10:00:00', '19:00:00'),
+('samedi', '10:00:00', '19:00:00'),
+('dimanche', '10:00:00', '14:00:00');
+
 
 
 SELECT * FROM utilisateur;
@@ -460,3 +463,7 @@ JOIN menu m ON c.menu_id = m.id;
 TRUNCATE TABLE menu;
 SOURCE seed.sql;
 
+
+-- Compte Administrateur
+INSERT INTO utilisateur (prenom, nom, email, mot_de_passe, role, actif)
+VALUES ('Julie', 'José', 'admin@viteetgourmand.fr', '$2y$10$TpkIW0L.SGagNfaY65k9ne.SoDIHHd63y0tkN1h0cTxnptv5VFSia', 'admin', 1);

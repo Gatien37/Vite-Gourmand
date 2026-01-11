@@ -1,3 +1,26 @@
+<?php
+require_once __DIR__ . '/../middlewares/requireEmploye.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/horaireModel.php';
+
+$horaires = getHoraires($pdo);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    foreach ($horaires as $h) {
+        $jour = $h['jour'];
+
+        $ouverture = $_POST[$jour . '_ouverture'] ?: null;
+        $fermeture = $_POST[$jour . '_fermeture'] ?: null;
+
+        updateHoraire($pdo, $jour, $ouverture, $fermeture);
+    }
+
+    header('Location: gestion-horaires.php');
+    exit;
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -18,41 +41,30 @@
 
     <section class="horaires-form-container">
 
-        <form class="horaires-form" action="#" method="POST">
-            <h2>Horaires d'ouverture</h2>
-            <div class="jour">
-                <label for="lundi">Lundi</label>
-                <input type="text" id="lundi" name="lundi" placeholder="Ex : 9h - 18h">
-            </div>
-            <div class="jour">
-                <label for="mardi">Mardi</label>
-                <input type="text" id="mardi" name="mardi" placeholder="Ex : 9h - 18h">
-            </div>
-            <div class="jour">
-                <label for="mercredi">Mercredi</label>
-                <input type="text" id="mercredi" name="mercredi" placeholder="Ex : 9h - 18h">
-            </div>
-            <div class="jour">
-                <label for="jeudi">Jeudi</label>
-                <input type="text" id="jeudi" name="jeudi" placeholder="Ex : 9h - 18h">
-            </div>
-            <div class="jour">
-                <label for="vendredi">Vendredi</label>
-                <input type="text" id="vendredi" name="vendredi" placeholder="Ex : 9h - 18h">
-            </div>
-            <div class="jour">
-                <label for="samedi">Samedi</label>
-                <input type="text" id="samedi" name="samedi" placeholder="Ex : 10h - 14h">
-            </div>
-            <div class="jour">
-                <label for="dimanche">Dimanche</label>
-                <input type="text" id="dimanche" name="dimanche" placeholder="Ex : Fermé">
-            </div>
-            <button type="submit" class="btn-commande">Enregistrer les horaires</button>
-            <div class="auth-links">
-                <a href="espace-employe.php">← Retour au tableau de bord</a>
-            </div>
-        </form>
+        <form method="POST" class="horaires-form">
+    <h2>Horaires d'ouverture</h2>
+
+    <?php foreach ($horaires as $h): ?>
+        <div class="jour">
+            <label><?= ucfirst($h['jour']) ?></label>
+
+            <input type="time"
+                   name="<?= $h['jour'] ?>_ouverture"
+                   value="<?= $h['ouverture'] ?>">
+
+            <input type="time"
+                   name="<?= $h['jour'] ?>_fermeture"
+                   value="<?= $h['fermeture'] ?>">
+        </div>
+    <?php endforeach; ?>
+
+    <button type="submit" class="btn-commande">Enregistrer les horaires</button>
+
+    <div class="auth-links">
+        <a href="espace-employe.php">← Retour au tableau de bord</a>
+    </div>
+</form>
+
     </section>
 
     <!-- Footer -->

@@ -1816,6 +1816,10 @@ nav ul li a:hover {
     vertical-align: middle;
 }
 
+.employes-admin-table tbody {
+    text-align: center;
+}
+
 .employes-admin-table tr:nth-child(even) {
     background-color: #f8f8f8;
 }

@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Espace Administrateur";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

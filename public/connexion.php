@@ -16,8 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $user = getUtilisateurByEmail($pdo, $email);
 
-    if ($user && password_verify($password, $user['mot_de_passe'])) {
-
+    if (!$user) {
+        $error = "Email ou mot de passe incorrect.";
+    }
+    elseif (!$user['actif']) {
+        $error = "Ce compte est désactivé.";
+    }
+    elseif (!password_verify($password, $user['mot_de_passe'])) {
+        $error = "Email ou mot de passe incorrect.";
+    }
+    else {
         session_regenerate_id(true);
 
         $_SESSION['user'] = [
@@ -31,11 +39,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        header('Location: espace-utilisateur.php');
+        switch ($user['role']) {
+            case 'admin':
+                header('Location: espace-admin.php');
+                break;
+
+            case 'employe':
+                header('Location: espace-employe.php');
+                break;
+
+            default:
+                header('Location: espace-utilisateur.php');
+                break;
+        }
         exit;
 
-    } else {
-        $error = "Email ou mot de passe incorrect.";
     }
 }
 
@@ -47,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Connexion";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
