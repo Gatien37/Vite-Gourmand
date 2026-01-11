@@ -1,5 +1,8 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/horaireModel.php';
+
+$horaires = getHoraires($pdo);
 
 $message = '';
 $success = false;
@@ -83,11 +86,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <p><strong>Email :</strong><br>contact@viteetgourmand.fr</p>
 
-            <p><strong>Horaires :</strong><br>
-                Lundi - Vendredi : 9h-18h<br>
-                Samedi : 10h-14h<br>
-                Dimanche : Fermé
-            </p>
+            <p><strong>Horaires d'ouverture :</strong></p>
+                <?php foreach ($horaires as $h): ?>
+                    <p class="horaire-item">
+                        <strong><?= ucfirst($h['jour']) ?> :</strong>
+                        <?php if ($h['ouverture'] && $h['fermeture']): ?>
+                            <?= substr($h['ouverture'], 0, 5) ?> – <?= substr($h['fermeture'], 0, 5) ?>
+                        <?php else: ?>
+                            Fermé
+                        <?php endif; ?>
+                    </p>
+                <?php endforeach; ?>
         </div>
     </section>
 
