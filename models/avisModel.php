@@ -47,3 +47,37 @@ function getAvisValides(PDO $pdo, int $limit = 3): array
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+
+function getAllAvis(PDO $pdo): array
+{
+    $sql = "
+        SELECT 
+            a.id,
+            a.note,
+            a.commentaire,
+            a.valide,
+            c.id AS commande_id,
+            u.prenom,
+            u.nom
+        FROM avis a
+        JOIN commande c ON a.commande_id = c.id
+        JOIN utilisateur u ON c.utilisateur_id = u.id
+        ORDER BY a.id DESC
+    ";
+
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function setAvisValide(PDO $pdo, int $avisId, bool $valide): void
+{
+    $stmt = $pdo->prepare("
+        UPDATE avis
+        SET valide = :valide
+        WHERE id = :id
+    ");
+
+    $stmt->execute([
+        'valide' => $valide ? 1 : 0,
+        'id' => $avisId
+    ]);
+}

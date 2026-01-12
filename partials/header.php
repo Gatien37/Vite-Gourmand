@@ -28,8 +28,22 @@
     <a href="deconnexion.php" class="connect-button">
       Se déconnecter
     </a>
-    <a href="espace-utilisateur.php" class="signup-button">
-      Mon Profil
+    
+    <?php
+    $profilLink = 'espace-utilisateur.php';
+    $profilLabel = 'Mon profil';
+
+    if ($_SESSION['user']['role'] === 'employe') {
+        $profilLink = 'espace-employe.php';
+        $profilLabel = 'Gérer le site';
+    } elseif ($_SESSION['user']['role'] === 'admin') {
+        $profilLink = 'espace-admin.php';
+        $profilLabel = 'Gérer le site';
+    }
+    ?>
+
+    <a href="<?= $profilLink ?>" class="signup-button">
+      <?= $profilLabel ?>
     </a>
 
   <?php else: ?>

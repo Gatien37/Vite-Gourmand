@@ -1,5 +1,10 @@
 <?php
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/avisModel.php';
+
+$avisList = getAllAvis($pdo);
+
 ?>
 
 
@@ -36,47 +41,35 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
                 </tr>
             </thead>
             <tbody>
-                <!-- AVIS EXEMPLE 1 -->
+                <?php foreach ($avisList as $avis): ?>
                 <tr>
-                    <td>#AV-452</td>
-                    <td>Claire M.</td>
-                    <td>Menu Festif de Noël</td>
-                    <td>⭐⭐⭐⭐⭐</td>
-                    <td>“Menu délicieux, tout était parfait !”</td>
-                    <td>25/12/2024</td>
-                    <td><span class="status attente">En attente</span></td>
+                    <td>#<?= $avis['id'] ?></td>
+                    <td><?= htmlspecialchars($avis['prenom'] . ' ' . $avis['nom']) ?></td>
+                    <td>Commande #<?= $avis['commande_id'] ?></td>
+                    <td><?= str_repeat('⭐', (int)$avis['note']) ?></td>
+                    <td><?= htmlspecialchars($avis['commentaire']) ?></td>
                     <td>
-                        <a href="#" class="btn-commande">Valider</a>
-                        <a href="#" class="btn-secondary btn-delete">Refuser</a>
+                        <?php if ($avis['valide']): ?>
+                            <span class="status valide">Validé</span>
+                        <?php else: ?>
+                            <span class="status attente">En attente</span>
+                        <?php endif; ?>
+                    </td>
+                    <td>
+                        <?php if (!$avis['valide']): ?>
+                            <a href="toggle-avis.php?id=<?= $avis['id'] ?>&action=valider"
+                            class="btn-commande">Valider</a>
+                        <?php endif; ?>
+
+                        <?php if ($avis['valide']): ?>
+                            <a href="toggle-avis.php?id=<?= $avis['id'] ?>&action=refuser"
+                            class="btn-secondary btn-delete">Refuser</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
-                <!-- AVIS EXEMPLE 2 -->
-                <tr>
-                    <td>#AV-447</td>
-                    <td>Julien R.</td>
-                    <td>Menu Saveurs du Monde</td>
-                    <td>⭐⭐⭐⭐</td>
-                    <td>“Très bon mais un peu trop épicé.”</td>
-                    <td>12/12/2024</td>
-                    <td><span class="status valide">Validé</span></td>
-                    <td>
-                        <a href="#" class="btn-secondary btn-delete">Refuser</a>
-                    </td>
-                </tr>
-                <!-- AVIS EXEMPLE 3 -->
-                <tr>
-                    <td>#AV-430</td>
-                    <td>Sophie L.</td>
-                    <td>Menu Cocktail Premium</td>
-                    <td>⭐⭐⭐⭐⭐</td>
-                    <td>“Excellent, je recommande !”</td>
-                    <td>05/12/2024</td>
-                    <td><span class="status refuse">Refusé</span></td>
-                    <td>
-                        <a href="#" class="btn-commande">Valider</a>
-                    </td>
-                </tr>
+                <?php endforeach; ?>
             </tbody>
+
         </table>
     </section>
 
