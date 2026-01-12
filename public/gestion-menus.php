@@ -1,5 +1,10 @@
 <?php
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/menuModel.php';
+
+$menus = getAllMenus($pdo);
+
 ?>
 
 
@@ -30,7 +35,6 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
         <table class="menus-admin-table">
             <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Nom du menu</th>
                     <th>Prix / pers.</th>
                     <th>Thème</th>
@@ -39,43 +43,26 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
                 </tr>
             </thead>
             <tbody>
-                <!-- Exemple 1 -->
+                <?php foreach ($menus as $menu): ?>
                 <tr>
-                    <td>1</td>
-                    <td>Menu Festif de Noël</td>
-                    <td>24,90 €</td>
-                    <td>Noël</td>
-                    <td>Classique</td>
+                    <td><?= htmlspecialchars($menu['nom']) ?></td>
+                    <td><?= number_format($menu['prix_base'], 2, ',', ' ') ?> €</td>
+                    <td><?= htmlspecialchars($menu['theme']) ?></td>
+                    <td><?= htmlspecialchars($menu['regime']) ?></td>
                     <td>
-                        <a href="form-menu.php?id=1" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary btn-delete">Supprimer</a>
+                        <a href="form-menu.php?id=<?= $menu['id'] ?>" class="btn-commande">
+                            Modifier
+                        </a>
+                        <a href="delete-menu.php?id=<?= $menu['id'] ?>"
+                        class="btn-secondary btn-delete"
+                        onclick="return confirm('Supprimer ce menu ?');">
+                            Supprimer
+                        </a>
                     </td>
                 </tr>
-                <!-- Exemple 2 -->
-                <tr>
-                    <td>2</td>
-                    <td>Menu Vegan Savoureux</td>
-                    <td>19,90 €</td>
-                    <td>Vegan</td>
-                    <td>Végétalien</td>
-                    <td>
-                        <a href="form-menu.php?id=2" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary btn-delete">Supprimer</a>
-                    </td>
-                </tr>
-                <!-- Exemple 3 -->
-                <tr>
-                    <td>3</td>
-                    <td>Menu Saveurs du Monde</td>
-                    <td>22,50 €</td>
-                    <td>International</td>
-                    <td>Classique</td>
-                    <td>
-                        <a href="form-menu.php?id=3" class="btn-commande">Modifier</a>
-                        <a href="#" class="btn-secondary btn-delete">Supprimer</a>
-                    </td>
-                </tr>
+                <?php endforeach; ?>
             </tbody>
+
         </table>
     </section>
 

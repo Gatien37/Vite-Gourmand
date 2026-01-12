@@ -90,3 +90,65 @@ function getAllergenesByMenu(PDO $pdo, int $menuId): array
 
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
+
+
+function getAllMenus(PDO $pdo): array
+{
+    $sql = "
+        SELECT id, nom, theme, regime, prix_base
+        FROM menu
+        ORDER BY id DESC
+    ";
+
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function deleteMenu(PDO $pdo, int $menuId): void
+{
+    $stmt = $pdo->prepare("DELETE FROM menu WHERE id = ?");
+    $stmt->execute([$menuId]);
+}
+
+function saveMenu(PDO $pdo, array $data, ?int $menuId = null): void
+{
+    if ($menuId) {
+        $sql = "
+            UPDATE menu SET
+                nom = :nom,
+                description = :description,
+                description_longue = :description_longue,
+                theme = :theme,
+                regime = :regime,
+                nb_personnes_min = :nb_min,
+                prix_base = :prix,
+                stock = :stock
+            WHERE id = :id
+        ";
+    } else {
+        $sql = "
+            INSERT INTO menu
+            (nom, description, description_longue, theme, regime, nb_personnes_min, prix_base, stock)
+            VALUES
+            (:nom, :description, :description_longue, :theme, :regime, :nb_min, :prix, :stock)
+        ";
+    }
+
+    $stmt = $pdo->prepare($sql);
+
+    $params = [
+        'nom' => $data['nom'],
+        'description' => $data['description'],
+        'description_longue' => $data['description_longue'],
+        'theme' => $data['theme'],
+        'regime' => $data['regime'],
+        'nb_min' => (int)$data['nb_personnes_min'],
+        'prix' => (float)$data['prix_base'],
+        'stock' => (int)$data['stock'],
+    ];
+
+    if ($menuId) {
+        $params['id'] = $menuId;
+    }
+
+    $stmt->execute($params);
+}

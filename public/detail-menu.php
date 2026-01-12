@@ -87,7 +87,7 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
         <section class="description-menu">
 
             <h2>PRÉSENTATION DU MENU</h2>
-            <p><?= nl2br(htmlspecialchars($menu['presentation'])) ?></p>
+            <p><?= nl2br(htmlspecialchars($menu['description'])) ?></p>
 
             <h2>DESCRIPTION COMPLÈTE</h2>
             <p><?= nl2br(htmlspecialchars($menu['description_longue'])) ?></p>

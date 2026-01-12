@@ -1,8 +1,17 @@
 <div class="menu-item">
-            <img 
-                src="assets/images/<?= htmlspecialchars($menu['image']) ?>"
-                alt="Menu <?= htmlspecialchars($menu['nom']) ?>"
-            >
+            <?php if (!empty($menu['image'])): ?>
+                <img 
+                    src="assets/images/<?= htmlspecialchars($menu['image']) ?>"
+                    alt="Menu <?= htmlspecialchars($menu['nom']) ?>"
+                    loading="lazy"
+                >
+            <?php else: ?>
+                <img 
+                    src="assets/images/placeholder-menu.jpg"
+                    alt="Image non disponible"
+                    loading="lazy"
+                >
+            <?php endif; ?>
 
             <h2><?= htmlspecialchars($menu['nom']) ?></h2>
 

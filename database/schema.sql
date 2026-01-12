@@ -74,6 +74,10 @@ ALTER TABLE menu
 ADD presentation TEXT AFTER description,
 ADD description_longue TEXT AFTER presentation;
 
+ALTER TABLE menu
+DROP COLUMN presentation;
+
+
 CREATE TABLE plat (
     id INT PRIMARY KEY AUTO_INCREMENT,
     nom VARCHAR(100) NOT NULL,
@@ -84,6 +88,10 @@ CREATE TABLE plat (
 
 ALTER TABLE plat
 DROP COLUMN allergenes;
+
+ALTER TABLE plat
+ADD actif BOOLEAN DEFAULT TRUE;
+
 
 
 CREATE TABLE allergene (

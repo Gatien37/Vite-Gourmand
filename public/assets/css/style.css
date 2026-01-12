@@ -1298,7 +1298,7 @@ nav ul li a:hover {
 
 
 
-/* ================= PAGE DASHBOARD UTILISATEUR =============== */
+/* ================= PAGE ESPACE UTILISATEUR =============== */
 
 /* -------- Conteneur principal -------- */
 
@@ -1341,7 +1341,7 @@ nav ul li a:hover {
 }
 
 
-/* ================= PAGE DASHBOARD EMPLOYÉ =============== */
+/* ================= PAGE ESPACE EMPLOYÉ =============== */
 
 
 
@@ -1349,7 +1349,7 @@ nav ul li a:hover {
 
 .employe-dashboard-container {
     display: grid;
-    grid-template-columns: repeat(2, 300px);
+    grid-template-columns: repeat(3, 300px);
     justify-content: center;
     gap: 60px;
     max-width: 900px;
@@ -1600,6 +1600,154 @@ nav ul li a:hover {
     color: #A43F3B;
     text-decoration: none;
 }
+
+/* -------- Plats (checkbox) -------- */
+
+.plats-group {
+    margin-top: 15px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+}
+
+.plats-group legend {
+    font-weight: 600;
+    padding: 0 10px;
+    color: #2C3E50;
+}
+
+.checkbox-plat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.checkbox-plat input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+.alert-impact {
+    display: inline-block;
+    font-size: 13px;
+    color: #A43F3B;
+    font-weight: 600;
+}
+
+.impact-details summary {
+    cursor: pointer;
+    font-size: 14px;
+    color: #A43F3B;
+    margin-top: 5px;
+}
+
+.impact-details ul {
+    margin: 5px 0 0 15px;
+    font-size: 13px;
+}
+
+
+
+
+/* ================= PAGE FORM PLAT =============== */
+
+/* -------- Conteneur -------- */
+
+.form-container {
+    max-width: 600px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Carte formulaire -------- */
+
+.form-card {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 40px 35px;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* -------- Labels -------- */
+
+.form-card label {
+    font-weight: 600;
+    color: #2C3E50;
+    font-size: 15px;
+}
+
+/* -------- Inputs & Select -------- */
+
+.form-card input,
+.form-card select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-card input:focus,
+.form-card select:focus {
+    outline: none;
+    border-color: #A43F3B;
+    box-shadow: 0 0 0 2px rgba(164, 63, 59, 0.2);
+}
+
+/* -------- Bouton -------- */
+
+.form-card .btn-commande {
+    margin-top: 10px;
+    height: 45px;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -------- Liens -------- */
+
+.form-card .auth-links {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.form-card .auth-links a {
+    text-decoration: none;
+    font-size: 14px;
+    color: #A43F3B;
+}
+
+.form-card .auth-links a:hover {
+    text-decoration: underline;
+}
+
+/* -------- Allergènes (checkbox) -------- */
+
+.checkbox-allergene {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.checkbox-allergene input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    margin: 0;
+}
+
 
 
 
@@ -2010,6 +2158,86 @@ nav ul li a:hover {
     margin:auto;
     width: auto;
 }
+
+
+/* ================= PAGE GESTION DES PLATS =============== */
+
+
+/* -------- Conteneur -------- */
+
+.plats-admin-container {
+    max-width: 1100px;
+    margin: 0 auto 120px auto;
+    padding: 0 20px;
+}
+
+/* -------- Tableau -------- */
+
+.plats-admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
+}
+
+.plats-admin-table th {
+    background-color: #A43F3B;
+    color: white;
+    padding: 15px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.plats-admin-table td {
+    padding: 14px 15px;
+    font-size: 15px;
+    color: #2C3E50;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.plats-admin-table tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+/* -------- Colonne Actions -------- */
+
+.plats-admin-table td:last-child {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* -------- Boutons dans le tableau -------- */
+
+.plats-admin-table .btn-commande,
+.plats-admin-table .btn-secondary {
+    height: 40px;
+    font-size: 14px;
+    padding: 0 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    width: auto;
+    margin:auto
+}
+
+/* -------- Statuts -------- */
+
+.status.actif {
+    color: #2ecc71;
+    font-weight: 600;
+}
+
+.status.inactif {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
 
 
 /* ================= PAGE INSCRIPTION =============== */
