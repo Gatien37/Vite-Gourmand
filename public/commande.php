@@ -113,13 +113,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="time" id="heure" name="heure" required>
 
         <h2>Mode de réception *</h2>
-        <label>
+        
+        <label class="radio-option">
             <input type="radio" name="reception" value="retrait">
-            Retrait sur place (gratuit)
+            <span>Retrait sur place (gratuit)</span>
         </label>
-        <label>
+
+        <label class="radio-option">
             <input type="radio" name="reception" value="livraison">
-            Livraison (5 € + 0.59€/km en dehors de Bordeaux)
+            <span>Livraison (5 € + 0.59€/km en dehors de Bordeaux)</span>
         </label>
 
         <div class="livraison-adresse is-hidden">

@@ -964,6 +964,13 @@ nav ul li a:hover {
     font-weight: bold;
 }
 
+.retour-materiel {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #b45309;
+}
+
+
 
 .status.en-cours {
     background-color: #F7E9D7;
@@ -988,6 +995,7 @@ nav ul li a:hover {
     height: 40px;
     margin: 0;
     font-size: 14px;
+    margin-top: 10px;
 }
 
 /* ================= PAGE COMMANDE =============== */
@@ -1066,15 +1074,27 @@ nav ul li a:hover {
 
 /* -------- Radios Mode de réception -------- */
 
-.commande-form label input[type="radio"] {
-    margin-right: 8px;
+.commande-form label {
+    display: block;
 }
 
-.commande-form label {
+.radio-option {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    cursor: pointer;
 }
+
+.radio-option input[type="radio"] {
+    width: auto;
+    display: inline-block;
+}
+
+.radio-option span {
+    display: inline-block;
+}
+
+
 
 
 /* -------- Adresse Livraison -------- */
@@ -1890,6 +1910,13 @@ nav ul li a:hover {
     background-color: white;
     cursor: pointer;
     color: #2C3E50;
+}
+
+.statut-info {
+    font-size: 13px;
+    color: #555;
+    margin-top: 4px;
+    white-space: pre-line;
 }
 
 /* -------- Actions -------- */

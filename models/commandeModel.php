@@ -13,12 +13,14 @@ function getCommandeById(PDO $pdo, int $id): array|false
             c.nb_personnes,
             c.prix_total,
             c.statut,
+            u.email,
             m.nom AS menu_nom,
             m.prix_base,
             m.nb_personnes_min,
             m.stock
         FROM commande c
         JOIN menu m ON c.menu_id = m.id
+        JOIN utilisateur u ON c.utilisateur_id = u.id
         WHERE c.id = :id
     ";
 
@@ -27,6 +29,7 @@ function getCommandeById(PDO $pdo, int $id): array|false
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
 
 
 function getCommandeSuivi(PDO $pdo, int $commandeId): array
@@ -85,6 +88,8 @@ function getCommandesByUtilisateur(PDO $pdo, int $utilisateurId): array
             c.date_prestation,
             c.prix_total,
             c.statut,
+            c.pret_materiel,
+            c.date_limite_retour,
             m.nom AS menu_nom
         FROM commande c
         JOIN menu m ON c.menu_id = m.id
@@ -95,5 +100,31 @@ function getCommandesByUtilisateur(PDO $pdo, int $utilisateurId): array
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['utilisateur_id' => $utilisateurId]);
 
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+
+
+function getAllCommandesAvecDetails(PDO $pdo): array
+{
+    $sql = "
+        SELECT
+            c.id,
+            c.date_prestation,
+            c.prix_total,
+            c.statut,
+            c.pret_materiel,
+            c.date_limite_retour,
+            u.nom AS client_nom,
+            u.prenom AS client_prenom,
+            m.nom AS menu_nom
+        FROM commande c
+        JOIN utilisateur u ON c.utilisateur_id = u.id
+        JOIN menu m ON c.menu_id = m.id
+        ORDER BY c.date_prestation DESC
+    ";
+
+    $stmt = $pdo->query($sql);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }

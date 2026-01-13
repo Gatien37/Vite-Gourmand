@@ -124,6 +124,11 @@ CREATE TABLE commande (
     FOREIGN KEY (menu_id) REFERENCES menu(id)
 );
 
+ALTER TABLE commande
+ADD COLUMN pret_materiel TINYINT(1) NOT NULL DEFAULT 0,
+ADD COLUMN date_limite_retour DATE NULL;
+
+
 
 CREATE TABLE commande_suivi (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -172,3 +177,9 @@ ALTER TABLE horaire
 MODIFY ouverture TIME NULL,
 MODIFY fermeture TIME NULL;
 
+SELECT 
+    id,
+    pret_materiel,
+    date_limite_retour
+FROM commande
+WHERE id = 14;

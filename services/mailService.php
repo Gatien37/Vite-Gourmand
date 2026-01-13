@@ -39,3 +39,25 @@ function envoyerMailBienvenue(string $email, string $prenom): void
 
     @mail($email, $subject, $message);
 }
+
+
+
+
+
+function envoyerMailPretMateriel(string $emailClient, string $menuNom, string $dateLimite): void
+{
+    $sujet = 'Retour de matériel - Commande Vite & Gourmand';
+
+    $message =
+        "Bonjour,\n\n" .
+        "Lors de votre commande « {$menuNom} », du matériel a été mis à votre disposition.\n\n" .
+        "Merci de prendre contact avec notre équipe afin d'organiser la restitution de ce matériel.\n\n" .
+        "Date limite de restitution : {$dateLimite}\n\n" .
+        "Conformément à nos conditions générales de vente, en l'absence de restitution sous 10 jours ouvrés, " .
+        "des frais de 600 € pourront être appliqués.\n\n" .
+        "Cordialement,\n" .
+        "L'équipe Vite & Gourmand";
+
+    @mail($emailClient, $sujet, $message);
+}
+

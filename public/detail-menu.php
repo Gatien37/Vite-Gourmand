@@ -121,6 +121,10 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
                     <li>Modifications possibles pour certaines allergies (nous contacter avant la commande).</li>
                     <li>Annulation sans frais jusqu'à 24h avant la livraison.</li>
                     <li>Paiement sécurisé en ligne ou à la livraison.</li>
+                    <li>En cas de prêt de matériel, le client s'engage à le restituer après la prestation.
+                    À compter de la notification envoyée lors du passage de la commande au statut « en attente du retour de matériel », le client dispose d'un délai de 10 jours ouvrés pour restituer le matériel.
+                    Passé ce délai, des frais de 600 € pourront être appliqués conformément aux conditions générales de vente.
+                    La restitution du matériel s'effectue sur prise de contact préalable avec la société.</li>
                 </ul>
 
         </section>

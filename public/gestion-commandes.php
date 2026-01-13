@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/commandeModel.php';
+
+$commandes = getAllCommandesAvecDetails($pdo);
 ?>
+
 
 
 <!DOCTYPE html>
@@ -30,73 +35,42 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
                     <th>Menu</th>
                     <th>Date</th>
                     <th>Heure</th>
-                    <th>Mode</th>
                     <th>Statut</th>
                     <th>Total</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
-                <!-- COMMANDE EXEMPLE 1 -->
-                <tr>
-                    <td>#CMD-1023</td>
-                    <td>Claire M.</td>
-                    <td>Menu Festif de Noël</td>
-                    <td>24/12/2024</td>
-                    <td>19h30</td>
-                    <td>Livraison</td>
-                    <td>
-                        <select name="statut" class="select-statut">
-                            <option>En attente</option>
-                            <option selected>En cours</option>
-                            <option>Livrée</option>
-                            <option>Annulée</option>
-                        </select>
-                    </td>
-                    <td>199,20 €</td>
-                    <td><a href="commande-detail.php" class="btn-commande">Détails</a></td>
-                </tr>
-                <!-- COMMANDE EXEMPLE 2 -->
-                <tr>
-                    <td>#CMD-1001</td>
-                    <td>Julien R.</td>
-                    <td>Menu Saveurs du Monde</td>
-                    <td>10/12/2024</td>
-                    <td>12h00</td>
-                    <td>Retrait</td>
-                    <td>
-                        <select name="statut" class="select-statut">
-                            <option selected>En attente</option>
-                            <option>En cours</option>
-                            <option>Livrée</option>
-                            <option>Annulée</option>
-                        </select>
-                    </td>
+                <?php foreach ($commandes as $commande): ?>
+                    <tr>
+                        <td>#CMD-<?= htmlspecialchars($commande['id']) ?></td>
+                        <td><?= htmlspecialchars($commande['client_nom']) ?></td>
+                        <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
+                        <td><?= date('d/m/Y', strtotime($commande['date_prestation'])) ?></td>
+                        <td><?= date('H:i', strtotime($commande['date_prestation'])) ?></td>
 
-                    <td>149,40 €</td>
-                    <td><a href="commande-detail.php" class="btn-commande">Détails</a></td>
-                </tr>
-                <!-- COMMANDE EXEMPLE 3 -->
-                <tr>
-                    <td>#CMD-0987</td>
-                    <td>Sophie L.</td>
-                    <td>Menu Cocktail Premium</td>
-                    <td>02/11/2024</td>
-                    <td>18h00</td>
-                    <td>Livraison</td>
-
-                    <td>
-                        <select name="statut" class="select-statut">
-                            <option>En attente</option>
-                            <option>En cours</option>
-                            <option selected>Livrée</option>
-                            <option>Annulée</option>
+                        <td>
+                        <select class="select-statut" data-commande-id="<?= $commande['id'] ?>">
+                            <option value="en_attente" <?= $commande['statut'] === 'en_attente' ? 'selected' : '' ?>>En attente</option>
+                            <option value="acceptee" <?= $commande['statut'] === 'acceptee' ? 'selected' : '' ?>>Acceptée</option>
+                            <option value="en_preparation" <?= $commande['statut'] === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
+                            <option value="en_livraison" <?= $commande['statut'] === 'en_livraison' ? 'selected' : '' ?>>En cours de livraison</option>
+                            <option value="livree" <?= $commande['statut'] === 'livree' ? 'selected' : '' ?>>Livrée</option>
+                            <option value="attente_retour_materiel" <?= $commande['statut'] === 'attente_retour_materiel' ? 'selected' : '' ?>>En attente retour matériel</option>
+                            <option value="terminee" <?= $commande['statut'] === 'terminee' ? 'selected' : '' ?>>Terminée</option>
                         </select>
-                    </td>
-                    <td>179,90 €</td>
-                    <td><a href="commande-detail.php" class="btn-commande">Détails</a></td>
-                </tr>
+
+                        <p class="statut-info"></p>
+                        </td>
+
+                        <td><?= number_format($commande['prix_total'], 2, ',', ' ') ?> €</td>
+                        <td>
+                            <a href="commande-detail.php?id=<?= $commande['id'] ?>" class="btn-commande">Détails</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
             </tbody>
+
         </table>
     </section>
 

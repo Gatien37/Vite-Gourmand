@@ -51,7 +51,6 @@ $commandes = getCommandesByUtilisateur($pdo, $userId);
             <table class="orders-table">
                 <thead>
                     <tr>
-                        <th>Numéro</th>
                         <th>Menu</th>
                         <th>Date</th>
                         <th>Statut</th>
@@ -69,14 +68,21 @@ $commandes = getCommandesByUtilisateur($pdo, $userId);
                     <?php else: ?>
                         <?php foreach ($commandes as $commande): ?>
                             <tr>
-                                <td>#CMD-<?= (int)$commande['id'] ?></td>
                                 <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
                                 <td><?= date('d/m/Y', strtotime($commande['date_prestation'])) ?></td>
                                 <td>
                                     <span class="status <?= htmlspecialchars($commande['statut']) ?>">
                                         <?= ucfirst(str_replace('_', ' ', $commande['statut'])) ?>
                                     </span>
+
+                                    <?php if (!empty($commande['pret_materiel']) && !empty($commande['date_limite_retour'])): ?>
+                                        <div class="retour-materiel">
+                                            ⚠️ Matériel à restituer avant le
+                                            <?= date('d/m/Y', strtotime($commande['date_limite_retour'])) ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </td>
+
                                 <td><?= number_format((float)$commande['prix_total'], 2) ?> €</td>
                                 <td>
 

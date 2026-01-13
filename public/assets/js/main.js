@@ -216,7 +216,68 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* ================= GESTION STATUT COMMANDE (EMPLOYÉ) ================= */
+
+  document.querySelectorAll('.select-statut').forEach(select => {
+    select.addEventListener('change', () => {
+      const commandeId = select.dataset.commandeId;
+      const statut = select.value;
+
+      fetch('update-statut-commande.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ commande_id: commandeId, statut })
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            console.error('Erreur mise à jour statut', data);
+          }
+        })
+        .catch(err => console.error(err));
+    });
+  });
+
+
+
+  document.querySelectorAll('.select-statut').forEach(select => {
+  select.addEventListener('change', () => {
+    const commandeId = select.dataset.commandeId;
+    const statut = select.value;
+
+    fetch('update-statut-commande.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ commande_id: commandeId, statut })
+    });
+
+    const info = select.parentElement.querySelector('.statut-info');
+
+if (statut === 'attente_retour_materiel') {
+  const dateLimite = ajouterJoursOuvres(new Date(), 10);
+  const dateFormatee = dateLimite.toLocaleDateString('fr-FR');
+
+  info.textContent =
+    '⚠️ Le client sera notifié par email.\n' +
+    `Le matériel devra être restitué au plus tard le ${dateFormatee}.\n`;
+}
+  });
 });
 
 
+function ajouterJoursOuvres(date, jours) {
+  const result = new Date(date);
+  let ajoutes = 0;
 
+  while (ajoutes < jours) {
+    result.setDate(result.getDate() + 1);
+    const jour = result.getDay(); 
+    if (jour !== 0 && jour !== 6) {
+      ajoutes++;
+    }
+  }
+
+  return result;
+}
+
+});
