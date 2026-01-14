@@ -140,6 +140,18 @@ CREATE TABLE commande_suivi (
 );
 
 
+CREATE TABLE commande_actions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    commande_id INT NOT NULL,
+    employe_id INT NOT NULL,
+    action VARCHAR(20) NOT NULL,
+    contact_mode VARCHAR(10) NOT NULL,
+    motif TEXT NOT NULL,
+    created_at DATETIME NOT NULL
+);
+
+
+
 
 CREATE TABLE avis (
     id INT PRIMARY KEY AUTO_INCREMENT,

@@ -89,18 +89,25 @@ $commandes = getCommandesFiltrees($pdo, $statut, $client);
                         <td><?= date('H:i', strtotime($commande['date_prestation'])) ?></td>
 
                         <td>
-                        <select class="select-statut" data-commande-id="<?= $commande['id'] ?>">
-                            <option value="en_attente" <?= $commande['statut'] === 'en_attente' ? 'selected' : '' ?>>En attente</option>
-                            <option value="acceptee" <?= $commande['statut'] === 'acceptee' ? 'selected' : '' ?>>Acceptée</option>
-                            <option value="en_preparation" <?= $commande['statut'] === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
-                            <option value="en_livraison" <?= $commande['statut'] === 'en_livraison' ? 'selected' : '' ?>>En cours de livraison</option>
-                            <option value="livree" <?= $commande['statut'] === 'livree' ? 'selected' : '' ?>>Livrée</option>
-                            <option value="attente_retour_materiel" <?= $commande['statut'] === 'attente_retour_materiel' ? 'selected' : '' ?>>En attente retour matériel</option>
-                            <option value="terminee" <?= $commande['statut'] === 'terminee' ? 'selected' : '' ?>>Terminée</option>
-                        </select>
+                        <?php if ($commande['statut'] === 'annulee'): ?>
 
-                        <p class="statut-info"></p>
+                            <span class="status annulee">Annulée</span>
+
+                        <?php else: ?>
+
+                            <select class="select-statut" data-commande-id="<?= $commande['id'] ?>">
+                                <option value="en_attente" <?= $commande['statut'] === 'en_attente' ? 'selected' : '' ?>>En attente</option>
+                                <option value="acceptee" <?= $commande['statut'] === 'acceptee' ? 'selected' : '' ?>>Acceptée</option>
+                                <option value="en_preparation" <?= $commande['statut'] === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
+                                <option value="en_livraison" <?= $commande['statut'] === 'en_livraison' ? 'selected' : '' ?>>En cours de livraison</option>
+                                <option value="livree" <?= $commande['statut'] === 'livree' ? 'selected' : '' ?>>Livrée</option>
+                                <option value="attente_retour_materiel" <?= $commande['statut'] === 'attente_retour_materiel' ? 'selected' : '' ?>>En attente retour matériel</option>
+                                <option value="terminee" <?= $commande['statut'] === 'terminee' ? 'selected' : '' ?>>Terminée</option>
+                            </select>
+
+                        <?php endif; ?>
                         </td>
+
 
                         <td><?= number_format($commande['prix_total'], 2, ',', ' ') ?> €</td>
                         <td>

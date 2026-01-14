@@ -1989,6 +1989,43 @@ nav ul li a:hover {
 }
 
 
+.alert-annulation {
+    background-color: #fdecea;
+    color: #c62828;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.alert-annulation p {
+    margin-bottom: 10px;
+}
+
+.annulation-date {
+    font-size: 14px;
+    font-style: italic;
+}
+
+
+
+/* -------- Textarea Motif Annulation -------- */
+
+.form-card textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: #2C3E50;
+    background-color: #FFFFFF;
+    resize: vertical;
+    min-height: 120px;
+}
+
+
+
 /* ================= PAGE GESTION DES EMPLOYÉS (ADMIN) =============== */
 
 

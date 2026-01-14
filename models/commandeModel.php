@@ -172,3 +172,23 @@ function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+function getMotifAnnulation(PDO $pdo, int $commandeId): ?array
+{
+    $sql = "
+        SELECT motif, contact_mode, created_at
+        FROM commande_actions
+        WHERE commande_id = :commande_id
+          AND action = 'annuler'
+        ORDER BY created_at DESC
+        LIMIT 1
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'commande_id' => $commandeId
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
