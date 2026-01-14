@@ -37,7 +37,7 @@ if (!$commande) {
         <div class="confirmation-card">
             <h2>Récapitulatif</h2>
             <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
-            <p><strong>Nombre de personnes :</strong> <?= (int)$commande['nb_personnes'] ?></p>
+            <p><strong>Nombre de personnes :</strong> <?= (int)$commande['quantite'] ?></p>
             <p><strong>Date :</strong>
                 <?= date('d/m/Y', strtotime($commande['date_prestation'])) ?>
             </p>

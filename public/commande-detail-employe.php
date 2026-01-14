@@ -22,6 +22,9 @@ $motifAnnulation = null;
 if ($commande['statut'] === 'annulee') {
     $motifAnnulation = getMotifAnnulation($pdo, $commandeId);
 }
+
+$derniereModification = getDerniereModificationCommande($pdo, $commandeId);
+
 ?>
 
 <!DOCTYPE html>
@@ -39,17 +42,19 @@ if ($commande['statut'] === 'annulee') {
 <section class="hero-section commandes-hero">
     <h1>Commande #CMD-<?= (int)$commande['id'] ?></h1>
 
-    <?php if (isset($_GET['success'])): ?>
-        <div class="alert-success">
-            L'action a bien été enregistrée.
-        </div>
-    <?php endif; ?>
-
     <p>Détail complet de la commande client</p>
 </section>
 
 <section class="order-detail-container">
     <div class="order-card">
+
+        <?php if (isset($_GET['success'])): ?>
+            <div class="alert-success">
+                L'action a bien été enregistrée.
+            </div>
+        <?php endif; ?>
+
+
 
         <h3>Informations client</h3>
         <p><strong>Nom :</strong> <?= htmlspecialchars($commande['client_nom']) ?></p>
@@ -74,6 +79,27 @@ if ($commande['statut'] === 'annulee') {
         <span class="status-en-cours">
             <?= ucfirst(str_replace('_', ' ', htmlspecialchars($commande['statut']))) ?>
         </span>
+
+        <?php if ($derniereModification): ?>
+            <div class="alert-modification">
+                <p><strong>Commande modifiée</strong></p>
+
+                <p>
+                    <strong>Contact client :</strong>
+                    <?= $derniereModification['contact_mode'] === 'gsm' ? 'Appel GSM' : 'Email' ?>
+                </p>
+
+                <p>
+                    <strong>Motif :</strong><br>
+                    <?= nl2br(htmlspecialchars($derniereModification['motif'])) ?>
+                </p>
+
+                <p>
+                    Modifiée le <?= date('d/m/Y à H:i', strtotime($derniereModification['created_at'])) ?>
+                </p>
+            </div>
+        <?php endif; ?>
+
 
         <?php if ($commande['statut'] === 'annulee' && $motifAnnulation): ?>
             <div class="alert-annulation">

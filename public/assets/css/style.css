@@ -2007,6 +2007,7 @@ nav ul li a:hover {
     font-style: italic;
 }
 
+/* ================= PAGE COMMANDE DETAIL (EMPLOYE) =============== */
 
 
 /* -------- Textarea Motif Annulation -------- */
@@ -2018,10 +2019,40 @@ nav ul li a:hover {
     border: 1px solid #ccc;
     font-size: 15px;
     font-family: 'Inter', sans-serif;
-    color: #2C3E50;
     background-color: #FFFFFF;
     resize: vertical;
     min-height: 120px;
+}
+
+/* -------- Alert Modification Statut -------- */
+
+.alert-modification {
+    padding: 10px;
+    border-radius: 12px;
+    background-color: #F7E9D7;
+    opacity: 0.8;
+    font-style: italic;
+    color: #2C3E50;
+}
+
+.alert-modification p {
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+}
+
+
+
+/* ================= PAGE MODIFICATION COMMANDE (EMPLOYE) =============== */
+
+
+.menu-readonly {
+    padding: 12px 15px;
+    border-radius: 12px;
+    background-color: #F7E9D7;
+    color: #2C3E50;
+    font-size: 15px;
+    border: 1px solid #ddd;
 }
 
 

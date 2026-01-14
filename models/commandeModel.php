@@ -192,3 +192,23 @@ function getMotifAnnulation(PDO $pdo, int $commandeId): ?array
 
     return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 }
+
+
+function getDerniereModificationCommande(PDO $pdo, int $commandeId): ?array
+{
+    $sql = "
+        SELECT contact_mode, motif, created_at
+        FROM commande_actions
+        WHERE commande_id = :commande_id
+          AND action = 'modifier'
+        ORDER BY created_at DESC
+        LIMIT 1
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'commande_id' => $commandeId
+    ]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+}
