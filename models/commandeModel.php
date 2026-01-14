@@ -134,3 +134,41 @@ function getAllCommandesAvecDetails(PDO $pdo): array
     $stmt = $pdo->query($sql);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
+function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
+{
+    $sql = "
+        SELECT 
+            c.id,
+            c.date_prestation,
+            c.prix_total,
+            c.statut,
+            u.nom AS client_nom,
+            u.email AS client_email,
+            m.nom AS menu_nom
+        FROM commande c
+        JOIN utilisateur u ON c.utilisateur_id = u.id
+        JOIN menu m ON c.menu_id = m.id
+        WHERE 1 = 1
+    ";
+
+    $params = [];
+
+    if (!empty($statut)) {
+        $sql .= " AND c.statut = :statut";
+        $params['statut'] = $statut;
+    }
+
+    if (!empty($client)) {
+        $sql .= " AND (u.nom LIKE :client OR u.email LIKE :client)";
+        $params['client'] = '%' . $client . '%';
+    }
+
+    $sql .= " ORDER BY c.date_prestation DESC";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
