@@ -65,7 +65,7 @@ $commandes = getAllCommandesAvecDetails($pdo);
 
                         <td><?= number_format($commande['prix_total'], 2, ',', ' ') ?> €</td>
                         <td>
-                            <a href="commande-detail.php?id=<?= $commande['id'] ?>" class="btn-commande">Détails</a>
+                            <a href="commande-detail-employe.php?id=<?= $commande['id'] ?>" class="btn-commande">Détails</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

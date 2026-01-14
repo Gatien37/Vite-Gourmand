@@ -10,10 +10,14 @@ function getCommandeById(PDO $pdo, int $id): array|false
             c.date_prestation,
             c.adresse,
             c.ville,
-            c.nb_personnes,
+            c.nb_personnes AS quantite,
             c.prix_total,
             c.statut,
-            u.email,
+
+            u.nom AS client_nom,
+            u.email AS client_email,
+            u.gsm AS client_gsm,
+
             m.nom AS menu_nom,
             m.prix_base,
             m.nb_personnes_min,
@@ -29,6 +33,8 @@ function getCommandeById(PDO $pdo, int $id): array|false
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+
 
 
 
