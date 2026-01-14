@@ -85,39 +85,40 @@ $commandes = getCommandesByUtilisateur($pdo, $userId);
 
                                 <td><?= number_format((float)$commande['prix_total'], 2) ?> €</td>
                                 <td>
-
-                                    <a href="commande-detail.php?id=<?= (int)$commande['id'] ?>" class="btn-commande">
-                                        Détails
-                                    </a>
-
-                                    <?php if ($commande['statut'] === 'en_attente'): ?>
-
-                                        <a href="commande-modifier.php?id=<?= (int)$commande['id'] ?>"
-                                        class="btn-secondary">
-                                            Modifier
+                                    <div class="order-actions">
+                                        <a href="commande-detail.php?id=<?= (int)$commande['id'] ?>" class="btn-commande">
+                                            Détails
                                         </a>
 
-                                        <form method="POST"
-                                            action="commande-annuler.php"
-                                            style="display:inline;"
-                                            onsubmit="return confirm('Voulez-vous vraiment annuler cette commande ?');">
+                                        <?php if ($commande['statut'] === 'en_attente'): ?>
 
-                                            <input type="hidden" name="commande_id" value="<?= (int)$commande['id'] ?>">
+                                            <a href="commande-modifier.php?id=<?= (int)$commande['id'] ?>"
+                                            class="btn-secondary">
+                                                Modifier
+                                            </a>
 
-                                            <button type="submit" class="btn-secondary">
-                                                Annuler
-                                            </button>
+                                            <form method="POST"
+                                                action="commande-annuler.php"
+                                                onsubmit="return confirm('Voulez-vous vraiment annuler cette commande ?');">
 
-                                        </form>
+                                                <input type="hidden" name="commande_id" value="<?= (int)$commande['id'] ?>">
 
-                                    <?php endif; ?>
+                                                <button type="submit" class="btn-secondary">
+                                                    Annuler
+                                                </button>
 
-                                    <?php if ($commande['statut'] === 'terminee'): ?>
-                                        <a href="laisser-un-avis.php?commande_id=<?= (int)$commande['id'] ?>"
-                                        class="btn-commande">
-                                            Laisser un avis
-                                        </a>
-                                    <?php endif; ?>
+                                            </form>
+
+                                        <?php endif; ?>
+
+                                        <?php if ($commande['statut'] === 'terminee'): ?>
+                                            <a href="laisser-un-avis.php?commande_id=<?= (int)$commande['id'] ?>"
+                                            class="btn-commande">
+                                                Laisser un avis
+                                            </a>
+                                        <?php endif; ?>
+
+                                    </div>
 
 
                                 </td>

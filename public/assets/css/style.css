@@ -998,6 +998,24 @@ nav ul li a:hover {
     margin-top: 10px;
 }
 
+.order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-actions form {
+    margin: 0;
+}
+
+.order-actions .btn-commande,
+.order-actions .btn-secondary {
+    margin: 0;
+}
+
+
 /* ================= PAGE COMMANDE =============== */
 
 /* -------- Conteneur principal -------- */

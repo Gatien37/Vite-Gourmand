@@ -107,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <input type="number" id="nb_personnes" name="nb_personnes" min="<?= (int)$menu['nb_personnes_min'] ?>" data-min="<?= (int)$menu['nb_personnes_min'] ?>" required>
 
         <label for="date">Date *</label>
-        <input type="date" id="date" name="date" required>
+        <input type="date" id="date" name="date" min="<?= date('Y-m-d', strtotime('+2 days')) ?>" required>
 
         <label for="heure">Heure *</label>
         <input type="time" id="heure" name="heure" required>

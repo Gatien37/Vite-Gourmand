@@ -165,7 +165,7 @@ function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
         $params['client'] = '%' . $client . '%';
     }
 
-    $sql .= " ORDER BY c.date_prestation DESC";
+    $sql .= " ORDER BY c.date_prestation ASC";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
