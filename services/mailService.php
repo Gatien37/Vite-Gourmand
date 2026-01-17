@@ -28,20 +28,17 @@ function envoyerMailBienvenue(string $email, string $prenom): void
     $subject = "Bienvenue chez Vite & Gourmand 🎉";
 
     $message = "
-        Bonjour $prenom,
+Bonjour $prenom,
 
-        Bienvenue chez Vite & Gourmand !
-        Votre compte a bien été créé. Vous pouvez maintenant vous connecter et passer commande.
+Bienvenue chez Vite & Gourmand !
+Votre compte a bien été créé. Vous pouvez maintenant vous connecter et passer commande.
 
-        À très vite,
-        L'équipe Vite & Gourmand
-    ";
+À très vite,
+L'équipe Vite & Gourmand
+";
 
     @mail($email, $subject, $message);
 }
-
-
-
 
 
 function envoyerMailPretMateriel(string $emailClient, string $menuNom, string $dateLimite): void
@@ -61,3 +58,19 @@ function envoyerMailPretMateriel(string $emailClient, string $menuNom, string $d
     @mail($emailClient, $sujet, $message);
 }
 
+
+
+function envoyerMailCreationEmploye(string $email): void
+{
+    $sujet = "Création de votre compte employé - Vite & Gourmand";
+
+    $message =
+        "Bonjour,\n\n" .
+        "Un compte employé a été créé pour vous sur le site Vite & Gourmand.\n\n" .
+        "Pour des raisons de sécurité, le mot de passe n'est pas communiqué par email.\n" .
+        "Merci de vous rapprocher de l'administrateur afin de l'obtenir.\n\n" .
+        "Cordialement,\n" .
+        "L'équipe Vite & Gourmand";
+
+    @mail($email, $sujet, $message);
+}

@@ -1,3 +1,7 @@
+<?php
+require_once __DIR__ . '/../middlewares/requireAdmin.php';
+?>
+
 
 <!DOCTYPE html>
 <html lang="fr">

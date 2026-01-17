@@ -7,6 +7,7 @@ function creerEmploye(PDO $pdo, array $data): array
     $password = $data['password'] ?? '';
     $confirm = $data['confirm_password'] ?? '';
 
+    // Vérifications basiques
     if (!$email || !$password || !$confirm) {
         return ['error' => 'Tous les champs sont obligatoires.'];
     }
@@ -22,14 +23,18 @@ function creerEmploye(PDO $pdo, array $data): array
         return ['error' => 'Email déjà utilisé.'];
     }
 
+    // Hash mot de passe
     $hash = password_hash($password, PASSWORD_DEFAULT);
 
+    // Insertion employé
     $stmt = $pdo->prepare("
         INSERT INTO utilisateur (email, mot_de_passe, role, actif)
         VALUES (?, ?, 'employe', 1)
     ");
     $stmt->execute([$email, $hash]);
 
-    return ['success' => true];
+    // Envoi email d'information (sans mot de passe)
+    envoyerMailCreationEmploye($email);
 
+    return ['success' => true];
 }
