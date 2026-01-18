@@ -25,13 +25,13 @@ require_once __DIR__ . '/../middlewares/requireAdmin.php';
         <!-- GESTION EMPLOYÉS -->
         <div class="dashboard-card">
             <h3>👥 Gestion des employés</h3>
-            <p>Ajoutez, modifiez ou supprimez des comptes employés.</p>
+            <p>Ajoutez ou supprimez des comptes employés.</p>
             <a href="gestion-employes.php" class="btn-commande">Gérer les employés</a>
         </div>
         <!-- STATISTIQUES -->
         <div class="dashboard-card">
             <h3>📊 Statistiques</h3>
-            <p>Visualisez les performances : ventes, menus populaires, avis…</p>
+            <p>Visualisez les statistiques : ventes par menus et graphique</p>
             <a href="statistiques.php" class="btn-commande">Voir les statistiques</a>
         </div>
         <!-- CHIFFRE D'AFFAIRES -->

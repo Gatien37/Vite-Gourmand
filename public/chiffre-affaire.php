@@ -70,7 +70,7 @@ $ticketMoyen = $totalCommandes > 0
 
 <!-- ===== ACTION ADMIN : SYNCHRONISATION ===== -->
 <section class="ca-actions" style="text-align:center; margin-bottom:40px;">
-    <a href="../sync/sync_menu_stats.php"
+    <a href="../sync/sync_menu_stats.php?redirect=chiffre-affaire"
     class="btn-commande"
     onclick="return confirm('Mettre à jour les statistiques ?');">
     Mettre à jour les statistiques

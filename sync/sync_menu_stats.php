@@ -5,6 +5,14 @@ require_once __DIR__ . '/../config/mongo.php';
 
 use MongoDB\BSON\UTCDateTime;
 
+/* ========= Sécurisation de la redirection ========= */
+$allowedPages = ['statistiques', 'chiffre-affaire'];
+$redirect = $_GET['redirect'] ?? 'statistiques';
+
+if (!in_array($redirect, $allowedPages, true)) {
+    $redirect = 'statistiques';
+}
+
 /* ========= Nettoyage MongoDB ========= */
 $menuStatsCollection->deleteMany([]);
 
@@ -37,7 +45,6 @@ foreach ($rows as $row) {
     ]);
 }
 
-/* ========= Redirection ========= */
-header('Location: ../public/chiffre-affaire.php?sync=success');
+/* ========= Redirection dynamique ========= */
+header("Location: ../public/{$redirect}.php?sync=success");
 exit;
-
