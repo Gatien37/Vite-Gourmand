@@ -468,6 +468,16 @@ JOIN menu m ON c.menu_id = m.id;
 TRUNCATE TABLE menu;
 SOURCE seed.sql;
 
+SELECT
+    id,
+    menu_id,
+    date_prestation,
+    prix_total,
+    statut
+FROM commande;
+
+
+
 
 -- Compte Administrateur
 INSERT INTO utilisateur (prenom, nom, email, mot_de_passe, role, actif)

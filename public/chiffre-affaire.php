@@ -1,105 +1,156 @@
+<?php
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/mongo.php';
+
+/* ===========  MENUS (SQL) =========== */
+$stmt = $pdo->query("SELECT id, nom FROM menu ORDER BY nom ASC");
+$menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+/* ===========  FILTRES MONGODB =========== */
+$filter = [];
+
+if (!empty($_GET['menu_id'])) {
+    $filter['menu_id'] = (int) $_GET['menu_id'];
+}
+
+if (!empty($_GET['date_debut']) && !empty($_GET['date_fin'])) {
+    $filter['jour'] = [
+        '$gte' => $_GET['date_debut'],
+        '$lte' => $_GET['date_fin']
+    ];
+}
+
+/* ===========  DONNÉES CA (NoSQL) =========== */
+$cursor = $menuStatsCollection->find($filter);
+$stats = iterator_to_array($cursor);
+
+/* ===========  CALCULS =========== */
+$totalCA = 0;
+$totalCommandes = 0;
+$statsParMenu = [];
+
+foreach ($stats as $stat) {
+
+    $stat = $stat->getArrayCopy();
+
+    $chiffreAffaires = $stat['chiffre_affaires'] ?? 0;
+    $nbCommandes     = $stat['nb_commandes'] ?? 0;
+    $menuNom         = $stat['menu_nom'] ?? 'Menu inconnu';
+
+    $totalCA += $chiffreAffaires;
+    $totalCommandes += $nbCommandes;
+
+    $statsParMenu[] = [
+        'menu_nom' => $menuNom,
+        'nb_commandes' => $nbCommandes,
+        'chiffre_affaires' => $chiffreAffaires
+    ];
+}
+
+$ticketMoyen = $totalCommandes > 0
+    ? round($totalCA / $totalCommandes, 2)
+    : 0;
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Chiffre d'affaires";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-    <section class="hero-section commandes-hero">
-        <h1>Chiffre d'affaires</h1>
-        <p>Analysez les revenus par période et par menu.</p>
-    </section>
+<section class="hero-section commandes-hero">
+    <h1>Chiffre d'affaires</h1>
+    <p>Analysez les revenus par période et par menu.</p>
+</section>
 
-    <section class="ca-filtres">
-        <form class="ca-filter-form" method="GET">
-            <div class="date-field">
-                <label for="date-debut">Date de début</label>
-                <input type="date" id="date-debut" name="date_debut">
-            </div>
-            <div class="date-field">
-                <label for="date-fin">Date de fin</label>
-                <input type="date" id="date-fin" name="date_fin">
-            </div>
-            <button type="submit" class="btn-commande">Filtrer</button>
-        </form>
-    </section>
+<!-- ===== ACTION ADMIN : SYNCHRONISATION ===== -->
+<section class="ca-actions" style="text-align:center; margin-bottom:40px;">
+    <a href="../sync/sync_menu_stats.php"
+    class="btn-commande"
+    onclick="return confirm('Mettre à jour les statistiques ?');">
+    Mettre à jour les statistiques
+    </a>
+</section>
 
-    <section class="ca-summary">
-        <div class="ca-card">
-            <h3>Total CA</h3>
-            <p class="ca-value">12 480 €</p>
+<section class="ca-filtres">
+    <form class="ca-filter-form" method="GET">
+
+        <div class="menu-field">
+            <label for="menu_id">Menu</label>
+            <select name="menu_id" id="menu_id">
+                <option value="">Tous les menus</option>
+                <?php foreach ($menus as $menu): ?>
+                    <option value="<?= (int) $menu['id'] ?>"
+                        <?= (!empty($_GET['menu_id']) && $_GET['menu_id'] == $menu['id']) ? 'selected' : '' ?>>
+                        <?= htmlspecialchars($menu['nom']) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
         </div>
-        <div class="ca-card">
-            <h3>Commandes sur la période</h3>
-            <p class="ca-value">62</p>
-        </div>
-        <div class="ca-card">
-            <h3>Ticket moyen</h3>
-            <p class="ca-value">201 €</p>
-        </div>
-    </section>
 
-    <section class="ca-table-section">
-        <h2>Détail des ventes</h2>
-        <div class="table-wrapper">
-            <table class="ca-table">
-                <thead>
+        <div class="date-field">
+            <label for="date_debut">Date de début</label>
+            <input type="date" name="date_debut" value="<?= $_GET['date_debut'] ?? '' ?>">
+        </div>
+
+        <div class="date-field">
+            <label for="date_fin">Date de fin</label>
+            <input type="date" name="date_fin" value="<?= $_GET['date_fin'] ?? '' ?>">
+        </div>
+
+        <button type="submit" class="btn-commande">Filtrer</button>
+    </form>
+</section>
+
+<section class="ca-summary">
+    <div class="ca-card">
+        <h3>Total CA</h3>
+        <p class="ca-value"><?= number_format($totalCA, 2, ',', ' ') ?> €</p>
+    </div>
+
+    <div class="ca-card">
+        <h3>Commandes sur la période</h3>
+        <p class="ca-value"><?= $totalCommandes ?></p>
+    </div>
+</section>
+
+<section class="ca-table-section">
+    <h2>Détail des ventes par menu</h2>
+
+    <div class="table-wrapper">
+        <table class="ca-table">
+            <thead>
+                <tr>
+                    <th>Menu</th>
+                    <th>Nombre de commandes</th>
+                    <th>Chiffre d'affaires (€)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php if (empty($statsParMenu)): ?>
                     <tr>
-                        <th>ID Commande</th>
-                        <th>Date</th>
-                        <th>Client</th>
-                        <th>Menu</th>
-                        <th>Quantité</th>
-                        <th>Total (€)</th>
+                        <td colspan="3">Aucune donnée pour la période sélectionnée</td>
                     </tr>
-                </thead>
-                <tbody>
-                    <!-- EXEMPLE 1 -->
-                    <tr>
-                        <td>#CMD-1203</td>
-                        <td>12/01/2025</td>
-                        <td>Claire M.</td>
-                        <td>Menu Festif de Noël</td>
-                        <td>6</td>
-                        <td>149,40 €</td>
-                    </tr>
-                    <!-- EXEMPLE 2 -->
-                    <tr>
-                        <td>#CMD-1194</td>
-                        <td>10/01/2025</td>
-                        <td>Julien R.</td>
-                        <td>Menu Saveurs du Monde</td>
-                        <td>4</td>
-                        <td>89,60 €</td>
-                    </tr>
-                    <!-- EXEMPLE 3 -->
-                    <tr>
-                        <td>#CMD-1187</td>
-                        <td>09/01/2025</td>
-                        <td>Sophie L.</td>
-                        <td>Menu Cocktail Premium</td>
-                        <td>10</td>
-                        <td>179,90 €</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
+                <?php else: ?>
+                    <?php foreach ($statsParMenu as $row): ?>
+                        <tr>
+                            <td><?= htmlspecialchars($row['menu_nom']) ?></td>
+                            <td><?= (int) $row['nb_commandes'] ?></td>
+                            <td><?= number_format($row['chiffre_affaires'], 2, ',', ' ') ?> €</td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</section>
 
-    <section class="ca-graph">
-        <div class="graph-card">
-            <h2>Évolution du chiffre d'affaires</h2>
-            <canvas id="graphCA"></canvas>
-        </div>
-    </section>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>
