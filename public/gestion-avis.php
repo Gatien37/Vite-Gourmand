@@ -35,7 +35,6 @@ $avisList = getAllAvis($pdo);
                     <th>Menu</th>
                     <th>Note</th>
                     <th>Commentaire</th>
-                    <th>Date</th>
                     <th>Statut</th>
                     <th>Action</th>
                 </tr>
