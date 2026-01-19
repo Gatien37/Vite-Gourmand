@@ -55,7 +55,7 @@ $date = new DateTime($commande['date_prestation']);
             <h3>Informations du menu</h3>
 
             <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
-            <p><strong>Quantité :</strong> <?= (int)$commande['nb_personnes'] ?> personnes</p>
+            <p><strong>Quantité :</strong> <?= (int)$commande['quantite'] ?> personnes</p>
             <p><strong>Total :</strong> <?= number_format((float)$commande['prix_total'], 2) ?> €</p>
 
             <h3>Date & Heure</h3>

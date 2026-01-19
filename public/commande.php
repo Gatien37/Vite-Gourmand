@@ -32,26 +32,31 @@ $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $resultat = traiterCommande(
-        $pdo,
-        $menu,
-        $_POST,
-        $_SESSION['user']
-    );
-
-    if ($resultat['error']) {
-        $error = $resultat['error'];
+    // Vérification acceptation CGV (OBLIGATOIRE)
+    if (empty($_POST['accept_cgv'])) {
+        $error = "Vous devez accepter les Conditions Générales de Vente pour valider la commande.";
     } else {
-        envoyerMailConfirmation(
-            $_SESSION['user']['email'],
-            $resultat['recap']
+
+        $resultat = traiterCommande(
+            $pdo,
+            $menu,
+            $_POST,
+            $_SESSION['user']
         );
 
-        header('Location: confirmation.php?id=' . $resultat['commande_id']);
-        exit;
+        if (!empty($resultat['error'])) {
+            $error = $resultat['error'];
+        } else {
+            envoyerMailConfirmation(
+                $_SESSION['user']['email'],
+                $resultat['recap']
+            );
+
+            header('Location: confirmation.php?id=' . $resultat['commande_id']);
+            exit;
+        }
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -104,24 +109,42 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2>Informations de commande</h2>
 
         <label for="nb_personnes">Nombre de personnes *</label>
-        <input type="number" id="nb_personnes" name="nb_personnes" min="<?= (int)$menu['nb_personnes_min'] ?>" data-min="<?= (int)$menu['nb_personnes_min'] ?>" required>
+        <input
+            type="number"
+            id="nb_personnes"
+            name="nb_personnes"
+            min="<?= (int)$menu['nb_personnes_min'] ?>"
+            data-min="<?= (int)$menu['nb_personnes_min'] ?>"
+            required
+        >
 
         <label for="date">Date *</label>
-        <input type="date" id="date" name="date" min="<?= date('Y-m-d', strtotime('+2 days')) ?>" required>
+        <input
+            type="date"
+            id="date"
+            name="date"
+            min="<?= date('Y-m-d', strtotime('+2 days')) ?>"
+            required
+        >
 
         <label for="heure">Heure *</label>
-        <input type="time" id="heure" name="heure" required>
+        <input
+            type="time"
+            id="heure"
+            name="heure"
+            required
+        >
 
         <h2>Mode de réception *</h2>
-        
+
         <label class="radio-option">
-            <input type="radio" name="reception" value="retrait">
+            <input type="radio" name="reception" value="retrait" required>
             <span>Retrait sur place (gratuit)</span>
         </label>
 
         <label class="radio-option">
             <input type="radio" name="reception" value="livraison">
-            <span>Livraison (5 € + 0.59€/km en dehors de Bordeaux)</span>
+            <span>Livraison (5 € + 0,59 €/km en dehors de Bordeaux)</span>
         </label>
 
         <div class="livraison-adresse is-hidden">
@@ -129,14 +152,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" id="adresse" name="adresse">
 
             <label for="code_postal">Code postal *</label>
-            <input type="text" id="code_postal" name="code_postal" required>
+            <input type="text" id="code_postal" name="code_postal">
 
             <label for="ville">Ville *</label>
             <input type="text" id="ville" name="ville">
-
         </div>
 
-          <!-- ===== RÉCAP PRIX ===== -->
+        <!-- ===== RÉCAP PRIX ===== -->
         <div class="price-summary">
             <h3>Détail du prix</h3>
 
@@ -150,9 +172,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <strong>Total : <span id="prix-total">0 €</span></strong>
             </p>
         </div>
-        
 
-        <button type="submit" class="btn-commande">Valider la commande</button>
+        <!-- ===== ACCEPTATION CGV (OBLIGATOIRE) ===== -->
+        <div class="cgv-validation">
+            <label>
+                <input type="checkbox" name="accept_cgv" required>
+                J’ai lu et j’accepte les
+                <a href="cgv.php" target="_blank" rel="noopener">
+                    Conditions Générales de Vente
+                </a>
+            </label>
+        </div>
+
+        <button type="submit" class="btn-commande">
+            Valider la commande
+        </button>
+
+        <p class="legal-hint">
+            Les informations recueillies sont nécessaires au traitement de votre commande.
+        </p>
+
     </form>
 
 </section>

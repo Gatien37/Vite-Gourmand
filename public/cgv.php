@@ -8,8 +8,7 @@
 </head>
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <section class="hero-section commandes-hero">
     <h1>Conditions Générales de Vente</h1>
@@ -18,81 +17,145 @@
 
 <section class="cgv-container">
 
-    <h2>1. Objet</h2>
+    <h2>1. Identification du vendeur</h2>
     <p>
-        Les présentes Conditions Générales de Vente (CGV) régissent les ventes de menus et prestations
-        de traiteur proposées par Vite & Gourmand sur son site internet.
+        Le site <strong>Vite & Gourmand</strong> est édité par :
+    </p>
+    <p>
+        Nom commercial : <strong>Vite & Gourmand</strong><br>
+        Raison sociale : <strong>Vite & Gourmand SARL</strong><br>
+        Forme juridique : <strong>Société à Responsabilité Limitée (SARL)</strong><br>
+        Capital social : <strong>10 000 €</strong><br>
+        Adresse du siège social : <strong>12 rue des Gourmets, 33000 Bordeaux, France</strong><br>
+        Numéro SIRET : <strong>912 345 678 00019</strong><br>
+        RCS : <strong>Bordeaux 912 345 678</strong><br>
+        Email : <strong>contact@viteetgourmand.fr</strong><br>
+        Téléphone : <strong>05 56 00 00 00</strong>
     </p>
 
-    <h2>2. Commande</h2>
+    <h2>2. Objet</h2>
     <p>
-        Toute commande effectuée sur le site vaut acceptation pleine et entière des présentes CGV.
-        La commande est confirmée lorsque le client reçoit un e-mail de validation.
+        Les présentes Conditions Générales de Vente (CGV) définissent les droits et obligations des parties
+        dans le cadre de la vente de menus et prestations de traiteur proposées par Vite & Gourmand
+        via son site internet.
     </p>
 
-    <h2>3. Tarifs</h2>
+    <h2>3. Champ d'application</h2>
     <p>
-        Les prix affichés sur le site sont exprimés en euros TTC. Vite & Gourmand se réserve le droit
-        de modifier ses tarifs à tout moment, mais les menus sont facturés au prix en vigueur lors de la commande.
+        Les présentes CGV s'appliquent à toute commande passée sur le site.
+        Toute commande implique l'acceptation pleine et entière des CGV en vigueur au jour de la commande.
     </p>
 
-    <h2>4. Minimum de commande</h2>
+    <h2>4. Commande</h2>
     <p>
-        Certains menus exigent une quantité minimale de personnes. Cette information est indiquée sur la fiche
-        du menu concerné.
+        Les commandes sont effectuées exclusivement en ligne.  
+        La validation de la commande vaut acceptation des présentes CGV.
+        Un e-mail de confirmation est envoyé au client après validation.
     </p>
 
-    <h2>5. Paiement</h2>
+    <h2>5. Tarifs</h2>
     <p>
-        Le paiement peut être réalisé en ligne par carte bancaire ou lors de la livraison. Les paiements en ligne sont
-        sécurisés.
+        Les prix sont indiqués en euros (€), toutes taxes comprises (TTC).
+        Les tarifs appliqués sont ceux en vigueur au moment de la commande.
     </p>
 
-    <h2>6. Livraison</h2>
+    <h2>6. Paiement</h2>
     <p>
-        La livraison est disponible sur Bordeaux et ses environs. Des frais supplémentaires peuvent s'appliquer :
-        5 € de frais fixes + 0,59 €/km pour les livraisons hors Bordeaux.  
-        Les horaires de livraison sont indiqués lors de la commande.
+        Le paiement peut être effectué par carte bancaire en ligne ou selon les modalités indiquées
+        lors de la commande.  
+        Les paiements en ligne sont sécurisés.
     </p>
 
-    <h2>7. Annulation</h2>
+    <h2>7. Minimum de commande</h2>
     <p>
-        L'annulation est possible jusqu'à 24h avant la date de livraison prévue. Passé ce délai, aucun remboursement
-        ne pourra être effectué, sauf cas exceptionnel.
+        Certains menus nécessitent un nombre minimum de personnes.
+        Cette information est précisée sur la fiche de chaque menu.
     </p>
 
-    <h2>8. Allergènes</h2>
+    <h2>8. Livraison et prestation</h2>
     <p>
-        Les informations concernant les allergènes sont disponibles sur chaque fiche menu. Le client doit informer
-        Vite & Gourmand de toute allergie grave avant validation de la commande.
+        La livraison est assurée sur Bordeaux et ses environs.  
+        Frais de livraison :
+    </p>
+    <ul>
+        <li>Bordeaux : gratuit</li>
+        <li>Hors Bordeaux : 5 € + 0,59 €/km</li>
+    </ul>
+    <p>
+        Les prestations sont réalisées à la date et à l'adresse indiquées lors de la commande.
     </p>
 
-    <h2>9. Réclamations</h2>
+    <h2>9. Droit de rétractation</h2>
     <p>
-        Toute réclamation doit être adressée à contact@viteetgourmand.fr dans un délai de 48h après la livraison.
+        Conformément à l'article L221-28 du Code de la consommation,
+        le droit de rétractation ne s'applique pas aux prestations de services fournies à une date déterminée.
+    </p>
+    <p>
+        Les prestations de traiteur proposées par Vite & Gourmand étant liées à une date choisie par le client,
+        aucun droit de rétractation ne peut être exercé après validation de la commande.
     </p>
 
-    <h2>10. Protection des données</h2>
+    <h2>10. Annulation et remboursement</h2>
     <p>
-        Les données personnelles collectées lors des commandes sont utilisées exclusivement pour la gestion du service.
-        Le client peut demander la suppression de ses données à tout moment, conformément au RGPD.
+        Toute annulation est possible jusqu'à 24 heures avant la date de prestation.
+        Passé ce délai, aucun remboursement ne pourra être exigé.
+    </p>
+    <p>
+        En cas d'annulation acceptée, le remboursement est effectué par le même moyen de paiement
+        dans un délai maximum de 14 jours.
     </p>
 
-    <h2>11. Propriété intellectuelle</h2>
+    <h2>11. Allergènes</h2>
     <p>
-        Le contenu du site (textes, recettes, images, logos) est protégé et ne peut être reproduit sans autorisation préalable.
+        Les informations concernant les allergènes sont indiquées sur chaque fiche menu.
+        Le client doit signaler toute allergie grave avant validation de la commande.
     </p>
 
-    <h2>12. Litiges</h2>
+    <h2>12. Réclamations</h2>
     <p>
-        En cas de différend, le droit français s'applique. Le client peut faire appel à un médiateur de la consommation.
+        Toute réclamation doit être adressée par e-mail à
+        <strong>contact@viteetgourmand.fr</strong> dans un délai de 48 heures après la livraison.
+    </p>
+
+    <h2>13. Protection des données personnelles</h2>
+    <p>
+        Les données personnelles collectées sont utilisées exclusivement pour la gestion des commandes.
+        Conformément au RGPD, le client peut exercer ses droits d'accès, de rectification et de suppression
+        en contactant <strong>contact@viteetgourmand.fr</strong>.
+    </p>
+
+    <h2>14. Propriété intellectuelle</h2>
+    <p>
+        L'ensemble des contenus du site (textes, images, logos, recettes) est protégé par le droit
+        de la propriété intellectuelle. Toute reproduction est interdite sans autorisation écrite.
+    </p>
+
+    <h2>15. Force majeure</h2>
+    <p>
+        La responsabilité de Vite & Gourmand ne pourra être engagée en cas d'événement de force majeure
+        empêchant l'exécution normale de la prestation.
+    </p>
+
+    <h2>16. Médiation de la consommation</h2>
+    <p>
+        Conformément aux articles L612-1 et suivants du Code de la consommation,
+        le client peut recourir gratuitement à un médiateur de la consommation :
+    </p>
+    <p>
+        Médiateur : <strong>CM2C - Centre de la Médiation de la Consommation de Conciliateurs de Justice</strong><br>
+        Site internet : <strong>https://www.cm2c.net</strong><br>
+        Adresse : <strong>14 rue Saint Jean, 75017 Paris</strong>
+    </p>
+
+    <h2>17. Droit applicable et litiges</h2>
+    <p>
+        Les présentes CGV sont soumises au droit français.
+        En cas de litige, une solution amiable sera recherchée avant toute action judiciaire.
     </p>
 
 </section>
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
-
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

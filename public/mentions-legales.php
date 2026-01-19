@@ -8,63 +8,129 @@
 </head>
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-    <section class="hero-section commandes-hero">
-        <h1>Mentions légales</h1>
-        <p>Informations légales concernant le site Vite & Gourmand.</p>
-    </section>
+<section class="hero-section commandes-hero">
+    <h1>Mentions légales</h1>
+    <p>Informations légales concernant le site Vite & Gourmand.</p>
+</section>
 
-    <section class="legal-container">
-        <h2>1. Éditeur du site</h2>
-        <p>
-            <strong>Vite & Gourmand</strong><br>
-            Julie & José - Traiteurs indépendants<br>
-            12 Rue des Gourmets, 33000 Bordeaux<br>
-            Téléphone : 05 56 48 32 10<br>
-            Email : contact@viteetgourmand.fr
-        </p>
+<section class="legal-container">
 
-        <h2>2. Hébergement du site</h2>
-        <p>
-            Nom de l'hébergeur<br>
-            Adresse complète de l'hébergeur<br>
-            Téléphone / site web de l'hébergeur
-        </p>
+    <h2>1. Éditeur du site</h2>
+    <p>
+        Le présent site est édité par :
+    </p>
+    <p>
+        <strong>Vite & Gourmand SARL</strong><br>
+        Société à Responsabilité Limitée (SARL)<br>
+        Capital social : 10 000 €<br>
+        Siège social : 12 rue des Gourmets, 33000 Bordeaux, France<br>
+        Numéro SIRET : 912 345 678 00019<br>
+        RCS Bordeaux : 912 345 678<br>
+        Téléphone : 05 56 00 00 00<br>
+        Email : contact@viteetgourmand.fr
+    </p>
 
-        <h2>3. Propriété intellectuelle</h2>
-        <p>
-            Le contenu du site (textes, images, logos, vidéos, design) est la propriété de Vite & Gourmand 
-            ou de ses partenaires et est protégé par les lois françaises et internationales relatives 
-            à la propriété intellectuelle. Toute reproduction, modification ou distribution sans autorisation 
-            est strictement interdite.
-        </p>
+    <h2>2. Directeur de la publication</h2>
+    <p>
+        Le directeur de la publication est <strong>José Pereira</strong>,
+        en qualité de gérant de la société Vite & Gourmand SARL.
+    </p>
 
-        <h2>4. Données personnelles</h2>
-        <p>
-            Les informations recueillies via les formulaires du site sont utilisées uniquement pour le traitement 
-            des commandes, la gestion des comptes clients et les échanges avec les utilisateurs. Conformément au RGPD, 
-            vous pouvez demander la consultation, la modification ou la suppression de vos données personnelles 
-            en contactant : contact@viteetgourmand.fr.
-        </p>
+    <h2>3. Hébergement du site</h2>
+    <p>
+        Le site est hébergé par :
+    </p>
+    <p>
+        <strong>OVH SAS</strong><br>
+        2 rue Kellermann, 59100 Roubaix, France<br>
+        Téléphone : 1007<br>
+        Site web : https://www.ovhcloud.com
+    </p>
 
-        <h2>5. Cookies</h2>
-        <p>
-            Le site peut utiliser des cookies pour améliorer l'expérience utilisateur. Vous pouvez configurer 
-            votre navigateur pour refuser tout ou partie des cookies.
-        </p>
+    <h2>4. Propriété intellectuelle</h2>
+    <p>
+        L'ensemble des éléments présents sur le site (textes, images, logos,
+        recettes, graphismes, structure) est protégé par le droit de la
+        propriété intellectuelle.
+    </p>
+    <p>
+        Toute reproduction, représentation, modification ou exploitation,
+        totale ou partielle, sans autorisation écrite préalable de
+        Vite & Gourmand SARL est strictement interdite.
+    </p>
 
-        <h2>6. Responsabilité</h2>
-        <p>
-            Vite & Gourmand s'efforce de fournir des informations fiables mais ne garantit pas l'exactitude, 
-            la complétude ou l'actualité des informations publiées sur le site.
-        </p>
+    <h2>5. Données personnelles</h2>
+    <p>
+        Les données personnelles collectées via le site sont nécessaires à :
+    </p>
+    <ul>
+        <li>la gestion des commandes et des comptes clients ;</li>
+        <li>la communication avec les utilisateurs ;</li>
+        <li>le respect des obligations légales.</li>
+    </ul>
+    <p>
+        Le responsable du traitement des données est <strong>Vite & Gourmand SARL</strong>.
+    </p>
+    <p>
+        Les données sont conservées pendant une durée maximale de
+        <strong>3 ans</strong> après la dernière interaction avec l'utilisateur,
+        sauf obligation légale contraire.
+    </p>
+    <p>
+        Conformément au Règlement Général sur la Protection des Données (RGPD),
+        l'utilisateur dispose d'un droit d'accès, de rectification,
+        d'opposition et de suppression de ses données personnelles.
+    </p>
+    <p>
+        Toute demande peut être adressée à :
+        <strong>contact@viteetgourmand.fr</strong>.
+    </p>
+    <p>
+        L'utilisateur dispose également du droit d'introduire une réclamation
+        auprès de la <strong>CNIL</strong> (www.cnil.fr).
+    </p>
 
-    </section>
+    <h2>6. Cookies</h2>
+    <p>
+        Le site utilise uniquement des cookies strictement nécessaires à son
+        fonctionnement et à la sécurisation des sessions utilisateur.
+    </p>
+    <p>
+        Aucun cookie publicitaire ou de suivi à des fins commerciales n'est utilisé.
+    </p>
+    <p>
+        L'utilisateur peut configurer son navigateur afin de bloquer les cookies,
+        ce qui peut toutefois altérer certaines fonctionnalités du site.
+    </p>
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+    <h2>7. Conditions Générales de Vente</h2>
+    <p>
+        Les Conditions Générales de Vente (CGV) applicables aux prestations proposées
+        par Vite & Gourmand sont accessibles depuis une page dédiée du site.
+    </p>
+    <p>
+        Toute commande implique l'acceptation pleine et entière des CGV en vigueur.
+    </p>
+
+    <h2>8. Responsabilité</h2>
+    <p>
+        Vite & Gourmand SARL s'efforce de fournir des informations exactes et à jour.
+        Toutefois, la société ne saurait être tenue responsable d'erreurs,
+        d'omissions ou d'une indisponibilité temporaire du site.
+    </p>
+
+    <h2>9. Droit applicable</h2>
+    <p>
+        Les présentes mentions légales sont soumises au droit français.
+        En cas de litige, les tribunaux compétents seront ceux du ressort
+        de la Cour d'appel de Bordeaux.
+    </p>
+
+</section>
+
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

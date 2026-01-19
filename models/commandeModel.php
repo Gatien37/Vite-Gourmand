@@ -212,3 +212,41 @@ function getDerniereModificationCommande(PDO $pdo, int $commandeId): ?array
 
     return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 }
+
+
+
+function getCommandeEditableParEmploye(PDO $pdo, int $id): array|false
+{
+    $sql = "
+        SELECT 
+            c.id,
+            c.utilisateur_id,
+            c.menu_id,
+            c.date_prestation,
+            c.adresse,
+            c.ville,
+            c.nb_personnes AS quantite,
+            c.prix_total,
+            c.statut,
+
+            u.nom AS client_nom,
+            u.email AS client_email,
+            u.gsm AS client_gsm,
+
+            m.nom AS menu_nom,
+            m.prix_base,
+            m.nb_personnes_min,
+            m.stock
+        FROM commande c
+        JOIN menu m ON c.menu_id = m.id
+        JOIN utilisateur u ON c.utilisateur_id = u.id
+        WHERE c.id = :id
+          AND c.statut IN ('en_attente', 'acceptee')
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $id]);
+
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+

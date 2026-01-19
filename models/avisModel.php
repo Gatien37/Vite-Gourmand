@@ -11,16 +11,16 @@ function avisExistePourCommande(PDO $pdo, int $commandeId): bool
 
 function insertAvis(PDO $pdo, int $commandeId, int $note, string $commentaire): void
 {
+    if (avisExistePourCommande($pdo, $commandeId)) {
+        throw new RuntimeException("Avis déjà existant pour cette commande.");
+    }
+
     $stmt = $pdo->prepare("
         INSERT INTO avis (commande_id, note, commentaire)
         VALUES (?, ?, ?)
     ");
 
-    $stmt->execute([
-        $commandeId,
-        $note,
-        $commentaire
-    ]);
+    $stmt->execute([$commandeId, $note, $commentaire]);
 }
 
 
