@@ -1,44 +1,62 @@
 <?php
+/* ========== Chargement des dépendances ========== */
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/menuModel.php';
+
+/* ========== Sécurité : paramètre menu valide ========== */
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: menus.php');
     exit;
 }
 
+/* ========== Récupération du menu ========== */
+
 $menuId = (int) $_GET['id'];
-$menu = getMenuById($pdo, $menuId);
+$menu   = getMenuById($pdo, $menuId);
+
+/* ========== Sécurité : menu existant ========== */
 
 if (!$menu) {
     header('Location: menus.php');
     exit;
 }
 
-$plats = getPlatsByMenu($pdo, $menuId);
+/* ========== Récupération des données associées ========== */
+
+$plats      = getPlatsByMenu($pdo, $menuId);
 $allergenes = getAllergenesByMenu($pdo, $menuId);
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées ========== */
     $title = "Détail menu";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-<?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
+<!-- ===== Titre ===== -->
 <section class="hero-section commandes-hero">
     <h1><?= htmlspecialchars($menu['nom']) ?></h1>
 </section>
 
+<!-- ===== Présentation du menu ===== -->
 <section class="detail-menu-content">
 
     <div class="menu-present">
+
+        <!-- Image du menu -->
         <div class="menu-image">
             <img
                 src="assets/images/<?= htmlspecialchars($menu['image']) ?>"
@@ -46,33 +64,51 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
             >
         </div>
 
+        <!-- Informations principales -->
         <div class="menu-info">
             <p><strong>Thème :</strong> <?= htmlspecialchars($menu['theme']) ?></p>
             <p><strong>Régime :</strong> <?= htmlspecialchars($menu['regime']) ?></p>
-            <p><strong>Nombre de personnes minimum :</strong> <?= (int) $menu['nb_personnes_min'] ?></p>
-            <p><strong>Prix :</strong> <?= number_format((float) $menu['prix_base'], 2) ?> €/personne</p>
-            <p><strong>Stock disponible :</strong> <?= (int) $menu['stock'] ?></p>
+            <p>
+                <strong>Nombre de personnes minimum :</strong>
+                <?= (int) $menu['nb_personnes_min'] ?>
+            </p>
+            <p>
+                <strong>Prix :</strong>
+                <?= number_format((float) $menu['prix_base'], 2) ?> €/personne
+            </p>
+            <p>
+                <strong>Stock disponible :</strong>
+                <?= (int) $menu['stock'] ?>
+            </p>
 
             <!-- Bouton Commander -->
             <?php require __DIR__ . '/../partials/button-commande.php'; ?>
         </div>
     </div>
 
+    <!-- ===== Liste des plats ===== -->
     <div class="plats-menu">
         <?php foreach ($plats as $plat): ?>
             <div class="plats-card">
+
                 <h2><?= ucfirst($plat['type']) ?></h2>
+
                 <img
                     src="assets/images/<?= htmlspecialchars($plat['image']) ?>"
                     alt="<?= htmlspecialchars($plat['nom']) ?>"
                 >
-                <p><strong><?= htmlspecialchars($plat['nom']) ?></strong></p>
+
+                <p>
+                    <strong><?= htmlspecialchars($plat['nom']) ?></strong>
+                </p>
+
             </div>
         <?php endforeach; ?>
     </div>
 
 </section>
 
+<!-- ===== Description du menu ===== -->
 <section class="menu-description-wrapper">
     <section class="description-menu">
 
@@ -97,9 +133,12 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
     </section>
 </section>
 
+<!-- ===== Conditions de commande ===== -->
 <section class="conditions-wrapper">
     <section class="conditions">
+
         <h2>CONDITIONS DE COMMANDE</h2>
+
         <ul>
             <li>Commande minimum selon le menu choisi.</li>
             <li>Commande obligatoire 48h à l'avance afin de garantir la fraîcheur des produits.</li>
@@ -114,13 +153,17 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
                 sous peine de frais de 600 €.
             </li>
         </ul>
+
     </section>
 </section>
 
-<!-- Bouton Commander (rappel bas de page) -->
+<!-- ===== Bouton Commander (rappel bas de page) ===== -->
 <?php require __DIR__ . '/../partials/button-commande.php'; ?>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
 
 </body>
 </html>

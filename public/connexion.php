@@ -1,21 +1,33 @@
 <?php
+/* ========== Initialisation de la session ========== */
+
 session_start();
+
+/* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/utilisateurModel.php';
 
+/* ========== Paramètres de redirection éventuelle ========== */
+
 $redirect = $_GET['redirect'] ?? null;
 $menuId   = $_GET['menu_id'] ?? null;
 
+/* ========== Initialisation des erreurs ========== */
+
 $error = null;
+
+/* ========== Traitement du formulaire de connexion ========== */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $email = trim($_POST['email'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
+    /* Récupération de l’utilisateur par email */
     $user = getUtilisateurByEmail($pdo, $email);
 
+    /* Vérifications successives */
     if (!$user) {
         $error = "Email ou mot de passe incorrect.";
     }
@@ -26,19 +38,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Email ou mot de passe incorrect.";
     }
     else {
+
+        /* Sécurisation de la session */
         session_regenerate_id(true);
 
+        /* Stockage des informations utilisateur en session */
         $_SESSION['user'] = [
             'id'    => $user['id'],
             'email' => $user['email'],
             'role'  => $user['role']
         ];
 
+        /* Redirection vers la commande si connexion forcée */
         if ($redirect === 'commande' && $menuId) {
-            header('Location: commande.php?menu_id=' . (int)$menuId);
+            header('Location: commande.php?menu_id=' . (int) $menuId);
             exit;
         }
 
+        /* Redirection selon le rôle */
         switch ($user['role']) {
             case 'admin':
                 header('Location: espace-admin.php');
@@ -52,57 +69,82 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 header('Location: espace-utilisateur.php');
                 break;
         }
-        exit;
 
+        exit;
     }
 }
-
-
-
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées ========== */
     $title = "Connexion";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
-    
-    <section class="hero-section commandes-hero">
-        <h1>Connexion</h1>
-        <p>Accédez à votre espace personnel.</p>
-    </section>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
-    <section class="login-container">
+<!-- ===== Titre ===== -->
+<section class="hero-section commandes-hero">
+    <h1>Connexion</h1>
+    <p>Accédez à votre espace personnel.</p>
+</section>
 
-        <?php if (!empty($_SESSION['success'])): ?>
-            <div class="alert-success">
-                <?= htmlspecialchars($_SESSION['success']) ?>
-            </div>
-            <?php unset($_SESSION['success']); ?>
-        <?php endif; ?>
+<section class="login-container">
 
+    <!-- Message de succès -->
+    <?php if (!empty($_SESSION['success'])): ?>
+        <div class="alert-success">
+            <?= htmlspecialchars($_SESSION['success']) ?>
+        </div>
+        <?php unset($_SESSION['success']); ?>
+    <?php endif; ?>
 
-        <form class="login-form form-card" action="#" method="POST">
-            <label for="email">Adresse e-mail</label>
-            <input type="email" id="email" name="email" placeholder="exemple@mail.com" required>
-            <label for="password">Mot de passe</label>
-            <input type="password" id="password" name="password" placeholder="Votre mot de passe">
-            <button type="submit" class="btn-commande">Se connecter</button>
-            <div class="auth-links">
-                <a href="mot-de-passe-oublie.php">Mot de passe oublié ?</a>
-                <a href="inscription.php">Créer un compte</a>
-            </div>
-        </form>
-    </section>
+    <!-- Formulaire de connexion -->
+    <form class="login-form form-card" action="#" method="POST">
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+        <label for="email">Adresse e-mail</label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="exemple@mail.com"
+            required
+        >
+
+        <label for="password">Mot de passe</label>
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Votre mot de passe"
+            required
+        >
+
+        <button type="submit" class="btn-commande">
+            Se connecter
+        </button>
+
+        <div class="auth-links">
+            <a href="mot-de-passe-oublie.php">Mot de passe oublié ?</a>
+            <a href="inscription.php">Créer un compte</a>
+        </div>
+
+    </form>
+</section>
+
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
+
 </body>
 </html>

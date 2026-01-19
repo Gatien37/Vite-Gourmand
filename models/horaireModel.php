@@ -1,10 +1,19 @@
 <?php
 
+/* ========== Récupération des horaires ========== */
+
 function getHoraires(PDO $pdo): array
 {
-    $stmt = $pdo->query("SELECT jour, ouverture, fermeture FROM horaire ORDER BY id");
+    $stmt = $pdo->query("
+        SELECT jour, ouverture, fermeture
+        FROM horaire
+        ORDER BY id
+    ");
+
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/* ========== Mise à jour d’un horaire ========== */
 
 function updateHoraire(PDO $pdo, string $jour, ?string $ouverture, ?string $fermeture): void
 {

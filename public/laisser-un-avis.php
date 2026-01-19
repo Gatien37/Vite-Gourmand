@@ -1,27 +1,35 @@
 <?php
+/* ========== Initialisation de la session ========== */
+
 session_start();
+
+/* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 require_once __DIR__ . '/../models/avisModel.php';
 require_once __DIR__ . '/../services/avisService.php';
 
-/* ================== SÉCURITÉ ================== */
+/* ========== Sécurité : utilisateur connecté ========== */
 
 if (!isset($_SESSION['user'])) {
     header('Location: connexion.php');
     exit;
 }
 
+/* ========== Sécurité : paramètre commande valide ========== */
+
 if (!isset($_GET['commande_id']) || !is_numeric($_GET['commande_id'])) {
     header('Location: commande-utilisateur.php');
     exit;
 }
 
-$userId = (int) $_SESSION['user']['id'];
+/* ========== Initialisation des identifiants ========== */
+
+$userId     = (int) $_SESSION['user']['id'];
 $commandeId = (int) $_GET['commande_id'];
 
-/* ================== ÉLIGIBILITÉ AVIS ================== */
+/* ========== Vérification de l’éligibilité à déposer un avis ========== */
 
 $result = verifierEligibiliteAvis($pdo, $commandeId, $userId);
 
@@ -31,13 +39,16 @@ if (!empty($result['error'])) {
     exit;
 }
 
+/* ========== Données de la commande ========== */
+
 $commande = $result['commande'];
 
-/* ================== TRAITEMENT FORMULAIRE ================== */
+/* ========== Traitement du formulaire d’avis ========== */
 
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $error = traiterDepotAvis($pdo, $commandeId, $_POST);
 
     if (!$error) {
@@ -52,38 +63,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées ========== */
     $title = "Laisser un avis";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-<?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
+<!-- ===== Titre ===== -->
 <section class="hero-section commandes-hero">
     <h1>Laisser un avis</h1>
     <p>Partagez votre expérience avec Vite & Gourmand.</p>
 </section>
 
 <section class="avis-page-container">
+
+    <!-- ===== Formulaire d’avis ===== -->
     <form class="avis-form form-card" method="POST">
 
+        <!-- Message d’erreur -->
         <?php if ($error): ?>
             <p class="error-message"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
 
         <h2>Votre commande</h2>
+
         <p>
             <strong>Menu :</strong>
             <?= htmlspecialchars($commande['menu_nom']) ?>
         </p>
+
         <p>
             <strong>Commande :</strong>
             #CMD-<?= (int) $commande['id'] ?>
         </p>
 
         <h2>Votre note</h2>
+
+        <!-- Système de notation -->
         <div class="rating" id="rating">
+
             <input type="hidden" name="note" id="note" value="0">
 
             <span class="star" data-value="1">★</span>
@@ -94,6 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
 
         <h2>Votre commentaire</h2>
+
         <textarea
             name="commentaire"
             rows="5"
@@ -107,10 +133,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="auth-links">
             <a href="commande-utilisateur.php">← Retour à mes commandes</a>
         </div>
+
     </form>
 </section>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
 
 </body>
 </html>

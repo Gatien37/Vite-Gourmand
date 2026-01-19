@@ -1,5 +1,7 @@
 <?php
 
+/* ========== Menus filtrés (site public) ========== */
+
 function getFilteredMenus(PDO $pdo, array $filters): array
 {
     $sql = "
@@ -22,19 +24,19 @@ function getFilteredMenus(PDO $pdo, array $filters): array
 
     if (!empty($filters['nb_personnes_min'])) {
         $sql .= " AND nb_personnes_min <= :nbMin";
-        $params['nbMin'] = (int)$filters['nb_personnes_min'];
+        $params['nbMin'] = (int) $filters['nb_personnes_min'];
     }
 
     if (!empty($filters['prix_max'])) {
         $sql .= " AND prix_base <= :prixMax";
-        $params['prixMax'] = (float)$filters['prix_max'];
+        $params['prixMax'] = (float) $filters['prix_max'];
     }
 
     if (!empty($filters['fourchette_prix'])) {
         [$min, $max] = explode('-', $filters['fourchette_prix']);
         $sql .= " AND prix_base BETWEEN :prixMin AND :prixMaxRange";
-        $params['prixMin'] = (float)$min;
-        $params['prixMaxRange'] = (float)$max;
+        $params['prixMin'] = (float) $min;
+        $params['prixMaxRange'] = (float) $max;
     }
 
     if (empty($params)) {
@@ -44,43 +46,49 @@ function getFilteredMenus(PDO $pdo, array $filters): array
         ";
     }
 
-
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* ========== Détail d’un menu ========== */
+
 function getMenuById(PDO $pdo, int $id): array|false
 {
-    $sql = "SELECT * FROM menu WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
+    $stmt = $pdo->prepare("SELECT * FROM menu WHERE id = :id");
     $stmt->execute(['id' => $id]);
+
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+/* ========== Plats associés à un menu ========== */
 
 function getPlatsByMenu(PDO $pdo, int $menuId): array
 {
     $sql = "
         SELECT p.*
         FROM plat p
-        INNER JOIN menu_plat mp ON p.id = mp.plat_id
+        JOIN menu_plat mp ON p.id = mp.plat_id
         WHERE mp.menu_id = :menu_id
         ORDER BY FIELD(p.type, 'entree', 'plat', 'dessert')
     ";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['menu_id' => $menuId]);
+
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/* ========== Allergènes d’un menu ========== */
 
 function getAllergenesByMenu(PDO $pdo, int $menuId): array
 {
     $sql = "
         SELECT DISTINCT a.nom
         FROM allergene a
-        INNER JOIN plat_allergene pa ON pa.allergene_id = a.id
-        INNER JOIN menu_plat mp ON mp.plat_id = pa.plat_id
+        JOIN plat_allergene pa ON pa.allergene_id = a.id
+        JOIN menu_plat mp ON mp.plat_id = pa.plat_id
         WHERE mp.menu_id = :menu_id
         ORDER BY a.nom
     ";
@@ -91,23 +99,26 @@ function getAllergenesByMenu(PDO $pdo, int $menuId): array
     return $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
+/* ========== Tous les menus (admin / employé) ========== */
 
 function getAllMenus(PDO $pdo): array
 {
-    $sql = "
+    return $pdo->query("
         SELECT id, nom, theme, regime, prix_base
         FROM menu
         ORDER BY id DESC
-    ";
-
-    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    ")->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/* ========== Suppression d’un menu ========== */
 
 function deleteMenu(PDO $pdo, int $menuId): void
 {
     $stmt = $pdo->prepare("DELETE FROM menu WHERE id = ?");
     $stmt->execute([$menuId]);
 }
+
+/* ========== Création / modification d’un menu ========== */
 
 function saveMenu(PDO $pdo, array $data, ?int $menuId = null): void
 {
@@ -141,9 +152,9 @@ function saveMenu(PDO $pdo, array $data, ?int $menuId = null): void
         'description_longue' => $data['description_longue'],
         'theme' => $data['theme'],
         'regime' => $data['regime'],
-        'nb_min' => (int)$data['nb_personnes_min'],
-        'prix' => (float)$data['prix_base'],
-        'stock' => (int)$data['stock'],
+        'nb_min' => (int) $data['nb_personnes_min'],
+        'prix' => (float) $data['prix_base'],
+        'stock' => (int) $data['stock'],
     ];
 
     if ($menuId) {

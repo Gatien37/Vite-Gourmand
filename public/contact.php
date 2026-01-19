@@ -1,12 +1,20 @@
 <?php
+/* ========== Chargement des dépendances ========== */
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/horaireModel.php';
 require_once __DIR__ . '/../services/mailService.php';
 
+/* ========== Récupération des horaires ========== */
+
 $horaires = getHoraires($pdo);
+
+/* ========== Initialisation des messages ========== */
 
 $message = '';
 $success = false;
+
+/* ========== Traitement du formulaire de contact ========== */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -14,11 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sujet   = trim($_POST['sujet'] ?? '');
     $contenu = trim($_POST['message'] ?? '');
 
+    /* Validation des champs */
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Adresse e-mail invalide.";
-    } elseif (empty($sujet) || empty($contenu)) {
+    }
+    elseif (empty($sujet) || empty($contenu)) {
         $message = "Veuillez remplir tous les champs.";
-    } else {
+    }
+    else {
+
+        /* Envoi du message */
         if (envoyerMailContact($email, $sujet, $contenu)) {
             $message = "Votre message a bien été envoyé. Nous vous répondrons rapidement.";
             $success = true;
@@ -33,68 +46,115 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées ========== */
     $title = "Contact";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
-    
-    <section class="hero-section commandes-hero">
-        <h1>Contactez-nous</h1>
-        <p>Une question ? Un événement à organiser ? Nous sommes là pour vous aider.</p>
-    </section>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
-    <section class="contact-container">
-        <div class="contact-form form-card">
+<!-- ===== Titre ===== -->
+<section class="hero-section commandes-hero">
+    <h1>Contactez-nous</h1>
+    <p>Une question ? Un événement à organiser ? Nous sommes là pour vous aider.</p>
+</section>
 
-            <?php if (!empty($message)): ?>
-                <p class="<?= $success ? 'alert-success' : 'error-message' ?>">
-                    <?= $message ?>
-                </p>
-            <?php endif; ?>
+<section class="contact-container">
 
+    <!-- ===== Formulaire de contact ===== -->
+    <div class="contact-form form-card">
 
-            <h2>Envoyer un message</h2>
-            <form action="#" method="POST">
+        <!-- Message de retour -->
+        <?php if (!empty($message)): ?>
+            <p class="<?= $success ? 'alert-success' : 'error-message' ?>">
+                <?= htmlspecialchars($message) ?>
+            </p>
+        <?php endif; ?>
 
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" required placeholder="Votre adresse e-mail">
+        <h2>Envoyer un message</h2>
 
-                <label for="sujet">Sujet</label>
-                <input type="text" id="sujet" name="sujet" required placeholder="Sujet de votre message">
+        <form action="#" method="POST">
 
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="6" required placeholder="Votre message"></textarea>
+            <label for="email">E-mail</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="Votre adresse e-mail"
+            >
 
-                <button class="btn-commande" type="submit">Envoyer</button>
-            </form>
-        </div>
-        <div class="contact-infos">
-            <h2>Nos coordonnées</h2>
-            <p><strong>Adresse :</strong><br>12 Rue des Gourmets, 33000 Bordeaux</p>
+            <label for="sujet">Sujet</label>
+            <input
+                type="text"
+                id="sujet"
+                name="sujet"
+                required
+                placeholder="Sujet de votre message"
+            >
 
-            <p><strong>Téléphone :</strong><br>05 56 48 32 10</p>
+            <label for="message">Message</label>
+            <textarea
+                id="message"
+                name="message"
+                rows="6"
+                required
+                placeholder="Votre message"
+            ></textarea>
 
-            <p><strong>Email :</strong><br>contact@viteetgourmand.fr</p>
+            <button class="btn-commande" type="submit">
+                Envoyer
+            </button>
 
-            <p><strong>Horaires d'ouverture :</strong></p>
-                <?php foreach ($horaires as $h): ?>
-                    <p class="horaire-item">
-                        <strong><?= ucfirst($h['jour']) ?> :</strong>
-                        <?php if ($h['ouverture'] && $h['fermeture']): ?>
-                            <?= substr($h['ouverture'], 0, 5) ?> – <?= substr($h['fermeture'], 0, 5) ?>
-                        <?php else: ?>
-                            Fermé
-                        <?php endif; ?>
-                    </p>
-                <?php endforeach; ?>
-        </div>
-    </section>
+        </form>
+    </div>
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+    <!-- ===== Informations de contact ===== -->
+    <div class="contact-infos">
+
+        <h2>Nos coordonnées</h2>
+
+        <p>
+            <strong>Adresse :</strong><br>
+            12 Rue des Gourmets, 33000 Bordeaux
+        </p>
+
+        <p>
+            <strong>Téléphone :</strong><br>
+            05 56 48 32 10
+        </p>
+
+        <p>
+            <strong>Email :</strong><br>
+            contact@viteetgourmand.fr
+        </p>
+
+        <p><strong>Horaires d'ouverture :</strong></p>
+
+        <?php foreach ($horaires as $h): ?>
+            <p class="horaire-item">
+                <strong><?= ucfirst($h['jour']) ?> :</strong>
+                <?php if ($h['ouverture'] && $h['fermeture']): ?>
+                    <?= substr($h['ouverture'], 0, 5) ?> – <?= substr($h['fermeture'], 0, 5) ?>
+                <?php else: ?>
+                    Fermé
+                <?php endif; ?>
+            </p>
+        <?php endforeach; ?>
+
+    </div>
+</section>
+
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
+
 </body>
 </html>

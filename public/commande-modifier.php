@@ -1,39 +1,50 @@
 <?php
+/* ========== Initialisation de la session ========== */
+
 session_start();
+
+/* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 require_once __DIR__ . '/../services/commandeService.php';
 require_once __DIR__ . '/../config/commandeStatus.php';
 
-/* ========= Sécurité utilisateur ========= */
+/* ========== Sécurité : utilisateur connecté ========== */
+
 if (!isset($_SESSION['user'])) {
     header('Location: connexion.php');
     exit;
 }
 
-/* ========= Récupération commande ========= */
+/* ========== Récupération et validation de la commande ========== */
+
 $commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-$userId = (int) $_SESSION['user']['id'];
+$userId     = (int) $_SESSION['user']['id'];
 
 $commande = getCommandeById($pdo, $commandeId);
+
+/* ========== Sécurité : propriété de la commande ========== */
 
 if (!$commande || (int) $commande['utilisateur_id'] !== $userId) {
     header('Location: commande-utilisateur.php');
     exit;
 }
 
-/* ========= Statut modifiable ========= */
+/* ========== Sécurité : statut modifiable ========== */
+
 if ($commande['statut'] !== STATUT_EN_ATTENTE) {
     $_SESSION['error'] = "Vous ne pouvez modifier une commande que si elle est en attente.";
     header('Location: commande-utilisateur.php');
     exit;
 }
 
-/* ========= Traitement formulaire ========= */
+/* ========== Traitement du formulaire ========== */
+
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $error = modifierCommandeUtilisateur($pdo, $commande, $_POST);
 
     if (!$error) {
@@ -43,27 +54,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-/* ========= Pré-remplissage formulaire ========= */
-$dt = new DateTime($commande['date_prestation']);
-$dateValue = $dt->format('Y-m-d');
-$heureValue = $dt->format('H:i');
+/* ========== Préparation des données du formulaire ========== */
+
+$date = new DateTime($commande['date_prestation']);
+
+$dateValue  = $date->format('Y-m-d');
+$heureValue = $date->format('H:i');
+
+/* ========== Détermination du mode de réception ========== */
 
 $isLivraison = ($commande['adresse'] !== 'Retrait sur place');
 ?>
-
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées ========== */
     $title = "Modifier commande";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-<?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
+<!-- ===== Titre ===== -->
 <section class="hero-section commandes-hero">
     <h1>Modifier ma commande</h1>
     <p>Vous pouvez modifier cette commande tant qu'elle est en attente.</p>
@@ -72,51 +92,107 @@ $isLivraison = ($commande['adresse'] !== 'Retrait sur place');
 <section class="profil-container">
     <form class="profil-form form-card" method="POST">
 
+        <!-- Message d’erreur -->
         <?php if ($error): ?>
             <p class="error-message"><?= htmlspecialchars($error) ?></p>
         <?php endif; ?>
 
+        <!-- Menu (non modifiable) -->
         <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
 
+        <!-- Date -->
         <label>Date *</label>
-        <input type="date" name="date" value="<?= htmlspecialchars($dateValue) ?>" required>
+        <input
+            type="date"
+            name="date"
+            value="<?= htmlspecialchars($dateValue) ?>"
+            required
+        >
 
+        <!-- Heure -->
         <label>Heure *</label>
-        <input type="time" name="heure" value="<?= htmlspecialchars($heureValue) ?>" required>
+        <input
+            type="time"
+            name="heure"
+            value="<?= htmlspecialchars($heureValue) ?>"
+            required
+        >
 
+        <!-- Nombre de personnes -->
         <label>Nombre de personnes *</label>
-        <input type="number" name="nb_personnes" min="<?= (int)$commande['nb_personnes_min'] ?>"
-               value="<?= (int)$commande['nb_personnes'] ?>" required>
+        <input
+            type="number"
+            name="nb_personnes"
+            min="<?= (int) $commande['nb_personnes_min'] ?>"
+            value="<?= (int) $commande['nb_personnes'] ?>"
+            required
+        >
 
+        <!-- Mode de réception -->
         <h2>Mode de réception *</h2>
+
         <label>
-            <input type="radio" name="reception" value="retrait" <?= $isLivraison ? '' : 'checked' ?>>
+            <input
+                type="radio"
+                name="reception"
+                value="retrait"
+                <?= $isLivraison ? '' : 'checked' ?>
+            >
             Retrait sur place
         </label>
+
         <label>
-            <input type="radio" name="reception" value="livraison" <?= $isLivraison ? 'checked' : '' ?>>
+            <input
+                type="radio"
+                name="reception"
+                value="livraison"
+                <?= $isLivraison ? 'checked' : '' ?>
+            >
             Livraison
         </label>
 
+        <!-- Adresse de livraison -->
         <div class="livraison-adresse <?= $isLivraison ? '' : 'is-hidden' ?>">
+
             <label>Adresse</label>
-            <input type="text" name="adresse" value="<?= $isLivraison ? htmlspecialchars($commande['adresse']) : '' ?>">
+            <input
+                type="text"
+                name="adresse"
+                value="<?= $isLivraison ? htmlspecialchars($commande['adresse']) : '' ?>"
+            >
 
             <label>Code postal</label>
-            <input type="text" name="code_postal" value="">
+            <input
+                type="text"
+                name="code_postal"
+                value=""
+            >
 
             <label>Ville</label>
-            <input type="text" name="ville" value="<?= $isLivraison ? htmlspecialchars($commande['ville']) : '' ?>">
+            <input
+                type="text"
+                name="ville"
+                value="<?= $isLivraison ? htmlspecialchars($commande['ville']) : '' ?>"
+            >
         </div>
 
-        <button class="btn-commande" type="submit">Enregistrer</button>
+        <!-- Bouton validation -->
+        <button class="btn-commande" type="submit">
+            Enregistrer
+        </button>
 
+        <!-- Lien retour -->
         <div class="auth-links">
             <a href="commande-utilisateur.php">Retour à mes commandes</a>
         </div>
+
     </form>
 </section>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
+
 </body>
 </html>

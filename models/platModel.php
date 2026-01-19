@@ -1,5 +1,7 @@
 <?php
 
+/* ========== Liste de tous les plats ========== */
+
 function getAllPlats(PDO $pdo): array
 {
     $sql = "
@@ -10,6 +12,8 @@ function getAllPlats(PDO $pdo): array
 
     return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/* ========== Activation / désactivation d’un plat ========== */
 
 function togglePlat(PDO $pdo, int $platId, bool $actif): void
 {
@@ -25,6 +29,7 @@ function togglePlat(PDO $pdo, int $platId, bool $actif): void
     ]);
 }
 
+/* ========== Détail d’un plat ========== */
 
 function getPlatById(PDO $pdo, int $id): array|false
 {
@@ -38,6 +43,7 @@ function getPlatById(PDO $pdo, int $id): array|false
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+/* ========== Création / modification d’un plat ========== */
 
 function savePlat(PDO $pdo, array $data, ?int $id = null): void
 {
@@ -69,13 +75,14 @@ function savePlat(PDO $pdo, array $data, ?int $id = null): void
     $stmt->execute($params);
 }
 
+/* ========== Menus impactés par un plat ========== */
 
 function getMenusImpactesParPlat(PDO $pdo, int $platId): array
 {
     $sql = "
         SELECT m.id, m.nom
         FROM menu m
-        INNER JOIN menu_plat mp ON m.id = mp.menu_id
+        JOIN menu_plat mp ON m.id = mp.menu_id
         WHERE mp.plat_id = ?
     ";
 

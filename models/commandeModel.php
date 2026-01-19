@@ -1,5 +1,7 @@
 <?php
 
+/* ========== Récupération d’une commande (détail complet) ========== */
+
 function getCommandeById(PDO $pdo, int $id): array|false
 {
     $sql = "
@@ -34,9 +36,7 @@ function getCommandeById(PDO $pdo, int $id): array|false
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
-
-
-
+/* ========== Suivi des statuts d’une commande ========== */
 
 function getCommandeSuivi(PDO $pdo, int $commandeId): array
 {
@@ -46,12 +46,14 @@ function getCommandeSuivi(PDO $pdo, int $commandeId): array
         WHERE commande_id = :id
         ORDER BY date_statut ASC
     ";
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute(['id' => $commandeId]);
+
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
+/* ========== Mise à jour d’une commande ========== */
 
 function updateCommande(PDO $pdo, int $commandeId, array $data): void
 {
@@ -64,6 +66,7 @@ function updateCommande(PDO $pdo, int $commandeId, array $data): void
             prix_total = :prix_total
         WHERE id = :id
     ";
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         'date_prestation' => $data['date_prestation'],
@@ -75,16 +78,23 @@ function updateCommande(PDO $pdo, int $commandeId, array $data): void
     ]);
 }
 
+/* ========== Ajout d’un statut de suivi ========== */
+
 function insertCommandeSuivi(PDO $pdo, int $commandeId, string $statut): void
 {
-    $sql = "INSERT INTO commande_suivi (commande_id, statut) VALUES (:id, :statut)";
+    $sql = "
+        INSERT INTO commande_suivi (commande_id, statut)
+        VALUES (:id, :statut)
+    ";
+
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['id' => $commandeId, 'statut' => $statut]);
+    $stmt->execute([
+        'id' => $commandeId,
+        'statut' => $statut
+    ]);
 }
 
-
-
-
+/* ========== Commandes d’un utilisateur ========== */
 
 function getCommandesByUtilisateur(PDO $pdo, int $utilisateurId): array
 {
@@ -109,8 +119,7 @@ function getCommandesByUtilisateur(PDO $pdo, int $utilisateurId): array
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-
-
+/* ========== Toutes les commandes (admin) ========== */
 
 function getAllCommandesAvecDetails(PDO $pdo): array
 {
@@ -131,10 +140,10 @@ function getAllCommandesAvecDetails(PDO $pdo): array
         ORDER BY c.date_prestation DESC
     ";
 
-    $stmt = $pdo->query($sql);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* ========== Filtrage des commandes (admin) ========== */
 
 function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
 {
@@ -173,6 +182,7 @@ function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* ========== Motif d’annulation d’une commande ========== */
 
 function getMotifAnnulation(PDO $pdo, int $commandeId): ?array
 {
@@ -186,13 +196,12 @@ function getMotifAnnulation(PDO $pdo, int $commandeId): ?array
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'commande_id' => $commandeId
-    ]);
+    $stmt->execute(['commande_id' => $commandeId]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 }
 
+/* ========== Dernière modification d’une commande ========== */
 
 function getDerniereModificationCommande(PDO $pdo, int $commandeId): ?array
 {
@@ -206,14 +215,12 @@ function getDerniereModificationCommande(PDO $pdo, int $commandeId): ?array
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'commande_id' => $commandeId
-    ]);
+    $stmt->execute(['commande_id' => $commandeId]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
 }
 
-
+/* ========== Commande éditable par un employé ========== */
 
 function getCommandeEditableParEmploye(PDO $pdo, int $id): array|false
 {
@@ -249,4 +256,3 @@ function getCommandeEditableParEmploye(PDO $pdo, int $id): array|false
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
-

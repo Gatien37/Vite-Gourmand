@@ -1,34 +1,42 @@
 <?php
+/* ========== Initialisation de la session ========== */
+
 session_start();
+
+/* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 
-/* ================== SÉCURITÉ ================== */
+/* ========== Sécurité : utilisateur connecté ========== */
 
-// Utilisateur obligatoirement connecté
-if (!isset($_SESSION['user'])) {
+if (!isset($_SESSION['utilisateur'])) {
     header('Location: connexion.php');
     exit;
 }
 
-// Vérification ID
+/* ========== Sécurité : paramètre de commande valide ========== */
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php');
     exit;
 }
 
-$commandeId = (int) $_GET['id'];
-$commande = getCommandeById($pdo, $commandeId);
+/* ========== Récupération de la commande ========== */
 
-// Commande inexistante
+$commandeId = (int) $_GET['id'];
+$commande   = getCommandeById($pdo, $commandeId);
+
+/* ========== Sécurité : commande existante ========== */
+
 if (!$commande) {
     header('Location: index.php');
     exit;
 }
 
-// Vérification que la commande appartient à l'utilisateur connecté
-if ((int)$commande['user_id'] !== (int)$_SESSION['user']['id']) {
+/* ========== Sécurité : propriété de la commande ========== */
+
+if ((int) $commande['utilisateur_id'] !== (int) $_SESSION['utilisateur']['id']) {
     header('Location: index.php');
     exit;
 }
@@ -38,14 +46,20 @@ if ((int)$commande['user_id'] !== (int)$_SESSION['user']['id']) {
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées ========== */
     $title = "Confirmation de commande";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-<?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
+<!-- ===== Titre ===== -->
 <section class="hero-section commandes-hero">
     <h1>Commande confirmée</h1>
     <p>Merci pour votre confiance. Votre commande a bien été enregistrée.</p>
@@ -56,16 +70,26 @@ if ((int)$commande['user_id'] !== (int)$_SESSION['user']['id']) {
 
         <h2>Récapitulatif de votre commande</h2>
 
-        <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
+        <!-- Menu -->
+        <p>
+            <strong>Menu :</strong>
+            <?= htmlspecialchars($commande['menu_nom']) ?>
+        </p>
 
-        <p><strong>Nombre de personnes :</strong> <?= (int)$commande['quantite'] ?></p>
+        <!-- Quantité -->
+        <p>
+            <strong>Nombre de personnes :</strong>
+            <?= (int) $commande['quantite'] ?>
+        </p>
 
+        <!-- Date et heure -->
         <p>
             <strong>Date :</strong>
             <?= date('d/m/Y', strtotime($commande['date_prestation'])) ?>
             à <?= date('H:i', strtotime($commande['date_prestation'])) ?>
         </p>
 
+        <!-- Mode de réception -->
         <?php if (!empty($commande['adresse'])): ?>
             <p>
                 <strong>Adresse de livraison :</strong>
@@ -74,24 +98,31 @@ if ((int)$commande['user_id'] !== (int)$_SESSION['user']['id']) {
                 <?= htmlspecialchars($commande['ville']) ?>
             </p>
         <?php else: ?>
-            <p><strong>Mode de réception :</strong> Retrait sur place</p>
+            <p>
+                <strong>Mode de réception :</strong>
+                Retrait sur place
+            </p>
         <?php endif; ?>
 
+        <!-- Total -->
         <p>
             <strong>Total :</strong>
-            <?= number_format($commande['prix_total'], 2, ',', ' ') ?> €
+            <?= number_format((float) $commande['prix_total'], 2, ',', ' ') ?> €
         </p>
 
+        <!-- Statut -->
         <p>
             <strong>Statut :</strong>
             <?= htmlspecialchars($commande['statut']) ?>
         </p>
 
+        <!-- Message confirmation -->
         <p class="confirmation-message">
             Un e-mail de confirmation vous a été envoyé.<br>
             Vous pouvez suivre l’avancement de votre commande depuis votre espace client.
         </p>
 
+        <!-- Actions -->
         <a class="btn-commande" href="commande-utilisateur.php">
             Voir mes commandes
         </a>
@@ -100,7 +131,7 @@ if ((int)$commande['user_id'] !== (int)$_SESSION['user']['id']) {
             Retour à l’accueil
         </a>
 
-        <!-- ===== RAPPEL LÉGAL ===== -->
+        <!-- ===== Rappel légal ===== -->
         <p class="legal-hint">
             Commande effectuée auprès de <strong>Vite & Gourmand SARL</strong> —
             <a href="cgv.php" target="_blank" rel="noopener">CGV</a> |
@@ -110,7 +141,10 @@ if ((int)$commande['user_id'] !== (int)$_SESSION['user']['id']) {
     </div>
 </section>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
 
 </body>
 </html>

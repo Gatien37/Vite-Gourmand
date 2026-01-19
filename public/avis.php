@@ -1,6 +1,10 @@
 <?php
+/* ========== Chargement des dépendances ========== */
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/avisModel.php';
+
+/* ========== Récupération des avis validés ========== */
 
 $avisList = getAvisValides($pdo, 50);
 ?>
@@ -9,24 +13,35 @@ $avisList = getAvisValides($pdo, 50);
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées de la page ========== */
     $title = "Avis clients";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-<?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
 <section class="avis">
     <h2>Tous les avis clients</h2>
 
     <?php if (empty($avisList)): ?>
+
         <p>Aucun avis client pour le moment.</p>
+
     <?php else: ?>
+
         <div class="avis-container">
             <?php foreach ($avisList as $avis): ?>
-                <div class="avis-card">
-                    <div class="avis-header">
+
+                <article class="avis-card">
+
+                    <!-- Note + auteur -->
+                    <header class="avis-header">
                         <div class="avis-stars">
                             <?php for ($i = 1; $i <= 5; $i++): ?>
                                 <img
@@ -41,19 +56,25 @@ $avisList = getAvisValides($pdo, 50);
                             <?= htmlspecialchars($avis['prenom']) ?>
                             <?= strtoupper(substr($avis['nom'], 0, 1)) ?>.
                         </h3>
-                    </div>
+                    </header>
 
-                    <p>
+                    <!-- Commentaire -->
+                    <p class="avis-commentaire">
                         “<?= nl2br(htmlspecialchars($avis['commentaire'])) ?>”
                     </p>
-                </div>
+
+                </article>
+
             <?php endforeach; ?>
         </div>
+
     <?php endif; ?>
 </section>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
 
 </body>
 </html>
-

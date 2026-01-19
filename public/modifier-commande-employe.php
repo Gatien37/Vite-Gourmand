@@ -1,10 +1,13 @@
 <?php
+/* ========== Chargement des middlewares et dépendances ========== */
+
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 require_once __DIR__ . '/../services/commandeService.php';
 
-/* ========= VALIDATION ID ========= */
+/* ========== Validation de l’identifiant de commande ========== */
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: gestion-commandes.php');
     exit;
@@ -12,13 +15,16 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $commandeId = (int) $_GET['id'];
 
-/* ========= RÉCUPÉRATION COMMANDE ========= */
+/* ========== Récupération de la commande modifiable ========== */
+
 $commande = getCommandeEditableParEmploye($pdo, $commandeId);
 
 if (!$commande) {
     header('Location: gestion-commandes.php');
     exit;
 }
+
+/* ========== Préparation des données de date ========== */
 
 $date = new DateTime($commande['date_prestation']);
 ?>
@@ -27,14 +33,20 @@ $date = new DateTime($commande['date_prestation']);
 <html lang="fr">
 <head>
     <?php
+    /* ========== Métadonnées ========== */
     $title = "Modifier commande - employé";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
+
 <body>
 
-<?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php
+/* ========== En-tête du site ========== */
+require_once __DIR__ . '/../partials/header.php';
+?>
 
+<!-- ===== Titre de la page ===== -->
 <section class="hero-section commandes-hero">
     <h1>Modifier la commande #CMD-<?= (int) $commande['id'] ?></h1>
     <p>Modification suite à contact client</p>
@@ -43,22 +55,26 @@ $date = new DateTime($commande['date_prestation']);
 <section class="order-detail-container">
     <div class="order-card">
 
+        <!-- ===== Formulaire de modification de commande ===== -->
         <form
             method="POST"
             action="traiter-modification-commande.php"
             class="form-card"
         >
 
+            <!-- Identifiant de la commande -->
             <input
                 type="hidden"
                 name="commande_id"
                 value="<?= (int) $commande['id'] ?>"
             >
 
+            <!-- Menu (lecture seule) -->
             <p class="menu-readonly">
                 <?= htmlspecialchars($commande['menu_nom']) ?>
             </p>
 
+            <!-- Date de prestation -->
             <label for="date">Date *</label>
             <input
                 type="date"
@@ -68,6 +84,7 @@ $date = new DateTime($commande['date_prestation']);
                 required
             >
 
+            <!-- Heure de prestation -->
             <label for="heure">Heure *</label>
             <input
                 type="time"
@@ -77,6 +94,7 @@ $date = new DateTime($commande['date_prestation']);
                 required
             >
 
+            <!-- Quantité -->
             <label for="quantite">Nombre de personnes *</label>
             <input
                 type="number"
@@ -87,6 +105,7 @@ $date = new DateTime($commande['date_prestation']);
                 required
             >
 
+            <!-- Adresse -->
             <label for="adresse">Adresse *</label>
             <input
                 type="text"
@@ -96,6 +115,7 @@ $date = new DateTime($commande['date_prestation']);
                 required
             >
 
+            <!-- Ville -->
             <label for="ville">Ville *</label>
             <input
                 type="text"
@@ -108,8 +128,10 @@ $date = new DateTime($commande['date_prestation']);
             <button type="submit" class="btn-commande">
                 Enregistrer les modifications
             </button>
+
         </form>
 
+        <!-- Retour au détail de la commande -->
         <a
             href="commande-detail-employe.php?id=<?= $commandeId ?>"
             class="btn-secondary"
@@ -120,7 +142,10 @@ $date = new DateTime($commande['date_prestation']);
     </div>
 </section>
 
-<?php require_once __DIR__ . '/../partials/footer.php'; ?>
+<?php
+/* ========== Pied de page ========== */
+require_once __DIR__ . '/../partials/footer.php';
+?>
 
 </body>
 </html>

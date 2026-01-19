@@ -1,16 +1,22 @@
 <?php
 
+/* ========== Vérification existence d’un avis ========== */
+
 function avisExistePourCommande(PDO $pdo, int $commandeId): bool
 {
     $stmt = $pdo->prepare("
         SELECT id FROM avis WHERE commande_id = :id
     ");
     $stmt->execute(['id' => $commandeId]);
+
     return (bool) $stmt->fetch();
 }
 
+/* ========== Insertion d’un avis ========== */
+
 function insertAvis(PDO $pdo, int $commandeId, int $note, string $commentaire): void
 {
+    // Empêche les doublons d’avis pour une même commande
     if (avisExistePourCommande($pdo, $commandeId)) {
         throw new RuntimeException("Avis déjà existant pour cette commande.");
     }
@@ -23,6 +29,7 @@ function insertAvis(PDO $pdo, int $commandeId, int $note, string $commentaire): 
     $stmt->execute([$commandeId, $note, $commentaire]);
 }
 
+/* ========== Récupération des avis validés (site public) ========== */
 
 function getAvisValides(PDO $pdo, int $limit = 3): array
 {
@@ -47,6 +54,7 @@ function getAvisValides(PDO $pdo, int $limit = 3): array
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* ========== Récupération de tous les avis (admin) ========== */
 
 function getAllAvis(PDO $pdo): array
 {
@@ -67,6 +75,8 @@ function getAllAvis(PDO $pdo): array
 
     return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/* ========== Validation / invalidation d’un avis ========== */
 
 function setAvisValide(PDO $pdo, int $avisId, bool $valide): void
 {

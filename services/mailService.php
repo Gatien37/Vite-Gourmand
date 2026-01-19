@@ -1,7 +1,8 @@
 <?php
+/* ========== Envoi de l’email de confirmation de commande ========== */
 
-function envoyerMailConfirmation($email, $recap) {
-
+function envoyerMailConfirmation($email, $recap)
+{
     $message = "
 Bonjour,
 
@@ -16,12 +17,13 @@ Total : " . number_format($recap['total'], 2, ',', ' ') . " €
 Merci pour votre confiance.
 ";
 
-    $headers = "From: Vite & Gourmand <contact@vite-gourmand.fr>\r\n";
+    $headers  = "From: Vite & Gourmand <contact@vite-gourmand.fr>\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8";
 
     @mail($email, 'Confirmation de commande', $message, $headers);
 }
 
+/* ========== Envoi de l’email de bienvenue utilisateur ========== */
 
 function envoyerMailBienvenue(string $email, string $prenom): void
 {
@@ -40,8 +42,13 @@ L'équipe Vite & Gourmand
     @mail($email, $subject, $message);
 }
 
+/* ========== Envoi de l’email de prêt de matériel ========== */
 
-function envoyerMailPretMateriel(string $emailClient, string $menuNom, string $dateLimite): void
+function envoyerMailPretMateriel(
+    string $emailClient,
+    string $menuNom,
+    string $dateLimite
+): void
 {
     $sujet = 'Retour de matériel - Commande Vite & Gourmand';
 
@@ -58,7 +65,7 @@ function envoyerMailPretMateriel(string $emailClient, string $menuNom, string $d
     @mail($emailClient, $sujet, $message);
 }
 
-
+/* ========== Envoi de l’email de création de compte employé ========== */
 
 function envoyerMailCreationEmploye(string $email): void
 {
@@ -75,22 +82,33 @@ function envoyerMailCreationEmploye(string $email): void
     @mail($email, $sujet, $message);
 }
 
+/* ========== Envoi d’un message depuis le formulaire de contact ========== */
 
-function envoyerMailContact(string $email, string $sujet, string $message): bool
+function envoyerMailContact(
+    string $email,
+    string $sujet,
+    string $message
+): bool
 {
     $to = "contact@viteetgourmand.fr";
+
     $headers = "From: $email";
 
-    $body = "Message envoyé depuis le formulaire de contact :\n\n"
-          . "Email : $email\n"
-          . "Sujet : $sujet\n\n"
-          . $message;
+    $body =
+        "Message envoyé depuis le formulaire de contact :\n\n" .
+        "Email : $email\n" .
+        "Sujet : $sujet\n\n" .
+        $message;
 
     return mail($to, $sujet, $body, $headers);
 }
 
+/* ========== Envoi de l’email de réinitialisation du mot de passe ========== */
 
-function envoyerMailResetMotDePasse(string $email, string $resetLink): void
+function envoyerMailResetMotDePasse(
+    string $email,
+    string $resetLink
+): void
 {
     $sujet = "Réinitialisation de votre mot de passe - Vite & Gourmand";
 
@@ -109,5 +127,3 @@ function envoyerMailResetMotDePasse(string $email, string $resetLink): void
 
     @mail($email, $sujet, $message, $headers);
 }
-
-
