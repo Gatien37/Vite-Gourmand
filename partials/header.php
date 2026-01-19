@@ -7,7 +7,7 @@
   ?>
 
   <div class="header-container">
-    <img src="assets/images/logo.svg" alt="logo Vite & Gourmand">
+    <img src="assets/images/logo.png" alt="logo Vite & Gourmand">
 
     <button class="burger" id="burger">
       ☰
