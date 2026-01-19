@@ -23,14 +23,19 @@ $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    if (
-        empty($_POST['adresse']) ||
-        empty($_POST['ville']) ||
-        empty($_POST['code_postal'])
-    ) {
-        $error = "Tous les champs d'adresse sont obligatoires.";
+    $adresse = trim($_POST['adresse'] ?? '');
+    $ville = trim($_POST['ville'] ?? '');
+    $codePostal = trim($_POST['code_postal'] ?? '');
+
+    if (!$adresse || !$ville || !preg_match('/^\d{5}$/', $codePostal)) {
+        $error = "Adresse ou code postal invalide.";
     } else {
-        updateAdresseUtilisateur($pdo, $userId, $_POST);
+        updateAdresseUtilisateur($pdo, $userId, [
+            'adresse' => $adresse,
+            'ville' => $ville,
+            'code_postal' => $codePostal
+        ]);
+
         $success = "Adresse mise à jour avec succès.";
         $user = getUtilisateurById($pdo, $userId); // rechargement
     }

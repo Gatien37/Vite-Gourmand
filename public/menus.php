@@ -1,8 +1,14 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/menuModel.php';
-?>
+require_once __DIR__ . '/../services/menuService.php';
 
+/* ========= FILTRES ========= */
+$filters = buildMenuFilters($_GET);
+
+/* ========= DONNÉES ========= */
+$menus = getFilteredMenus($pdo, $filters);
+?>
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -14,35 +20,22 @@ require_once __DIR__ . '/../models/menuModel.php';
 </head>
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-    <section class="hero-section commandes-hero">
-            <h1>Tous nos menus</h1>
-            <p>Trouvez facilement le menu adapté à votre événement.</p>
-    </section>
+<section class="hero-section commandes-hero">
+    <h1>Tous nos menus</h1>
+    <p>Trouvez facilement le menu adapté à votre événement.</p>
+</section>
 
-    <!-- Filtres -->
-
-    <?php
-        $filters = [
-        'theme' => $_GET['theme'] ?? null,
-        'regime' => $_GET['regime'] ?? null,
-        'nb_personnes_min' => $_GET['nb_personnes_min'] ?? null,
-        'prix_max' => $_GET['prix_max'] ?? null,
-        'fourchette_prix' => $_GET['fourchette_prix'] ?? null,
-    ];
-    $menus = getFilteredMenus($pdo, $filters);
-    ?>
-
-    <form method="GET" class="filtres">
+<!-- ===== FILTRES ===== -->
+<form method="GET" class="filtres">
 
     <select name="theme" class="filtre-btn filtre-visible">
         <option value="">Thèmes</option>
-        <option value="noel">Noël</option>
-        <option value="paques">Pâques</option>
-        <option value="evenement">Événement</option>
-        <option value="classique">Classique</option>
+        <option value="noel" <?= ($_GET['theme'] ?? '') === 'noel' ? 'selected' : '' ?>>Noël</option>
+        <option value="paques" <?= ($_GET['theme'] ?? '') === 'paques' ? 'selected' : '' ?>>Pâques</option>
+        <option value="evenement" <?= ($_GET['theme'] ?? '') === 'evenement' ? 'selected' : '' ?>>Événement</option>
+        <option value="classique" <?= ($_GET['theme'] ?? '') === 'classique' ? 'selected' : '' ?>>Classique</option>
     </select>
 
     <!-- bouton mobile -->
@@ -55,29 +48,29 @@ require_once __DIR__ . '/../models/menuModel.php';
 
         <select name="regime" class="filtre-btn">
             <option value="">Régimes</option>
-            <option value="vegan">Vegan</option>
-            <option value="vegetarien">Végétarien</option>
-            <option value="classique">Classique</option>
+            <option value="vegan" <?= ($_GET['regime'] ?? '') === 'vegan' ? 'selected' : '' ?>>Vegan</option>
+            <option value="vegetarien" <?= ($_GET['regime'] ?? '') === 'vegetarien' ? 'selected' : '' ?>>Végétarien</option>
+            <option value="classique" <?= ($_GET['regime'] ?? '') === 'classique' ? 'selected' : '' ?>>Classique</option>
         </select>
 
         <select name="prix_max" class="filtre-btn">
             <option value="">Prix max</option>
-            <option value="15">15€</option>
-            <option value="25">25€</option>
-            <option value="30">30€</option>
+            <option value="15" <?= ($_GET['prix_max'] ?? '') === '15' ? 'selected' : '' ?>>15€</option>
+            <option value="25" <?= ($_GET['prix_max'] ?? '') === '25' ? 'selected' : '' ?>>25€</option>
+            <option value="30" <?= ($_GET['prix_max'] ?? '') === '30' ? 'selected' : '' ?>>30€</option>
         </select>
 
         <select name="fourchette_prix" class="filtre-btn">
             <option value="">Fourchette de prix</option>
-            <option value="10-20">entre 10€ et 20€</option>
-            <option value="20-30">entre 20€ et 30€</option>
+            <option value="10-20" <?= ($_GET['fourchette_prix'] ?? '') === '10-20' ? 'selected' : '' ?>>entre 10€ et 20€</option>
+            <option value="20-30" <?= ($_GET['fourchette_prix'] ?? '') === '20-30' ? 'selected' : '' ?>>entre 20€ et 30€</option>
         </select>
 
         <select name="nb_personnes_min" class="filtre-btn">
             <option value="">Personnes min</option>
-            <option value="4">4</option>
-            <option value="6">6</option>
-            <option value="8">8</option>
+            <option value="4" <?= ($_GET['nb_personnes_min'] ?? '') === '4' ? 'selected' : '' ?>>4</option>
+            <option value="6" <?= ($_GET['nb_personnes_min'] ?? '') === '6' ? 'selected' : '' ?>>6</option>
+            <option value="8" <?= ($_GET['nb_personnes_min'] ?? '') === '8' ? 'selected' : '' ?>>8</option>
         </select>
 
     </div>
@@ -87,8 +80,7 @@ require_once __DIR__ . '/../models/menuModel.php';
     </button>
 </form>
 
-    <!-- Liste des menus -->
-
+<!-- ===== LISTE DES MENUS ===== -->
 <section class="menus-list">
 
     <?php if (empty($menus)): ?>
@@ -107,9 +99,7 @@ require_once __DIR__ . '/../models/menuModel.php';
 
 </section>
 
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
-    
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 </body>
 </html>

@@ -3,15 +3,19 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/menuModel.php';
 require_once __DIR__ . '/../models/platModel.php';
+require_once __DIR__ . '/../services/menuService.php';
 
+/* ========= Initialisation ========= */
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 $menu = null;
 $error = null;
+
+/* ========= Chargement des plats ========= */
 $plats = getAllPlats($pdo);
 
 $platsParType = [
-    'entree' => [],
-    'plat' => [],
+    'entree'  => [],
+    'plat'    => [],
     'dessert' => []
 ];
 
@@ -21,15 +25,17 @@ foreach ($plats as $p) {
     }
 }
 
-
+/* ========= Mode édition ========= */
 if ($id) {
     $menu = getMenuById($pdo, $id);
+
     if (!$menu) {
         header('Location: gestion-menus.php');
         exit;
     }
 }
 
+/* ========= Plats déjà sélectionnés ========= */
 $platsSelectionnes = [];
 
 if ($id) {
@@ -42,73 +48,17 @@ if ($id) {
     $platsSelectionnes = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
-
+/* ========= Traitement formulaire ========= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $data = [
-        'nom' => trim($_POST['titre'] ?? ''),
-        'description' => trim($_POST['description'] ?? ''),
-        'description_longue' => trim($_POST['description_complete'] ?? ''),
-        'theme' => trim($_POST['theme'] ?? ''),
-        'regime' => $_POST['regime'] ?? '',
-        'nb_personnes_min' => (int) ($_POST['minimum'] ?? 0),
-        'prix_base' => (float) ($_POST['prix'] ?? 0),
-        'stock' => (int) ($_POST['stock'] ?? 0),
-    ];
+    $error = enregistrerMenu($pdo, $_POST, $id);
 
-    if (
-        !$data['nom'] ||
-        !$data['prix_base'] ||
-        !$data['nb_personnes_min']
-    ) {
-        $error = "Les champs obligatoires ne sont pas remplis.";
-    } else {
-
-        saveMenu($pdo, $data, $id);
-
-        $menuId = $id ? $id : $pdo->lastInsertId();
-
-        $platsIds = $_POST['plats'] ?? [];
-        $platsIds = array_map('intval', $platsIds);
-
-        $stmt = $pdo->prepare("DELETE FROM menu_plat WHERE menu_id = ?");
-        $stmt->execute([$menuId]);
-
-        if (!empty($platsIds)) {
-            $stmt = $pdo->prepare("
-                INSERT INTO menu_plat (menu_id, plat_id)
-                VALUES (?, ?)
-            ");
-
-            foreach ($platsIds as $platId) {
-                $stmt->execute([$menuId, $platId]);
-            }
-        }
-
-        $stmt = $pdo->prepare("
-            SELECT image
-            FROM plat
-            WHERE id IN (
-                SELECT plat_id FROM menu_plat WHERE menu_id = ?
-            )
-            AND image IS NOT NULL
-            LIMIT 1
-        ");
-        $stmt->execute([$menuId]);
-        $image = $stmt->fetchColumn();
-
-        if ($image) {
-            $stmt = $pdo->prepare("UPDATE menu SET image = ? WHERE id = ?");
-            $stmt->execute([$image, $menuId]);
-        }
-
+    if (!$error) {
         header('Location: gestion-menus.php');
         exit;
     }
 }
-
 ?>
-
 
 
 <!DOCTYPE html>

@@ -54,8 +54,7 @@ $menus = getAllMenus($pdo);
                             Modifier
                         </a>
                         <a href="delete-menu.php?id=<?= $menu['id'] ?>"
-                        class="btn-secondary btn-delete"
-                        onclick="return confirm('Supprimer ce menu ?');">
+                        class="btn-secondary btn-delete js-confirm-delete">
                             Supprimer
                         </a>
                     </td>

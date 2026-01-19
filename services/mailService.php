@@ -74,3 +74,40 @@ function envoyerMailCreationEmploye(string $email): void
 
     @mail($email, $sujet, $message);
 }
+
+
+function envoyerMailContact(string $email, string $sujet, string $message): bool
+{
+    $to = "contact@viteetgourmand.fr";
+    $headers = "From: $email";
+
+    $body = "Message envoyé depuis le formulaire de contact :\n\n"
+          . "Email : $email\n"
+          . "Sujet : $sujet\n\n"
+          . $message;
+
+    return mail($to, $sujet, $body, $headers);
+}
+
+
+function envoyerMailResetMotDePasse(string $email, string $resetLink): void
+{
+    $sujet = "Réinitialisation de votre mot de passe - Vite & Gourmand";
+
+    $message =
+        "Bonjour,\n\n" .
+        "Vous avez demandé la réinitialisation de votre mot de passe.\n\n" .
+        "Cliquez sur le lien ci-dessous pour définir un nouveau mot de passe :\n\n" .
+        $resetLink . "\n\n" .
+        "Ce lien est valable pendant 1 heure.\n\n" .
+        "Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.\n\n" .
+        "Cordialement,\n" .
+        "L'équipe Vite & Gourmand";
+
+    $headers  = "From: Vite & Gourmand <no-reply@vite-gourmand.fr>\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8";
+
+    @mail($email, $sujet, $message, $headers);
+}
+
+

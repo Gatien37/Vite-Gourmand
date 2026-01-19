@@ -54,8 +54,6 @@ $derniereModification = getDerniereModificationCommande($pdo, $commandeId);
             </div>
         <?php endif; ?>
 
-
-
         <h3>Informations client</h3>
         <p><strong>Nom :</strong> <?= htmlspecialchars($commande['client_nom']) ?></p>
         <p><strong>Email :</strong> <?= htmlspecialchars($commande['client_email']) ?></p>

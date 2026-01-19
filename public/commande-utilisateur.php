@@ -99,7 +99,7 @@ $commandes = getCommandesByUtilisateur($pdo, $userId);
 
                                             <form method="POST"
                                                 action="commande-annuler.php"
-                                                onsubmit="return confirm('Voulez-vous vraiment annuler cette commande ?');">
+                                                class="js-confirm-annulation">
 
                                                 <input type="hidden" name="commande_id" value="<?= (int)$commande['id'] ?>">
 

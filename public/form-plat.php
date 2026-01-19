@@ -3,11 +3,14 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/platModel.php';
 require_once __DIR__ . '/../models/allergeneModel.php';
+require_once __DIR__ . '/../services/platService.php';
 
+/* ========= Initialisation ========= */
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 $plat = null;
 $error = null;
 
+/* ========= Mode édition ========= */
 if ($id) {
     $plat = getPlatById($pdo, $id);
     if (!$plat) {
@@ -16,6 +19,7 @@ if ($id) {
     }
 }
 
+/* ========= Données affichage ========= */
 $allergenes = getAllAllergenes($pdo);
 
 $allergenesSelectionnes = [];
@@ -29,46 +33,15 @@ if ($id) {
     $allergenesSelectionnes = $stmt->fetchAll(PDO::FETCH_COLUMN);
 }
 
-
+/* ========= Traitement formulaire ========= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $error = enregistrerPlat($pdo, $_POST, $id);
 
-    $nom  = trim($_POST['nom'] ?? '');
-    $type = $_POST['type'] ?? '';
-    $allergenesIds = array_map('intval', $_POST['allergenes'] ?? []);
-
-    if (!$nom || !$type) {
-        $error = "Tous les champs sont obligatoires.";
-    } elseif (!in_array($type, ['entree', 'plat', 'dessert'])) {
-        $error = "Type de plat invalide.";
-    } else {
-
-        savePlat($pdo, [
-            'nom' => $nom,
-            'type' => $type
-        ], $id);
-
-        $platId = $id ? $id : $pdo->lastInsertId();
-
-        $stmt = $pdo->prepare("DELETE FROM plat_allergene WHERE plat_id = ?");
-        $stmt->execute([$platId]);
-
-        if (!empty($allergenesIds)) {
-            $stmt = $pdo->prepare("
-                INSERT INTO plat_allergene (plat_id, allergene_id)
-                VALUES (?, ?)
-            ");
-
-            foreach ($allergenesIds as $allergeneId) {
-                $stmt->execute([$platId, $allergeneId]);
-            }
-        }
-
+    if (!$error) {
         header('Location: gestion-plats.php');
         exit;
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>

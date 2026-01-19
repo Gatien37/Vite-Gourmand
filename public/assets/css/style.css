@@ -3000,6 +3000,10 @@ nav ul li a:hover {
         min-width: 700px;
     }
 
+    .ca-actions {
+        text-align:center;
+        margin-bottom:40px;
+    }
 
 
 /*------ Page Commande Utilisateur --------*/

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/horaireModel.php';
+require_once __DIR__ . '/../services/mailService.php';
 
 $horaires = getHoraires($pdo);
 
@@ -9,8 +10,8 @@ $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $email = trim($_POST['email'] ?? '');
-    $sujet = trim($_POST['sujet'] ?? '');
+    $email   = trim($_POST['email'] ?? '');
+    $sujet   = trim($_POST['sujet'] ?? '');
     $contenu = trim($_POST['message'] ?? '');
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -18,19 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (empty($sujet) || empty($contenu)) {
         $message = "Veuillez remplir tous les champs.";
     } else {
-
-        $to = "contact@viteetgourmand.fr";
-        $headers = "From: $email";
-        $body = "Message envoyé depuis le formulaire de contact :\n\n"
-              . "Email : $email\n"
-              . "Sujet : $sujet\n\n"
-              . $contenu;
-
-        mail($to, $sujet, $body, $headers);
-
-        $message = "Votre message a bien été envoyé. Nous vous répondrons rapidement.";
-        $success = true;
-    
+        if (envoyerMailContact($email, $sujet, $contenu)) {
+            $message = "Votre message a bien été envoyé. Nous vous répondrons rapidement.";
+            $success = true;
+        } else {
+            $message = "Erreur lors de l'envoi du message.";
+        }
     }
 }
 ?>

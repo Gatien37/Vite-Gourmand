@@ -2,22 +2,21 @@
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../services/commandeService.php';
 
+/* ========= VALIDATION ID ========= */
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: gestion-commandes.php');
     exit;
 }
 
 $commandeId = (int) $_GET['id'];
-$commande = getCommandeById($pdo, $commandeId);
+
+/* ========= RÉCUPÉRATION COMMANDE ========= */
+$commande = getCommandeEditableParEmploye($pdo, $commandeId);
 
 if (!$commande) {
     header('Location: gestion-commandes.php');
-    exit;
-}
-
-if ($commande['statut'] === 'annulee') {
-    header('Location: commande-detail-employe.php?id=' . $commandeId);
     exit;
 }
 
@@ -37,21 +36,28 @@ $date = new DateTime($commande['date_prestation']);
 <?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <section class="hero-section commandes-hero">
-    <h1>Modifier la commande #CMD-<?= (int)$commande['id'] ?></h1>
+    <h1>Modifier la commande #CMD-<?= (int) $commande['id'] ?></h1>
     <p>Modification suite à contact client</p>
 </section>
 
 <section class="order-detail-container">
     <div class="order-card">
 
-        <form method="POST" action="traiter-modification-commande.php" class="form-card">
+        <form
+            method="POST"
+            action="traiter-modification-commande.php"
+            class="form-card"
+        >
 
-            <input type="hidden" name="commande_id" value="<?= (int)$commande['id'] ?>">
+            <input
+                type="hidden"
+                name="commande_id"
+                value="<?= (int) $commande['id'] ?>"
+            >
 
             <p class="menu-readonly">
                 <?= htmlspecialchars($commande['menu_nom']) ?>
             </p>
-
 
             <label for="date">Date *</label>
             <input
@@ -77,7 +83,7 @@ $date = new DateTime($commande['date_prestation']);
                 name="quantite"
                 id="quantite"
                 min="1"
-                value="<?= (int)$commande['quantite'] ?>"
+                value="<?= (int) $commande['quantite'] ?>"
                 required
             >
 
@@ -104,7 +110,10 @@ $date = new DateTime($commande['date_prestation']);
             </button>
         </form>
 
-        <a href="commande-detail-employe.php?id=<?= $commandeId ?>" class="btn-secondary">
+        <a
+            href="commande-detail-employe.php?id=<?= $commandeId ?>"
+            class="btn-secondary"
+        >
             ← Retour au détail
         </a>
 

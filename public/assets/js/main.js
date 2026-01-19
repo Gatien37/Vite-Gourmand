@@ -281,3 +281,37 @@ function ajouterJoursOuvres(date, jours) {
 }
 
 });
+
+/* ================= CONFIRMATION SYNCHRONISATION ================= */
+document.querySelectorAll('.js-confirm-sync').forEach(link => {
+    link.addEventListener('click', e => {
+        if (!confirm('Mettre à jour les statistiques ?')) {
+            e.preventDefault();
+        }
+    });
+});
+
+
+/* ================= CONFIRMATION ANNULATION COMMANDE ================= */
+document.querySelectorAll('.js-confirm-annulation').forEach(form => {
+    form.addEventListener('submit', e => {
+        if (!confirm('Voulez-vous vraiment annuler cette commande ?')) {
+            e.preventDefault();
+        }
+    });
+});
+
+/* ================= CONFIRMATION SUPPRESSION ================= */
+document.addEventListener('DOMContentLoaded', () => {
+    const confirmLinks = document.querySelectorAll('.js-confirm-delete');
+
+    confirmLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            if (!confirm('Supprimer cet élément ?')) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+
+
