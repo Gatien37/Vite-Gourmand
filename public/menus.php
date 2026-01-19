@@ -8,7 +8,7 @@ require_once __DIR__ . '/../models/menuModel.php';
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Menus";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

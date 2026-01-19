@@ -15,7 +15,7 @@ $commandes = getCommandesFiltrees($pdo, $statut, $client);
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Gestion des commandes";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

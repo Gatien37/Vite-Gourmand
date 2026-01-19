@@ -28,7 +28,7 @@ $date = new DateTime($commande['date_prestation']);
 <html lang="fr">
 <head>
     <?php
-    $title = "Modifier commande";
+    $title = "Modifier commande - employé";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Mentions légales";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

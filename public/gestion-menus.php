@@ -12,7 +12,7 @@ $menus = getAllMenus($pdo);
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Gestion des menus";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Espace Utilisateur";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

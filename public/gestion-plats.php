@@ -10,7 +10,9 @@ $plats = getAllPlats($pdo);
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php require_once __DIR__ . '/../partials/head.php'; ?>
+    <?php 
+    $title = "Gestion des plats";
+    require_once __DIR__ . '/../partials/head.php'; ?>
 </head>
 <body>
 

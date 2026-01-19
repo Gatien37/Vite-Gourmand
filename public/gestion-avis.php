@@ -12,7 +12,7 @@ $avisList = getAllAvis($pdo);
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Gestion des avis";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

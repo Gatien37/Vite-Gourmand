@@ -30,7 +30,7 @@ $date = new DateTime($commande['date_prestation']);
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Détail commande";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

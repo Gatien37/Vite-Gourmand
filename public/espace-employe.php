@@ -7,7 +7,7 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Espace Employé";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

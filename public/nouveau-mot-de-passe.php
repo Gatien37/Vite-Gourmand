@@ -50,7 +50,7 @@ if (!$token) {
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Nouveau mot de passe";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

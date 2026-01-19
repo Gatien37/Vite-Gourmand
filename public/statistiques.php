@@ -38,6 +38,9 @@ foreach ($labels as $index => $menuName) {
 $stmt = $pdo->query("SELECT nom FROM menu ORDER BY nom ASC");
 $allMenus = $stmt->fetchAll(PDO::FETCH_COLUMN);
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

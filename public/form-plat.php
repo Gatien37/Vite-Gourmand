@@ -74,7 +74,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <?php require_once __DIR__ . '/../partials/head.php'; ?>
+    <?php 
+    $titre = "Modifier un plat";
+    require_once __DIR__ . '/../partials/head.php'; ?>
 </head>
 <body>
 

@@ -11,7 +11,7 @@ $employes = getEmployes($pdo);
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Gestion des employés";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

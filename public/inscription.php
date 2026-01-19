@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Inscription";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

@@ -24,7 +24,7 @@ $allergenes = getAllergenesByMenu($pdo, $menuId);
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Détail menu";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

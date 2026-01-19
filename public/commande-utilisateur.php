@@ -17,7 +17,7 @@ $commandes = getCommandesByUtilisateur($pdo, $userId);
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Commandes utilisateur";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

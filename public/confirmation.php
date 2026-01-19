@@ -19,7 +19,7 @@ if (!$commande) {
 <html lang="fr">
 <head>
     <?php
-    $title = "Accueil";
+    $title = "Confirmation commande";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>

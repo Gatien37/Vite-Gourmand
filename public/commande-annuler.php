@@ -27,7 +27,7 @@ if (!$commande || (int)$commande['utilisateur_id'] !== $userId) {
 
 // annulation autorisée uniquement si en attente
 if ($commande['statut'] !== 'en_attente') {
-    $_SESSION['error'] = "Impossible d’annuler : commande déjà traitée.";
+    $_SESSION['error'] = "Impossible d'annuler : commande déjà traitée.";
     header('Location: commande-utilisateur.php');
     exit;
 }
@@ -35,7 +35,7 @@ if ($commande['statut'] !== 'en_attente') {
 try {
     $pdo->beginTransaction();
 
-    // 1) Mettre la commande en "annulee" (au lieu de DELETE)
+    // 1) Mettre la commande en "annulee"
     $stmtUpdate = $pdo->prepare("
         UPDATE commande
         SET statut = 'annulee'
@@ -67,7 +67,7 @@ try {
 
 } catch (Exception $e) {
     $pdo->rollBack();
-    $_SESSION['error'] = "Erreur lors de l’annulation de la commande.";
+    $_SESSION['error'] = "Erreur lors de l'annulation de la commande.";
 }
 
 header('Location: commande-utilisateur.php');
