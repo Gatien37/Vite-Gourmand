@@ -1,4 +1,5 @@
 <?php
+/* ========== Sécurisation : accès Admin ========== */
 require_once __DIR__ . '/../middlewares/requireAdmin.php';
 ?>
 

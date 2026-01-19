@@ -1,4 +1,5 @@
 <?php
+/* ========== Sécurisation : accès employé ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 ?>
 

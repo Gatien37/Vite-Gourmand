@@ -1,4 +1,9 @@
 <?php
+
+/* ========== Sécurisation : accès Admin ========== */
+
+require_once __DIR__ . '/../middlewares/requireAdmin.php';
+
 /* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';

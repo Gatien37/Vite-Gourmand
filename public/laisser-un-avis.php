@@ -1,7 +1,7 @@
 <?php
-/* ========== Initialisation de la session ========== */
+/* ========== Sécurisation : accès utilisateur ========== */
+require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
-session_start();
 
 /* ========== Chargement des dépendances ========== */
 
@@ -10,12 +10,6 @@ require_once __DIR__ . '/../models/commandeModel.php';
 require_once __DIR__ . '/../models/avisModel.php';
 require_once __DIR__ . '/../services/avisService.php';
 
-/* ========== Sécurité : utilisateur connecté ========== */
-
-if (!isset($_SESSION['user'])) {
-    header('Location: connexion.php');
-    exit;
-}
 
 /* ========== Sécurité : paramètre commande valide ========== */
 

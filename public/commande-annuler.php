@@ -1,20 +1,12 @@
 <?php
-
-/* ========== Initialisation de la session ========== */
-
-session_start();
+/* ========== Sécurisation : accès utilisateur ========== */
+require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
 /* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 
-/* ========== Vérification utilisateur connecté ========== */
-
-if (!isset($_SESSION['user'])) {
-    header('Location: connexion.php');
-    exit;
-}
 
 /* ========== Sécurisation de la méthode HTTP ========== */
 

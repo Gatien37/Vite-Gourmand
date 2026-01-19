@@ -1,7 +1,6 @@
 <?php
-/* ========== Initialisation de la session ========== */
-
-session_start();
+/* ========== Sécurisation : accès utilisateur ========== */
+require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
 /* ========== Chargement des dépendances ========== */
 
@@ -9,13 +8,6 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/menuModel.php';
 require_once __DIR__ . '/../services/commandeService.php';
 require_once __DIR__ . '/../services/mailService.php';
-
-/* ========== Sécurité : utilisateur connecté ========== */
-
-if (!isset($_SESSION['user'])) {
-    header('Location: connexion.php');
-    exit;
-}
 
 /* ========== Sécurité : menu valide ========== */
 

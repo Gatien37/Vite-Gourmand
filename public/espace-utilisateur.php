@@ -1,3 +1,8 @@
+<?php
+/* ========== Sécurisation : accès utilisateur ========== */
+require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
