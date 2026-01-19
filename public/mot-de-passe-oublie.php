@@ -41,46 +41,49 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre de la page ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Mot de passe oublié</h1>
-    <p>Entrez votre adresse e-mail pour recevoir un lien de réinitialisation.</p>
-</section>
+<main id="main-content">
 
-<section class="forgot-container">
+    <!-- ===== Titre de la page ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Mot de passe oublié</h1>
+        <p>Entrez votre adresse e-mail pour recevoir un lien de réinitialisation.</p>
+    </section>
 
-    <!-- ===== Formulaire de réinitialisation ===== -->
-    <form
-        class="forgot-form form-card"
-        action="#"
-        method="POST"
-    >
+    <section class="forgot-container">
 
-        <!-- Message de confirmation -->
-        <?php if (!empty($message)): ?>
-            <p class="alert-success"><?= htmlspecialchars($message) ?></p>
-        <?php endif; ?>
-
-        <label for="email">Adresse e-mail</label>
-        <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            placeholder="exemple@mail.com"
+        <!-- ===== Formulaire de réinitialisation ===== -->
+        <form
+            class="forgot-form form-card"
+            action="#"
+            method="POST"
         >
 
-        <button type="submit" class="btn-commande">
-            Réinitialiser le mot de passe
-        </button>
+            <!-- Message de confirmation -->
+            <?php if (!empty($message)): ?>
+                <p class="alert-success"><?= htmlspecialchars($message) ?></p>
+            <?php endif; ?>
 
-        <div class="auth-links">
-            <a href="connexion.php">Retour à la connexion</a>
-            <a href="inscription.php">Créer un compte</a>
-        </div>
+            <label for="email">Adresse e-mail</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="exemple@mail.com"
+            >
 
-    </form>
-</section>
+            <button type="submit" class="btn-commande">
+                Réinitialiser le mot de passe
+            </button>
+
+            <div class="auth-links">
+                <a href="connexion.php">Retour à la connexion</a>
+                <a href="inscription.php">Créer un compte</a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

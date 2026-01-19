@@ -70,66 +70,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Laisser un avis</h1>
-    <p>Partagez votre expérience avec Vite & Gourmand.</p>
-</section>
+<main id="main-content">
 
-<section class="avis-page-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Laisser un avis</h1>
+        <p>Partagez votre expérience avec Vite & Gourmand.</p>
+    </section>
 
-    <!-- ===== Formulaire d’avis ===== -->
-    <form class="avis-form form-card" method="POST">
+    <section class="avis-page-container">
 
-        <!-- Message d’erreur -->
-        <?php if ($error): ?>
-            <p class="error-message"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
+        <!-- ===== Formulaire d’avis ===== -->
+        <form class="avis-form form-card" method="POST">
 
-        <h2>Votre commande</h2>
+            <!-- Message d’erreur -->
+            <?php if ($error): ?>
+                <p class="error-message"><?= htmlspecialchars($error) ?></p>
+            <?php endif; ?>
 
-        <p>
-            <strong>Menu :</strong>
-            <?= htmlspecialchars($commande['menu_nom']) ?>
-        </p>
+            <h2>Votre commande</h2>
 
-        <p>
-            <strong>Commande :</strong>
-            #CMD-<?= (int) $commande['id'] ?>
-        </p>
+            <p>
+                <strong>Menu :</strong>
+                <?= htmlspecialchars($commande['menu_nom']) ?>
+            </p>
 
-        <h2>Votre note</h2>
+            <p>
+                <strong>Commande :</strong>
+                #CMD-<?= (int) $commande['id'] ?>
+            </p>
 
-        <!-- Système de notation -->
-        <div class="rating" id="rating">
+            <h2>Votre note</h2>
 
-            <input type="hidden" name="note" id="note" value="0">
+            <!-- Système de notation -->
+            <div class="rating" id="rating">
 
-            <span class="star" data-value="1">★</span>
-            <span class="star" data-value="2">★</span>
-            <span class="star" data-value="3">★</span>
-            <span class="star" data-value="4">★</span>
-            <span class="star" data-value="5">★</span>
-        </div>
+                <input type="hidden" name="note" id="note" value="0">
 
-        <h2>Votre commentaire</h2>
+                <span class="star" data-value="1">★</span>
+                <span class="star" data-value="2">★</span>
+                <span class="star" data-value="3">★</span>
+                <span class="star" data-value="4">★</span>
+                <span class="star" data-value="5">★</span>
+            </div>
 
-        <textarea
-            name="commentaire"
-            rows="5"
-            placeholder="Donnez votre avis sur le menu, la livraison, la qualité des plats…"
-        ></textarea>
+            <h2>Votre commentaire</h2>
 
-        <button type="submit" class="btn-commande">
-            Envoyer mon avis
-        </button>
+            <textarea
+                name="commentaire"
+                rows="5"
+                placeholder="Donnez votre avis sur le menu, la livraison, la qualité des plats…"
+            ></textarea>
 
-        <div class="auth-links">
-            <a href="commande-utilisateur.php">← Retour à mes commandes</a>
-        </div>
+            <button type="submit" class="btn-commande">
+                Envoyer mon avis
+            </button>
 
-    </form>
-</section>
+            <div class="auth-links">
+                <a href="commande-utilisateur.php">← Retour à mes commandes</a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

@@ -30,74 +30,77 @@ $employes = getEmployes($pdo);
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Gestion des employés</h1>
-    <p>Ajoutez, modifiez ou désactivez des comptes employés.</p>
-</section>
+<main id="main-content">
 
-<!-- ===== Ajout d’un employé ===== -->
-<div class="add-employe-container">
-    <a href="form-employe.php" class="btn-commande">
-        Ajouter un employé
-    </a>
-</div>
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Gestion des employés</h1>
+        <p>Ajoutez, modifiez ou désactivez des comptes employés.</p>
+    </section>
 
-<!-- ===== Liste des employés ===== -->
-<section class="employes-admin-container">
+    <!-- ===== Ajout d’un employé ===== -->
+    <div class="add-employe-container">
+        <a href="form-employe.php" class="btn-commande">
+            Ajouter un employé
+        </a>
+    </div>
 
-    <table class="employes-admin-table">
+    <!-- ===== Liste des employés ===== -->
+    <section class="employes-admin-container">
 
-        <thead>
-            <tr>
-                <th>Email</th>
-                <th>Statut</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+        <table class="employes-admin-table">
 
-        <tbody>
-
-            <?php foreach ($employes as $employe): ?>
+            <thead>
                 <tr>
-
-                    <!-- Email -->
-                    <td><?= htmlspecialchars($employe['email']) ?></td>
-
-                    <!-- Statut -->
-                    <td>
-                        <?php if ($employe['actif']): ?>
-                            <span class="status actif">Actif</span>
-                        <?php else: ?>
-                            <span class="status inactif">Inactif</span>
-                        <?php endif; ?>
-                    </td>
-
-                    <!-- Actions -->
-                    <td>
-                        <?php if ($employe['actif']): ?>
-                            <a
-                                href="toggle-employe.php?id=<?= (int) $employe['id'] ?>&action=disable"
-                                class="btn-secondary btn-delete"
-                            >
-                                Désactiver
-                            </a>
-                        <?php else: ?>
-                            <a
-                                href="toggle-employe.php?id=<?= (int) $employe['id'] ?>&action=enable"
-                                class="btn-commande"
-                            >
-                                Activer
-                            </a>
-                        <?php endif; ?>
-                    </td>
-
+                    <th>Email</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
                 </tr>
-            <?php endforeach; ?>
+            </thead>
 
-        </tbody>
-    </table>
-</section>
+            <tbody>
+
+                <?php foreach ($employes as $employe): ?>
+                    <tr>
+
+                        <!-- Email -->
+                        <td><?= htmlspecialchars($employe['email']) ?></td>
+
+                        <!-- Statut -->
+                        <td>
+                            <?php if ($employe['actif']): ?>
+                                <span class="status actif">Actif</span>
+                            <?php else: ?>
+                                <span class="status inactif">Inactif</span>
+                            <?php endif; ?>
+                        </td>
+
+                        <!-- Actions -->
+                        <td>
+                            <?php if ($employe['actif']): ?>
+                                <a
+                                    href="toggle-employe.php?id=<?= (int) $employe['id'] ?>&action=disable"
+                                    class="btn-secondary btn-delete"
+                                >
+                                    Désactiver
+                                </a>
+                            <?php else: ?>
+                                <a
+                                    href="toggle-employe.php?id=<?= (int) $employe['id'] ?>&action=enable"
+                                    class="btn-commande"
+                                >
+                                    Activer
+                                </a>
+                            <?php endif; ?>
+                        </td>
+
+                    </tr>
+                <?php endforeach; ?>
+
+            </tbody>
+        </table>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

@@ -41,51 +41,54 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Gestion des horaires</h1>
-    <p>Modifiez les horaires affichés sur le site.</p>
-</section>
+<main id="main-content">
 
-<section class="horaires-form-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Gestion des horaires</h1>
+        <p>Modifiez les horaires affichés sur le site.</p>
+    </section>
 
-    <!-- ===== Formulaire des horaires ===== -->
-    <form method="POST" class="horaires-form form-card">
+    <section class="horaires-form-container">
 
-        <h2>Horaires d'ouverture</h2>
+        <!-- ===== Formulaire des horaires ===== -->
+        <form method="POST" class="horaires-form form-card">
 
-        <?php foreach ($horaires as $h): ?>
-            <div class="jour">
+            <h2>Horaires d'ouverture</h2>
 
-                <label><?= ucfirst($h['jour']) ?></label>
+            <?php foreach ($horaires as $h): ?>
+                <div class="jour">
 
-                <input
-                    type="time"
-                    name="<?= $h['jour'] ?>_ouverture"
-                    value="<?= htmlspecialchars($h['ouverture'] ?? '') ?>"
-                >
+                    <label><?= ucfirst($h['jour']) ?></label>
 
-                <input
-                    type="time"
-                    name="<?= $h['jour'] ?>_fermeture"
-                    value="<?= htmlspecialchars($h['fermeture'] ?? '') ?>"
-                >
+                    <input
+                        type="time"
+                        name="<?= $h['jour'] ?>_ouverture"
+                        value="<?= htmlspecialchars($h['ouverture'] ?? '') ?>"
+                    >
 
+                    <input
+                        type="time"
+                        name="<?= $h['jour'] ?>_fermeture"
+                        value="<?= htmlspecialchars($h['fermeture'] ?? '') ?>"
+                    >
+
+                </div>
+            <?php endforeach; ?>
+
+            <!-- Bouton validation -->
+            <button type="submit" class="btn-commande">
+                Enregistrer les horaires
+            </button>
+
+            <!-- Lien retour -->
+            <div class="auth-links">
+                <a href="espace-employe.php">← Retour au tableau de bord</a>
             </div>
-        <?php endforeach; ?>
 
-        <!-- Bouton validation -->
-        <button type="submit" class="btn-commande">
-            Enregistrer les horaires
-        </button>
-
-        <!-- Lien retour -->
-        <div class="auth-links">
-            <a href="espace-employe.php">← Retour au tableau de bord</a>
-        </div>
-
-    </form>
-</section>
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

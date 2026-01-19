@@ -30,96 +30,99 @@ $avisList = getAllAvis($pdo);
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Gestion des avis</h1>
-    <p>Validez ou refusez les avis déposés par les clients.</p>
-</section>
+<main id="main-content">
 
-<section class="avis-admin-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Gestion des avis</h1>
+        <p>Validez ou refusez les avis déposés par les clients.</p>
+    </section>
 
-    <!-- ===== Tableau des avis ===== -->
-    <table class="avis-admin-table">
+    <section class="avis-admin-container">
 
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Client</th>
-                <th>Menu</th>
-                <th>Note</th>
-                <th>Commentaire</th>
-                <th>Statut</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+        <!-- ===== Tableau des avis ===== -->
+        <table class="avis-admin-table">
 
-        <tbody>
-
-            <?php foreach ($avisList as $avis): ?>
+            <thead>
                 <tr>
-
-                    <!-- Identifiant -->
-                    <td>#<?= (int) $avis['id'] ?></td>
-
-                    <!-- Client -->
-                    <td>
-                        <?= htmlspecialchars($avis['prenom'] . ' ' . $avis['nom']) ?>
-                    </td>
-
-                    <!-- Commande -->
-                    <td>
-                        Commande #<?= (int) $avis['commande_id'] ?>
-                    </td>
-
-                    <!-- Note -->
-                    <td>
-                        <?= str_repeat('⭐', (int) $avis['note']) ?>
-                    </td>
-
-                    <!-- Commentaire -->
-                    <td>
-                        <?= htmlspecialchars($avis['commentaire']) ?>
-                    </td>
-
-                    <!-- Statut -->
-                    <td>
-                        <?php if ($avis['valide']): ?>
-                            <span class="status valide">Validé</span>
-                        <?php else: ?>
-                            <span class="status attente">En attente</span>
-                        <?php endif; ?>
-                    </td>
-
-                    <!-- Actions -->
-                    <td>
-
-                        <?php if (!$avis['valide']): ?>
-                            <a
-                                href="toggle-avis.php?id=<?= (int) $avis['id'] ?>&action=valider"
-                                class="btn-commande"
-                            >
-                                Valider
-                            </a>
-                        <?php endif; ?>
-
-                        <?php if ($avis['valide']): ?>
-                            <a
-                                href="toggle-avis.php?id=<?= (int) $avis['id'] ?>&action=refuser"
-                                class="btn-secondary btn-delete"
-                            >
-                                Refuser
-                            </a>
-                        <?php endif; ?>
-
-                    </td>
-
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>Menu</th>
+                    <th>Note</th>
+                    <th>Commentaire</th>
+                    <th>Statut</th>
+                    <th>Action</th>
                 </tr>
-            <?php endforeach; ?>
+            </thead>
 
-        </tbody>
+            <tbody>
 
-    </table>
-</section>
+                <?php foreach ($avisList as $avis): ?>
+                    <tr>
+
+                        <!-- Identifiant -->
+                        <td>#<?= (int) $avis['id'] ?></td>
+
+                        <!-- Client -->
+                        <td>
+                            <?= htmlspecialchars($avis['prenom'] . ' ' . $avis['nom']) ?>
+                        </td>
+
+                        <!-- Commande -->
+                        <td>
+                            Commande #<?= (int) $avis['commande_id'] ?>
+                        </td>
+
+                        <!-- Note -->
+                        <td>
+                            <?= str_repeat('⭐', (int) $avis['note']) ?>
+                        </td>
+
+                        <!-- Commentaire -->
+                        <td>
+                            <?= htmlspecialchars($avis['commentaire']) ?>
+                        </td>
+
+                        <!-- Statut -->
+                        <td>
+                            <?php if ($avis['valide']): ?>
+                                <span class="status valide">Validé</span>
+                            <?php else: ?>
+                                <span class="status attente">En attente</span>
+                            <?php endif; ?>
+                        </td>
+
+                        <!-- Actions -->
+                        <td>
+
+                            <?php if (!$avis['valide']): ?>
+                                <a
+                                    href="toggle-avis.php?id=<?= (int) $avis['id'] ?>&action=valider"
+                                    class="btn-commande"
+                                >
+                                    Valider
+                                </a>
+                            <?php endif; ?>
+
+                            <?php if ($avis['valide']): ?>
+                                <a
+                                    href="toggle-avis.php?id=<?= (int) $avis['id'] ?>&action=refuser"
+                                    class="btn-secondary btn-delete"
+                                >
+                                    Refuser
+                                </a>
+                            <?php endif; ?>
+
+                        </td>
+
+                    </tr>
+                <?php endforeach; ?>
+
+            </tbody>
+
+        </table>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

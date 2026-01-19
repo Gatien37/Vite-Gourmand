@@ -65,68 +65,71 @@ if (!$token) {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre de la page ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Nouveau mot de passe</h1>
-    <p>Saisissez votre nouveau mot de passe ci-dessous.</p>
-</section>
+<main id="main-content">
 
-<section class="reset-container">
+    <!-- ===== Titre de la page ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Nouveau mot de passe</h1>
+        <p>Saisissez votre nouveau mot de passe ci-dessous.</p>
+    </section>
 
-    <!-- ===== Message utilisateur ===== -->
-    <?php if (!empty($message)): ?>
-        <p class="<?= $success ? 'alert-success' : 'error-message' ?>">
-            <?= htmlspecialchars($message) ?>
-        </p>
-    <?php endif; ?>
+    <section class="reset-container">
 
-    <!-- ===== Formulaire de réinitialisation ===== -->
-    <?php if ($token && $user && !$success): ?>
-        <form
-            class="reset-form form-card"
-            action="#"
-            method="POST"
-        >
+        <!-- ===== Message utilisateur ===== -->
+        <?php if (!empty($message)): ?>
+            <p class="<?= $success ? 'alert-success' : 'error-message' ?>">
+                <?= htmlspecialchars($message) ?>
+            </p>
+        <?php endif; ?>
 
-            <label for="password">Nouveau mot de passe</label>
-            <input
-                type="password"
-                id="password"
-                name="password"
-                required
-                placeholder="Votre nouveau mot de passe"
+        <!-- ===== Formulaire de réinitialisation ===== -->
+        <?php if ($token && $user && !$success): ?>
+            <form
+                class="reset-form form-card"
+                action="#"
+                method="POST"
             >
 
-            <label for="confirm-password">Confirmer le mot de passe</label>
-            <input
-                type="password"
-                id="confirm-password"
-                name="confirm_password"
-                required
-                placeholder="Confirmez le mot de passe"
-            >
+                <label for="password">Nouveau mot de passe</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    placeholder="Votre nouveau mot de passe"
+                >
 
-            <button type="submit" class="btn-commande">
-                Réinitialiser le mot de passe
-            </button>
+                <label for="confirm-password">Confirmer le mot de passe</label>
+                <input
+                    type="password"
+                    id="confirm-password"
+                    name="confirm_password"
+                    required
+                    placeholder="Confirmez le mot de passe"
+                >
 
+                <button type="submit" class="btn-commande">
+                    Réinitialiser le mot de passe
+                </button>
+
+                <div class="auth-links">
+                    <a href="connexion.php">Retour à la connexion</a>
+                </div>
+
+            </form>
+        <?php endif; ?>
+
+        <!-- ===== Action post-succès ===== -->
+        <?php if ($success): ?>
             <div class="auth-links">
-                <a href="connexion.php">Retour à la connexion</a>
+                <a href="connexion.php" class="btn-commande">
+                    Se connecter
+                </a>
             </div>
+        <?php endif; ?>
 
-        </form>
-    <?php endif; ?>
-
-    <!-- ===== Action post-succès ===== -->
-    <?php if ($success): ?>
-        <div class="auth-links">
-            <a href="connexion.php" class="btn-commande">
-                Se connecter
-            </a>
-        </div>
-    <?php endif; ?>
-
-</section>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

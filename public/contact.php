@@ -59,97 +59,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Contactez-nous</h1>
-    <p>Une question ? Un événement à organiser ? Nous sommes là pour vous aider.</p>
-</section>
+<main id="main-content">
 
-<section class="contact-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Contactez-nous</h1>
+        <p>Une question ? Un événement à organiser ? Nous sommes là pour vous aider.</p>
+    </section>
 
-    <!-- ===== Formulaire de contact ===== -->
-    <div class="contact-form form-card">
+    <section class="contact-container">
 
-        <!-- Message de retour -->
-        <?php if (!empty($message)): ?>
-            <p class="<?= $success ? 'alert-success' : 'error-message' ?>">
-                <?= htmlspecialchars($message) ?>
+        <!-- ===== Formulaire de contact ===== -->
+        <div class="contact-form form-card">
+
+            <!-- Message de retour -->
+            <?php if (!empty($message)): ?>
+                <p class="<?= $success ? 'alert-success' : 'error-message' ?>">
+                    <?= htmlspecialchars($message) ?>
+                </p>
+            <?php endif; ?>
+
+            <h2>Envoyer un message</h2>
+
+            <form action="#" method="POST">
+
+                <label for="email">E-mail</label>
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="Votre adresse e-mail"
+                >
+
+                <label for="sujet">Sujet</label>
+                <input
+                    type="text"
+                    id="sujet"
+                    name="sujet"
+                    required
+                    placeholder="Sujet de votre message"
+                >
+
+                <label for="message">Message</label>
+                <textarea
+                    id="message"
+                    name="message"
+                    rows="6"
+                    required
+                    placeholder="Votre message"
+                ></textarea>
+
+                <button class="btn-commande" type="submit">
+                    Envoyer
+                </button>
+
+            </form>
+        </div>
+
+        <!-- ===== Informations de contact ===== -->
+        <div class="contact-infos">
+
+            <h2>Nos coordonnées</h2>
+
+            <p>
+                <strong>Adresse :</strong><br>
+                12 Rue des Gourmets, 33000 Bordeaux
             </p>
-        <?php endif; ?>
 
-        <h2>Envoyer un message</h2>
-
-        <form action="#" method="POST">
-
-            <label for="email">E-mail</label>
-            <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                placeholder="Votre adresse e-mail"
-            >
-
-            <label for="sujet">Sujet</label>
-            <input
-                type="text"
-                id="sujet"
-                name="sujet"
-                required
-                placeholder="Sujet de votre message"
-            >
-
-            <label for="message">Message</label>
-            <textarea
-                id="message"
-                name="message"
-                rows="6"
-                required
-                placeholder="Votre message"
-            ></textarea>
-
-            <button class="btn-commande" type="submit">
-                Envoyer
-            </button>
-
-        </form>
-    </div>
-
-    <!-- ===== Informations de contact ===== -->
-    <div class="contact-infos">
-
-        <h2>Nos coordonnées</h2>
-
-        <p>
-            <strong>Adresse :</strong><br>
-            12 Rue des Gourmets, 33000 Bordeaux
-        </p>
-
-        <p>
-            <strong>Téléphone :</strong><br>
-            05 56 48 32 10
-        </p>
-
-        <p>
-            <strong>Email :</strong><br>
-            contact@viteetgourmand.fr
-        </p>
-
-        <p><strong>Horaires d'ouverture :</strong></p>
-
-        <?php foreach ($horaires as $h): ?>
-            <p class="horaire-item">
-                <strong><?= ucfirst($h['jour']) ?> :</strong>
-                <?php if ($h['ouverture'] && $h['fermeture']): ?>
-                    <?= substr($h['ouverture'], 0, 5) ?> – <?= substr($h['fermeture'], 0, 5) ?>
-                <?php else: ?>
-                    Fermé
-                <?php endif; ?>
+            <p>
+                <strong>Téléphone :</strong><br>
+                05 56 48 32 10
             </p>
-        <?php endforeach; ?>
 
-    </div>
-</section>
+            <p>
+                <strong>Email :</strong><br>
+                contact@viteetgourmand.fr
+            </p>
+
+            <p><strong>Horaires d'ouverture :</strong></p>
+
+            <?php foreach ($horaires as $h): ?>
+                <p class="horaire-item">
+                    <strong><?= ucfirst($h['jour']) ?> :</strong>
+                    <?php if ($h['ouverture'] && $h['fermeture']): ?>
+                        <?= substr($h['ouverture'], 0, 5) ?> – <?= substr($h['fermeture'], 0, 5) ?>
+                    <?php else: ?>
+                        Fermé
+                    <?php endif; ?>
+                </p>
+            <?php endforeach; ?>
+
+        </div>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

@@ -92,54 +92,57 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Connexion</h1>
-    <p>Accédez à votre espace personnel.</p>
-</section>
+<main id="main-content">
 
-<section class="login-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Connexion</h1>
+        <p>Accédez à votre espace personnel.</p>
+    </section>
 
-    <!-- Message de succès -->
-    <?php if (!empty($_SESSION['success'])): ?>
-        <div class="alert-success">
-            <?= htmlspecialchars($_SESSION['success']) ?>
-        </div>
-        <?php unset($_SESSION['success']); ?>
-    <?php endif; ?>
+    <section class="login-container">
 
-    <!-- Formulaire de connexion -->
-    <form class="login-form form-card" action="#" method="POST">
+        <!-- Message de succès -->
+        <?php if (!empty($_SESSION['success'])): ?>
+            <div class="alert-success">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+            </div>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
 
-        <label for="email">Adresse e-mail</label>
-        <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="exemple@mail.com"
-            required
-        >
+        <!-- Formulaire de connexion -->
+        <form class="login-form form-card" action="#" method="POST">
 
-        <label for="password">Mot de passe</label>
-        <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Votre mot de passe"
-            required
-        >
+            <label for="email">Adresse e-mail</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="exemple@mail.com"
+                required
+            >
 
-        <button type="submit" class="btn-commande">
-            Se connecter
-        </button>
+            <label for="password">Mot de passe</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Votre mot de passe"
+                required
+            >
 
-        <div class="auth-links">
-            <a href="mot-de-passe-oublie.php">Mot de passe oublié ?</a>
-            <a href="inscription.php">Créer un compte</a>
-        </div>
+            <button type="submit" class="btn-commande">
+                Se connecter
+            </button>
 
-    </form>
-</section>
+            <div class="auth-links">
+                <a href="mot-de-passe-oublie.php">Mot de passe oublié ?</a>
+                <a href="inscription.php">Créer un compte</a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

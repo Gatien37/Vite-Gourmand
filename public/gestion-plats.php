@@ -30,99 +30,102 @@ $plats = getAllPlats($pdo);
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Gestion des plats</h1>
-    <p>Activez, désactivez ou modifiez les plats proposés.</p>
-</section>
+<main id="main-content">
 
-<section class="plats-admin-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Gestion des plats</h1>
+        <p>Activez, désactivez ou modifiez les plats proposés.</p>
+    </section>
 
-    <!-- ===== Tableau des plats ===== -->
-    <table class="plats-admin-table">
+    <section class="plats-admin-container">
 
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Type</th>
-                <th>Statut</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+        <!-- ===== Tableau des plats ===== -->
+        <table class="plats-admin-table">
 
-        <tbody>
-
-            <?php foreach ($plats as $plat): ?>
-                <?php
-                /* Menus impactés par le plat */
-                $menusImpactes = getMenusImpactesParPlat($pdo, (int) $plat['id']);
-                ?>
-
+            <thead>
                 <tr>
+                    <th>Nom</th>
+                    <th>Type</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
 
-                    <!-- Nom -->
-                    <td><?= htmlspecialchars($plat['nom']) ?></td>
+            <tbody>
 
-                    <!-- Type -->
-                    <td><?= ucfirst($plat['type']) ?></td>
+                <?php foreach ($plats as $plat): ?>
+                    <?php
+                    /* Menus impactés par le plat */
+                    $menusImpactes = getMenusImpactesParPlat($pdo, (int) $plat['id']);
+                    ?>
 
-                    <!-- Statut -->
-                    <td>
-                        <?php if ($plat['actif']): ?>
-                            <span class="status actif">Actif</span>
-                        <?php else: ?>
-                            <span class="status inactif">Inactif</span>
-                        <?php endif; ?>
-                    </td>
+                    <tr>
 
-                    <!-- Actions -->
-                    <td>
+                        <!-- Nom -->
+                        <td><?= htmlspecialchars($plat['nom']) ?></td>
 
-                        <a
-                            href="form-plat.php?id=<?= (int) $plat['id'] ?>"
-                            class="btn-commande"
-                        >
-                            Modifier
-                        </a>
+                        <!-- Type -->
+                        <td><?= ucfirst($plat['type']) ?></td>
 
-                        <?php if ($plat['actif']): ?>
+                        <!-- Statut -->
+                        <td>
+                            <?php if ($plat['actif']): ?>
+                                <span class="status actif">Actif</span>
+                            <?php else: ?>
+                                <span class="status inactif">Inactif</span>
+                            <?php endif; ?>
+                        </td>
+
+                        <!-- Actions -->
+                        <td>
+
                             <a
-                                href="toggle-plat.php?id=<?= (int) $plat['id'] ?>&action=desactiver"
-                                class="btn-secondary btn-delete"
-                            >
-                                Désactiver
-                            </a>
-                        <?php else: ?>
-                            <a
-                                href="toggle-plat.php?id=<?= (int) $plat['id'] ?>&action=activer"
+                                href="form-plat.php?id=<?= (int) $plat['id'] ?>"
                                 class="btn-commande"
                             >
-                                Activer
+                                Modifier
                             </a>
-                        <?php endif; ?>
 
-                        <!-- Menus impactés -->
-                        <?php if (!empty($menusImpactes)): ?>
-                            <details class="impact-details">
-                                <summary>
-                                    Menus impactés (<?= count($menusImpactes) ?>)
-                                </summary>
-                                <ul>
-                                    <?php foreach ($menusImpactes as $menu): ?>
-                                        <li><?= htmlspecialchars($menu['nom']) ?></li>
-                                    <?php endforeach; ?>
-                                </ul>
-                            </details>
-                        <?php endif; ?>
+                            <?php if ($plat['actif']): ?>
+                                <a
+                                    href="toggle-plat.php?id=<?= (int) $plat['id'] ?>&action=desactiver"
+                                    class="btn-secondary btn-delete"
+                                >
+                                    Désactiver
+                                </a>
+                            <?php else: ?>
+                                <a
+                                    href="toggle-plat.php?id=<?= (int) $plat['id'] ?>&action=activer"
+                                    class="btn-commande"
+                                >
+                                    Activer
+                                </a>
+                            <?php endif; ?>
 
-                    </td>
+                            <!-- Menus impactés -->
+                            <?php if (!empty($menusImpactes)): ?>
+                                <details class="impact-details">
+                                    <summary>
+                                        Menus impactés (<?= count($menusImpactes) ?>)
+                                    </summary>
+                                    <ul>
+                                        <?php foreach ($menusImpactes as $menu): ?>
+                                            <li><?= htmlspecialchars($menu['nom']) ?></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </details>
+                            <?php endif; ?>
 
-                </tr>
-            <?php endforeach; ?>
+                        </td>
 
-        </tbody>
-    </table>
-</section>
+                    </tr>
+                <?php endforeach; ?>
+
+            </tbody>
+        </table>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

@@ -49,129 +49,132 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Créer un compte</h1>
-    <p>Rejoignez Vite & Gourmand et commandez vos menus en quelques clics&nbsp;!</p>
-</section>
+<main id="main-content">
 
-<section class="register-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Créer un compte</h1>
+        <p>Rejoignez Vite & Gourmand et commandez vos menus en quelques clics&nbsp;!</p>
+    </section>
 
-    <!-- ===== Formulaire d’inscription ===== -->
-    <form
-        id="register-form"
-        class="register-form form-card"
-        action="#"
-        method="POST"
-    >
+    <section class="register-container">
 
-        <!-- Message d’erreur -->
-        <?php if ($error): ?>
-            <p id="form-errors"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
-
-        <h2>Informations personnelles</h2>
-
-        <label for="prenom">Prénom <span class="required">*</span></label>
-        <input
-            type="text"
-            id="prenom"
-            name="prenom"
-            placeholder="Votre prénom"
+        <!-- ===== Formulaire d’inscription ===== -->
+        <form
+            id="register-form"
+            class="register-form form-card"
+            action="#"
+            method="POST"
         >
 
-        <label for="nom">Nom <span class="required">*</span></label>
-        <input
-            type="text"
-            id="nom"
-            name="nom"
-            placeholder="Votre nom"
-        >
+            <!-- Message d’erreur -->
+            <?php if ($error): ?>
+                <p id="form-errors"><?= htmlspecialchars($error) ?></p>
+            <?php endif; ?>
 
-        <label for="email">Adresse e-mail <span class="required">*</span></label>
-        <input
-            type="email"
-            id="email"
-            name="email"
-            placeholder="exemple@mail.com"
-        >
+            <h2>Informations personnelles</h2>
 
-        <label for="telephone">Téléphone <span class="required">*</span></label>
-        <input
-            type="text"
-            id="telephone"
-            name="telephone"
-            placeholder="Votre numéro de téléphone"
-        >
+            <label for="prenom">Prénom <span class="required">*</span></label>
+            <input
+                type="text"
+                id="prenom"
+                name="prenom"
+                placeholder="Votre prénom"
+            >
 
-        <label for="adresse">Adresse <span class="required">*</span></label>
-        <input
-            type="text"
-            id="adresse"
-            name="adresse"
-            placeholder="Votre adresse"
-        >
+            <label for="nom">Nom <span class="required">*</span></label>
+            <input
+                type="text"
+                id="nom"
+                name="nom"
+                placeholder="Votre nom"
+            >
 
-        <label for="ville">Ville <span class="required">*</span></label>
-        <input
-            type="text"
-            id="ville"
-            name="ville"
-            placeholder="Votre ville"
-        >
+            <label for="email">Adresse e-mail <span class="required">*</span></label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="exemple@mail.com"
+            >
 
-        <label for="code-postal">Code postal <span class="required">*</span></label>
-        <input
-            type="text"
-            id="code-postal"
-            name="code_postal"
-            placeholder="Code postal"
-        >
+            <label for="telephone">Téléphone <span class="required">*</span></label>
+            <input
+                type="text"
+                id="telephone"
+                name="telephone"
+                placeholder="Votre numéro de téléphone"
+            >
 
-        <h2>Sécurité du compte</h2>
+            <label for="adresse">Adresse <span class="required">*</span></label>
+            <input
+                type="text"
+                id="adresse"
+                name="adresse"
+                placeholder="Votre adresse"
+            >
 
-        <label for="password">Mot de passe <span class="required">*</span></label>
-        <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="Votre mot de passe"
-        >
+            <label for="ville">Ville <span class="required">*</span></label>
+            <input
+                type="text"
+                id="ville"
+                name="ville"
+                placeholder="Votre ville"
+            >
 
-        <!-- Règles de sécurité du mot de passe -->
-        <ul class="password-rules" id="password-rules">
-            <li data-rule="length">❌ 10 caractères minimum</li>
-            <li data-rule="uppercase">❌ Une majuscule</li>
-            <li data-rule="lowercase">❌ Une minuscule</li>
-            <li data-rule="number">❌ Un chiffre</li>
-            <li data-rule="special">❌ Un caractère spécial</li>
-        </ul>
+            <label for="code-postal">Code postal <span class="required">*</span></label>
+            <input
+                type="text"
+                id="code-postal"
+                name="code_postal"
+                placeholder="Code postal"
+            >
 
-        <label for="confirm-password">
-            Confirmer le mot de passe <span class="required">*</span>
-        </label>
-        <input
-            type="password"
-            id="confirm-password"
-            name="confirm_password"
-            placeholder="Confirmez le mot de passe"
-        >
+            <h2>Sécurité du compte</h2>
 
-        <button type="submit" class="btn-commande">
-            Créer mon compte
-        </button>
+            <label for="password">Mot de passe <span class="required">*</span></label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Votre mot de passe"
+            >
 
-        <div class="auth-links">
+            <!-- Règles de sécurité du mot de passe -->
+            <ul class="password-rules" id="password-rules">
+                <li data-rule="length">❌ 10 caractères minimum</li>
+                <li data-rule="uppercase">❌ Une majuscule</li>
+                <li data-rule="lowercase">❌ Une minuscule</li>
+                <li data-rule="number">❌ Un chiffre</li>
+                <li data-rule="special">❌ Un caractère spécial</li>
+            </ul>
 
-            <p class="required-info">
-                <span class="required">*</span> Champs obligatoires
-            </p>
+            <label for="confirm-password">
+                Confirmer le mot de passe <span class="required">*</span>
+            </label>
+            <input
+                type="password"
+                id="confirm-password"
+                name="confirm_password"
+                placeholder="Confirmez le mot de passe"
+            >
 
-            <a href="connexion.php">Déjà un compte ? Se connecter</a>
-        </div>
+            <button type="submit" class="btn-commande">
+                Créer mon compte
+            </button>
 
-    </form>
-</section>
+            <div class="auth-links">
+
+                <p class="required-info">
+                    <span class="required">*</span> Champs obligatoires
+                </p>
+
+                <a href="connexion.php">Déjà un compte ? Se connecter</a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

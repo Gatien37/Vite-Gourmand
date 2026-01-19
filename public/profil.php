@@ -76,94 +76,97 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre de la page ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Mon profil</h1>
-    <p>Modifiez vos informations personnelles.</p>
-</section>
+<main id="main-content">
 
-<section class="profil-container">
+    <!-- ===== Titre de la page ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Mon profil</h1>
+        <p>Modifiez vos informations personnelles.</p>
+    </section>
 
-    <!-- ===== Formulaire profil utilisateur ===== -->
-    <form
-        class="profil-form form-card"
-        action="#"
-        method="POST"
-    >
+    <section class="profil-container">
 
-        <!-- Message de succès -->
-        <?php if ($success): ?>
-            <p class="alert-success"><?= htmlspecialchars($success) ?></p>
-        <?php endif; ?>
-
-        <!-- Message d’erreur -->
-        <?php if ($error): ?>
-            <p class="error-message"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
-
-        <!-- Informations non modifiables -->
-        <input
-            type="text"
-            name="prenom"
-            value="<?= htmlspecialchars($user['prenom']) ?>"
-            disabled
+        <!-- ===== Formulaire profil utilisateur ===== -->
+        <form
+            class="profil-form form-card"
+            action="#"
+            method="POST"
         >
 
-        <input
-            type="text"
-            name="nom"
-            value="<?= htmlspecialchars($user['nom']) ?>"
-            disabled
-        >
+            <!-- Message de succès -->
+            <?php if ($success): ?>
+                <p class="alert-success"><?= htmlspecialchars($success) ?></p>
+            <?php endif; ?>
 
-        <input
-            type="email"
-            name="email"
-            value="<?= htmlspecialchars($user['email']) ?>"
-            disabled
-        >
+            <!-- Message d’erreur -->
+            <?php if ($error): ?>
+                <p class="error-message"><?= htmlspecialchars($error) ?></p>
+            <?php endif; ?>
 
-        <input
-            type="text"
-            name="telephone"
-            value="<?= htmlspecialchars($user['gsm']) ?>"
-            disabled
-        >
+            <!-- Informations non modifiables -->
+            <input
+                type="text"
+                name="prenom"
+                value="<?= htmlspecialchars($user['prenom']) ?>"
+                disabled
+            >
 
-        <!-- Informations modifiables -->
-        <label for="adresse">Adresse</label>
-        <input
-            type="text"
-            name="adresse"
-            value="<?= htmlspecialchars($user['adresse']) ?>"
-        >
+            <input
+                type="text"
+                name="nom"
+                value="<?= htmlspecialchars($user['nom']) ?>"
+                disabled
+            >
 
-        <label for="ville">Ville</label>
-        <input
-            type="text"
-            name="ville"
-            value="<?= htmlspecialchars($user['ville']) ?>"
-        >
+            <input
+                type="email"
+                name="email"
+                value="<?= htmlspecialchars($user['email']) ?>"
+                disabled
+            >
 
-        <label for="code-postal">Code postal</label>
-        <input
-            type="text"
-            name="code_postal"
-            value="<?= htmlspecialchars($user['code_postal']) ?>"
-        >
+            <input
+                type="text"
+                name="telephone"
+                value="<?= htmlspecialchars($user['gsm']) ?>"
+                disabled
+            >
 
-        <button type="submit" class="btn-commande">
-            Enregistrer les modifications
-        </button>
+            <!-- Informations modifiables -->
+            <label for="adresse">Adresse</label>
+            <input
+                type="text"
+                name="adresse"
+                value="<?= htmlspecialchars($user['adresse']) ?>"
+            >
 
-        <div class="auth-links">
-            <a href="espace-utilisateur.php">
-                Retour à mon tableau de bord
-            </a>
-        </div>
+            <label for="ville">Ville</label>
+            <input
+                type="text"
+                name="ville"
+                value="<?= htmlspecialchars($user['ville']) ?>"
+            >
 
-    </form>
-</section>
+            <label for="code-postal">Code postal</label>
+            <input
+                type="text"
+                name="code_postal"
+                value="<?= htmlspecialchars($user['code_postal']) ?>"
+            >
+
+            <button type="submit" class="btn-commande">
+                Enregistrer les modifications
+            </button>
+
+            <div class="auth-links">
+                <a href="espace-utilisateur.php">
+                    Retour à mon tableau de bord
+                </a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

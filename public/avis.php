@@ -26,50 +26,53 @@ $avisList = getAvisValides($pdo, 50);
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<section class="avis">
-    <h2>Tous les avis clients</h2>
+<main id="main-content">
 
-    <?php if (empty($avisList)): ?>
+    <section class="avis">
+        <h2>Tous les avis clients</h2>
 
-        <p>Aucun avis client pour le moment.</p>
+        <?php if (empty($avisList)): ?>
 
-    <?php else: ?>
+            <p>Aucun avis client pour le moment.</p>
 
-        <div class="avis-container">
-            <?php foreach ($avisList as $avis): ?>
+        <?php else: ?>
 
-                <article class="avis-card">
+            <div class="avis-container">
+                <?php foreach ($avisList as $avis): ?>
 
-                    <!-- Note + auteur -->
-                    <header class="avis-header">
-                        <div class="avis-stars">
-                            <?php for ($i = 1; $i <= 5; $i++): ?>
-                                <img
-                                    src="assets/images/icone_star.svg"
-                                    alt="étoile"
-                                    class="star <?= $i <= $avis['note'] ? 'active' : '' ?>"
-                                >
-                            <?php endfor; ?>
-                        </div>
+                    <article class="avis-card">
 
-                        <h3>
-                            <?= htmlspecialchars($avis['prenom']) ?>
-                            <?= strtoupper(substr($avis['nom'], 0, 1)) ?>.
-                        </h3>
-                    </header>
+                        <!-- Note + auteur -->
+                        <header class="avis-header">
+                            <div class="avis-stars">
+                                <?php for ($i = 1; $i <= 5; $i++): ?>
+                                    <img
+                                        src="assets/images/icone_star.svg"
+                                        alt="étoile"
+                                        class="star <?= $i <= $avis['note'] ? 'active' : '' ?>"
+                                    >
+                                <?php endfor; ?>
+                            </div>
 
-                    <!-- Commentaire -->
-                    <p class="avis-commentaire">
-                        “<?= nl2br(htmlspecialchars($avis['commentaire'])) ?>”
-                    </p>
+                            <h3>
+                                <?= htmlspecialchars($avis['prenom']) ?>
+                                <?= strtoupper(substr($avis['nom'], 0, 1)) ?>.
+                            </h3>
+                        </header>
 
-                </article>
+                        <!-- Commentaire -->
+                        <p class="avis-commentaire">
+                            “<?= nl2br(htmlspecialchars($avis['commentaire'])) ?>”
+                        </p>
 
-            <?php endforeach; ?>
-        </div>
+                    </article>
 
-    <?php endif; ?>
-</section>
+                <?php endforeach; ?>
+            </div>
+
+        <?php endif; ?>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

@@ -44,41 +44,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Créer un employé</h1>
-    <p>Création d'un compte employé.</p>
-</section>
+<main id="main-content">
 
-<section class="employe-form-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Créer un employé</h1>
+        <p>Création d'un compte employé.</p>
+    </section>
 
-    <!-- ===== Formulaire de création employé ===== -->
-    <form method="POST" class="employe-form form-card">
+    <section class="employe-form-container">
 
-        <!-- Message d’erreur -->
-        <?php if ($error): ?>
-            <p class="alert-error"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
+        <!-- ===== Formulaire de création employé ===== -->
+        <form method="POST" class="employe-form form-card">
 
-        <label>Email *</label>
-        <input type="email" name="email" required>
+            <!-- Message d’erreur -->
+            <?php if ($error): ?>
+                <p class="alert-error"><?= htmlspecialchars($error) ?></p>
+            <?php endif; ?>
 
-        <label>Mot de passe *</label>
-        <input type="password" name="password" required>
+            <label>Email *</label>
+            <input type="email" name="email" required>
 
-        <label>Confirmer le mot de passe *</label>
-        <input type="password" name="confirm_password" required>
+            <label>Mot de passe *</label>
+            <input type="password" name="password" required>
 
-        <button class="btn-commande">
-            Créer l'employé
-        </button>
+            <label>Confirmer le mot de passe *</label>
+            <input type="password" name="confirm_password" required>
 
-        <div class="auth-links">
-            <a href="gestion-employes.php">← Retour</a>
-        </div>
+            <button class="btn-commande">
+                Créer l'employé
+            </button>
 
-    </form>
-</section>
+            <div class="auth-links">
+                <a href="gestion-employes.php">← Retour</a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

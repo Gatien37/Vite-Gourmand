@@ -16,23 +16,26 @@ require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
     <!-- Header -->
     <?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-    <section class="dashboard-container">
+    <main id="main-content">
 
-        <!-- BLOC PROFIL -->
-        <div class="dashboard-card">
-            <h2>Mes informations</h2>
-            <p>Consultez ou modifiez vos données personnelles.</p>
-            <a href="profil.php" class="btn-commande">Voir mon profil</a>
-        </div>
+        <section class="dashboard-container">
 
-        <!-- BLOC COMMANDES -->
-        <div class="dashboard-card">
-            <h2>Mes commandes</h2>
-            <p>Suivez vos commandes passées et en cours.</p>
-            <a href="commande-utilisateur.php" class="btn-commande">Voir mes commandes</a>
-        </div>
+            <!-- BLOC PROFIL -->
+            <div class="dashboard-card">
+                <h2>Mes informations</h2>
+                <p>Consultez ou modifiez vos données personnelles.</p>
+                <a href="profil.php" class="btn-commande">Voir mon profil</a>
+            </div>
 
-    </section>
+            <!-- BLOC COMMANDES -->
+            <div class="dashboard-card">
+                <h2>Mes commandes</h2>
+                <p>Suivez vos commandes passées et en cours.</p>
+                <a href="commande-utilisateur.php" class="btn-commande">Voir mes commandes</a>
+            </div>
+
+        </section>
+    </main>
 
     <!-- Footer -->
     <?php require_once __DIR__ . '/../partials/footer.php'; ?>

@@ -26,55 +26,58 @@ $allMenus    = $stats['allMenus'];
 <!-- Header -->
 <?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-<section class="hero-section commandes-hero">
-    <h1>Statistiques générales</h1>
-    <p>Analyse des commandes par menu.</p>
-</section>
+<main id="main-content">
 
-<!-- ===== ACTION ADMIN : SYNCHRONISATION ===== -->
-<section class="ca-actions">
-    <a
-        href="../sync/sync_menu_stats.php?redirect=statistiques"
-        class="btn-commande js-confirm-sync"
-    >
-        Mettre à jour les statistiques
-    </a>
-</section>
+    <section class="hero-section commandes-hero">
+        <h1>Statistiques générales</h1>
+        <p>Analyse des commandes par menu.</p>
+    </section>
 
-<!-- ================= TABLEAU DES STATISTIQUES ================= -->
-<section class="stats-table-section">
-    <h2>Nombre de commandes par menu</h2>
+    <!-- ===== ACTION ADMIN : SYNCHRONISATION ===== -->
+    <section class="ca-actions">
+        <a
+            href="../sync/sync_menu_stats.php?redirect=statistiques"
+            class="btn-commande js-confirm-sync"
+        >
+            Mettre à jour les statistiques
+        </a>
+    </section>
 
-    <table class="stats-table">
-        <thead>
-            <tr>
-                <th>Menu</th>
-                <th>Nombre de commandes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($allMenus as $menuName): ?>
+    <!-- ================= TABLEAU DES STATISTIQUES ================= -->
+    <section class="stats-table-section">
+        <h2>Nombre de commandes par menu</h2>
+
+        <table class="stats-table">
+            <thead>
                 <tr>
-                    <td><?= htmlspecialchars($menuName) ?></td>
-                    <td><?= $statsByMenu[$menuName] ?? 0 ?></td>
+                    <th>Menu</th>
+                    <th>Nombre de commandes</th>
                 </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</section>
+            </thead>
+            <tbody>
+                <?php foreach ($allMenus as $menuName): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($menuName) ?></td>
+                        <td><?= $statsByMenu[$menuName] ?? 0 ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </section>
 
-<!-- ================= GRAPHIQUE ================= -->
-<section class="stats-graphs">
-    <div class="graph-card">
-        <h2>Menus les plus commandés</h2>
+    <!-- ================= GRAPHIQUE ================= -->
+    <section class="stats-graphs">
+        <div class="graph-card">
+            <h2>Menus les plus commandés</h2>
 
-        <canvas
-            id="graphMenus"
-            data-labels='<?= json_encode($labels, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
-            data-values='<?= json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
-        ></canvas>
-    </div>
-</section>
+            <canvas
+                id="graphMenus"
+                data-labels='<?= json_encode($labels, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
+                data-values='<?= json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
+            ></canvas>
+        </div>
+    </section>
+</main>
 
 <!-- Footer -->
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>

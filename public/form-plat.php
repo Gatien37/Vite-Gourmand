@@ -75,71 +75,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1><?= $plat ? 'Modifier un plat' : 'Créer un plat' ?></h1>
-</section>
+<main id="main-content">
 
-<section class="form-container">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1><?= $plat ? 'Modifier un plat' : 'Créer un plat' ?></h1>
+    </section>
 
-    <!-- ===== Formulaire plat ===== -->
-    <form method="POST" class="form-card">
+    <section class="form-container">
 
-        <!-- Message d’erreur -->
-        <?php if ($error): ?>
-            <p class="error-message"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
+        <!-- ===== Formulaire plat ===== -->
+        <form method="POST" class="form-card">
 
-        <!-- Nom -->
-        <label>Nom</label>
-        <input
-            type="text"
-            name="nom"
-            value="<?= htmlspecialchars($plat['nom'] ?? '') ?>"
-            required
-        >
+            <!-- Message d’erreur -->
+            <?php if ($error): ?>
+                <p class="error-message"><?= htmlspecialchars($error) ?></p>
+            <?php endif; ?>
 
-        <!-- Type -->
-        <label>Type</label>
-        <select name="type">
-            <option value="entree" <?= ($plat['type'] ?? '') === 'entree' ? 'selected' : '' ?>>
-                Entrée
-            </option>
-            <option value="plat" <?= ($plat['type'] ?? '') === 'plat' ? 'selected' : '' ?>>
-                Plat
-            </option>
-            <option value="dessert" <?= ($plat['type'] ?? '') === 'dessert' ? 'selected' : '' ?>>
-                Dessert
-            </option>
-        </select>
+            <!-- Nom -->
+            <label>Nom</label>
+            <input
+                type="text"
+                name="nom"
+                value="<?= htmlspecialchars($plat['nom'] ?? '') ?>"
+                required
+            >
 
-        <!-- Allergènes -->
-        <label>Allergènes</label>
+            <!-- Type -->
+            <label>Type</label>
+            <select name="type">
+                <option value="entree" <?= ($plat['type'] ?? '') === 'entree' ? 'selected' : '' ?>>
+                    Entrée
+                </option>
+                <option value="plat" <?= ($plat['type'] ?? '') === 'plat' ? 'selected' : '' ?>>
+                    Plat
+                </option>
+                <option value="dessert" <?= ($plat['type'] ?? '') === 'dessert' ? 'selected' : '' ?>>
+                    Dessert
+                </option>
+            </select>
 
-        <?php foreach ($allergenes as $allergene): ?>
-            <label class="checkbox-allergene">
-                <input
-                    type="checkbox"
-                    name="allergenes[]"
-                    value="<?= $allergene['id'] ?>"
-                    <?= in_array($allergene['id'], $allergenesSelectionnes) ? 'checked' : '' ?>
-                >
-                <?= htmlspecialchars($allergene['nom']) ?>
-            </label>
-        <?php endforeach; ?>
+            <!-- Allergènes -->
+            <label>Allergènes</label>
 
-        <!-- Bouton validation -->
-        <button class="btn-commande">
-            Enregistrer
-        </button>
+            <?php foreach ($allergenes as $allergene): ?>
+                <label class="checkbox-allergene">
+                    <input
+                        type="checkbox"
+                        name="allergenes[]"
+                        value="<?= $allergene['id'] ?>"
+                        <?= in_array($allergene['id'], $allergenesSelectionnes) ? 'checked' : '' ?>
+                    >
+                    <?= htmlspecialchars($allergene['nom']) ?>
+                </label>
+            <?php endforeach; ?>
 
-        <!-- Lien retour -->
-        <div class="auth-links">
-            <a href="gestion-plats.php">← Retour</a>
-        </div>
+            <!-- Bouton validation -->
+            <button class="btn-commande">
+                Enregistrer
+            </button>
 
-    </form>
-</section>
+            <!-- Lien retour -->
+            <div class="auth-links">
+                <a href="gestion-plats.php">← Retour</a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

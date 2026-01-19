@@ -159,111 +159,114 @@ $isLivraison = ($commande['adresse'] !== 'Retrait sur place');
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Modifier ma commande</h1>
-    <p>Vous pouvez modifier cette commande tant qu'elle est en attente.</p>
-</section>
+<main id="main-content">
 
-<section class="profil-container">
-    <form class="profil-form form-card" method="POST">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Modifier ma commande</h1>
+        <p>Vous pouvez modifier cette commande tant qu'elle est en attente.</p>
+    </section>
 
-        <!-- Message d’erreur -->
-        <?php if ($error): ?>
-            <p class="error-message"><?= htmlspecialchars($error) ?></p>
-        <?php endif; ?>
+    <section class="profil-container">
+        <form class="profil-form form-card" method="POST">
 
-        <!-- Menu (non modifiable) -->
-        <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
+            <!-- Message d’erreur -->
+            <?php if ($error): ?>
+                <p class="error-message"><?= htmlspecialchars($error) ?></p>
+            <?php endif; ?>
 
-        <!-- Date -->
-        <label>Date *</label>
-        <input
-            type="date"
-            name="date"
-            value="<?= htmlspecialchars($dateValue) ?>"
-            required
-        >
+            <!-- Menu (non modifiable) -->
+            <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
 
-        <!-- Heure -->
-        <label>Heure *</label>
-        <input
-            type="time"
-            name="heure"
-            value="<?= htmlspecialchars($heureValue) ?>"
-            required
-        >
-
-        <!-- Nombre de personnes -->
-        <label>Nombre de personnes *</label>
-        <input
-            type="number"
-            name="nb_personnes"
-            min="<?= (int) $commande['nb_personnes_min'] ?>"
-            value="<?= (int) $commande['nb_personnes'] ?>"
-            required
-        >
-
-        <!-- Mode de réception -->
-        <h2>Mode de réception *</h2>
-
-        <label>
+            <!-- Date -->
+            <label>Date *</label>
             <input
-                type="radio"
-                name="reception"
-                value="retrait"
-                <?= $isLivraison ? '' : 'checked' ?>
-            >
-            Retrait sur place
-        </label>
-
-        <label>
-            <input
-                type="radio"
-                name="reception"
-                value="livraison"
-                <?= $isLivraison ? 'checked' : '' ?>
-            >
-            Livraison
-        </label>
-
-        <!-- Adresse de livraison -->
-        <div class="livraison-adresse <?= $isLivraison ? '' : 'is-hidden' ?>">
-
-            <label>Adresse</label>
-            <input
-                type="text"
-                name="adresse"
-                value="<?= $isLivraison ? htmlspecialchars($commande['adresse']) : '' ?>"
+                type="date"
+                name="date"
+                value="<?= htmlspecialchars($dateValue) ?>"
+                required
             >
 
-            <label>Code postal</label>
+            <!-- Heure -->
+            <label>Heure *</label>
             <input
-                type="text"
-                name="code_postal"
-                value=""
+                type="time"
+                name="heure"
+                value="<?= htmlspecialchars($heureValue) ?>"
+                required
             >
 
-            <label>Ville</label>
+            <!-- Nombre de personnes -->
+            <label>Nombre de personnes *</label>
             <input
-                type="text"
-                name="ville"
-                value="<?= $isLivraison ? htmlspecialchars($commande['ville']) : '' ?>"
+                type="number"
+                name="nb_personnes"
+                min="<?= (int) $commande['nb_personnes_min'] ?>"
+                value="<?= (int) $commande['nb_personnes'] ?>"
+                required
             >
-        </div>
 
-        <!-- Bouton validation -->
-        <button class="btn-commande" type="submit">
-            Enregistrer
-        </button>
+            <!-- Mode de réception -->
+            <h2>Mode de réception *</h2>
 
-        <!-- Lien retour -->
-        <div class="auth-links">
-            <a href="commande-utilisateur.php">Retour à mes commandes</a>
-        </div>
+            <label>
+                <input
+                    type="radio"
+                    name="reception"
+                    value="retrait"
+                    <?= $isLivraison ? '' : 'checked' ?>
+                >
+                Retrait sur place
+            </label>
 
-    </form>
-</section>
+            <label>
+                <input
+                    type="radio"
+                    name="reception"
+                    value="livraison"
+                    <?= $isLivraison ? 'checked' : '' ?>
+                >
+                Livraison
+            </label>
+
+            <!-- Adresse de livraison -->
+            <div class="livraison-adresse <?= $isLivraison ? '' : 'is-hidden' ?>">
+
+                <label>Adresse</label>
+                <input
+                    type="text"
+                    name="adresse"
+                    value="<?= $isLivraison ? htmlspecialchars($commande['adresse']) : '' ?>"
+                >
+
+                <label>Code postal</label>
+                <input
+                    type="text"
+                    name="code_postal"
+                    value=""
+                >
+
+                <label>Ville</label>
+                <input
+                    type="text"
+                    name="ville"
+                    value="<?= $isLivraison ? htmlspecialchars($commande['ville']) : '' ?>"
+                >
+            </div>
+
+            <!-- Bouton validation -->
+            <button class="btn-commande" type="submit">
+                Enregistrer
+            </button>
+
+            <!-- Lien retour -->
+            <div class="auth-links">
+                <a href="commande-utilisateur.php">Retour à mes commandes</a>
+            </div>
+
+        </form>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

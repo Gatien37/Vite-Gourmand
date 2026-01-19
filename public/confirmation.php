@@ -51,87 +51,90 @@ if ((int) $commande['utilisateur_id'] !== (int) $_SESSION['utilisateur']['id']) 
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Commande confirmée</h1>
-    <p>Merci pour votre confiance. Votre commande a bien été enregistrée.</p>
-</section>
+<main id="main-content">
 
-<section class="confirmation-container">
-    <div class="confirmation-card">
+    <!-- ===== Titre ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Commande confirmée</h1>
+        <p>Merci pour votre confiance. Votre commande a bien été enregistrée.</p>
+    </section>
 
-        <h2>Récapitulatif de votre commande</h2>
+    <section class="confirmation-container">
+        <div class="confirmation-card">
 
-        <!-- Menu -->
-        <p>
-            <strong>Menu :</strong>
-            <?= htmlspecialchars($commande['menu_nom']) ?>
-        </p>
+            <h2>Récapitulatif de votre commande</h2>
 
-        <!-- Quantité -->
-        <p>
-            <strong>Nombre de personnes :</strong>
-            <?= (int) $commande['quantite'] ?>
-        </p>
-
-        <!-- Date et heure -->
-        <p>
-            <strong>Date :</strong>
-            <?= date('d/m/Y', strtotime($commande['date_prestation'])) ?>
-            à <?= date('H:i', strtotime($commande['date_prestation'])) ?>
-        </p>
-
-        <!-- Mode de réception -->
-        <?php if (!empty($commande['adresse'])): ?>
+            <!-- Menu -->
             <p>
-                <strong>Adresse de livraison :</strong>
-                <?= htmlspecialchars($commande['adresse']) ?>,
-                <?= htmlspecialchars($commande['code_postal']) ?>
-                <?= htmlspecialchars($commande['ville']) ?>
+                <strong>Menu :</strong>
+                <?= htmlspecialchars($commande['menu_nom']) ?>
             </p>
-        <?php else: ?>
+
+            <!-- Quantité -->
             <p>
-                <strong>Mode de réception :</strong>
-                Retrait sur place
+                <strong>Nombre de personnes :</strong>
+                <?= (int) $commande['quantite'] ?>
             </p>
-        <?php endif; ?>
 
-        <!-- Total -->
-        <p>
-            <strong>Total :</strong>
-            <?= number_format((float) $commande['prix_total'], 2, ',', ' ') ?> €
-        </p>
+            <!-- Date et heure -->
+            <p>
+                <strong>Date :</strong>
+                <?= date('d/m/Y', strtotime($commande['date_prestation'])) ?>
+                à <?= date('H:i', strtotime($commande['date_prestation'])) ?>
+            </p>
 
-        <!-- Statut -->
-        <p>
-            <strong>Statut :</strong>
-            <?= htmlspecialchars($commande['statut']) ?>
-        </p>
+            <!-- Mode de réception -->
+            <?php if (!empty($commande['adresse'])): ?>
+                <p>
+                    <strong>Adresse de livraison :</strong>
+                    <?= htmlspecialchars($commande['adresse']) ?>,
+                    <?= htmlspecialchars($commande['code_postal']) ?>
+                    <?= htmlspecialchars($commande['ville']) ?>
+                </p>
+            <?php else: ?>
+                <p>
+                    <strong>Mode de réception :</strong>
+                    Retrait sur place
+                </p>
+            <?php endif; ?>
 
-        <!-- Message confirmation -->
-        <p class="confirmation-message">
-            Un e-mail de confirmation vous a été envoyé.<br>
-            Vous pouvez suivre l’avancement de votre commande depuis votre espace client.
-        </p>
+            <!-- Total -->
+            <p>
+                <strong>Total :</strong>
+                <?= number_format((float) $commande['prix_total'], 2, ',', ' ') ?> €
+            </p>
 
-        <!-- Actions -->
-        <a class="btn-commande" href="commande-utilisateur.php">
-            Voir mes commandes
-        </a>
+            <!-- Statut -->
+            <p>
+                <strong>Statut :</strong>
+                <?= htmlspecialchars($commande['statut']) ?>
+            </p>
 
-        <a class="btn-secondary" href="index.php">
-            Retour à l’accueil
-        </a>
+            <!-- Message confirmation -->
+            <p class="confirmation-message">
+                Un e-mail de confirmation vous a été envoyé.<br>
+                Vous pouvez suivre l’avancement de votre commande depuis votre espace client.
+            </p>
 
-        <!-- ===== Rappel légal ===== -->
-        <p class="legal-hint">
-            Commande effectuée auprès de <strong>Vite & Gourmand SARL</strong> —
-            <a href="cgv.php" target="_blank" rel="noopener">CGV</a> |
-            <a href="mentions-legales.php" target="_blank" rel="noopener">Mentions légales</a>
-        </p>
+            <!-- Actions -->
+            <a class="btn-commande" href="commande-utilisateur.php">
+                Voir mes commandes
+            </a>
 
-    </div>
-</section>
+            <a class="btn-secondary" href="index.php">
+                Retour à l’accueil
+            </a>
+
+            <!-- ===== Rappel légal ===== -->
+            <p class="legal-hint">
+                Commande effectuée auprès de <strong>Vite & Gourmand SARL</strong> —
+                <a href="cgv.php" target="_blank" rel="noopener">CGV</a> |
+                <a href="mentions-legales.php" target="_blank" rel="noopener">Mentions légales</a>
+            </p>
+
+        </div>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */

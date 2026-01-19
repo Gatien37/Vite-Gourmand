@@ -46,101 +46,104 @@ $date = new DateTime($commande['date_prestation']);
 require_once __DIR__ . '/../partials/header.php';
 ?>
 
-<!-- ===== Titre de la page ===== -->
-<section class="hero-section commandes-hero">
-    <h1>Modifier la commande #CMD-<?= (int) $commande['id'] ?></h1>
-    <p>Modification suite à contact client</p>
-</section>
+<main id="main-content">
 
-<section class="order-detail-container">
-    <div class="order-card">
+    <!-- ===== Titre de la page ===== -->
+    <section class="hero-section commandes-hero">
+        <h1>Modifier la commande #CMD-<?= (int) $commande['id'] ?></h1>
+        <p>Modification suite à contact client</p>
+    </section>
 
-        <!-- ===== Formulaire de modification de commande ===== -->
-        <form
-            method="POST"
-            action="traiter-modification-commande.php"
-            class="form-card"
-        >
+    <section class="order-detail-container">
+        <div class="order-card">
 
-            <!-- Identifiant de la commande -->
-            <input
-                type="hidden"
-                name="commande_id"
-                value="<?= (int) $commande['id'] ?>"
+            <!-- ===== Formulaire de modification de commande ===== -->
+            <form
+                method="POST"
+                action="traiter-modification-commande.php"
+                class="form-card"
             >
 
-            <!-- Menu (lecture seule) -->
-            <p class="menu-readonly">
-                <?= htmlspecialchars($commande['menu_nom']) ?>
-            </p>
+                <!-- Identifiant de la commande -->
+                <input
+                    type="hidden"
+                    name="commande_id"
+                    value="<?= (int) $commande['id'] ?>"
+                >
 
-            <!-- Date de prestation -->
-            <label for="date">Date *</label>
-            <input
-                type="date"
-                name="date"
-                id="date"
-                value="<?= $date->format('Y-m-d') ?>"
-                required
+                <!-- Menu (lecture seule) -->
+                <p class="menu-readonly">
+                    <?= htmlspecialchars($commande['menu_nom']) ?>
+                </p>
+
+                <!-- Date de prestation -->
+                <label for="date">Date *</label>
+                <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    value="<?= $date->format('Y-m-d') ?>"
+                    required
+                >
+
+                <!-- Heure de prestation -->
+                <label for="heure">Heure *</label>
+                <input
+                    type="time"
+                    name="heure"
+                    id="heure"
+                    value="<?= $date->format('H:i') ?>"
+                    required
+                >
+
+                <!-- Quantité -->
+                <label for="quantite">Nombre de personnes *</label>
+                <input
+                    type="number"
+                    name="quantite"
+                    id="quantite"
+                    min="1"
+                    value="<?= (int) $commande['quantite'] ?>"
+                    required
+                >
+
+                <!-- Adresse -->
+                <label for="adresse">Adresse *</label>
+                <input
+                    type="text"
+                    name="adresse"
+                    id="adresse"
+                    value="<?= htmlspecialchars($commande['adresse'] ?? '') ?>"
+                    required
+                >
+
+                <!-- Ville -->
+                <label for="ville">Ville *</label>
+                <input
+                    type="text"
+                    name="ville"
+                    id="ville"
+                    value="<?= htmlspecialchars($commande['ville'] ?? '') ?>"
+                    required
+                >
+
+                <button type="submit" class="btn-commande">
+                    Enregistrer les modifications
+                </button>
+
+            </form>
+
+            <!-- Retour au détail de la commande -->
+            <a
+                href="commande-detail-employe.php?id=<?= $commandeId ?>"
+                class="btn-secondary"
             >
+                ← Retour au détail
+            </a>
 
-            <!-- Heure de prestation -->
-            <label for="heure">Heure *</label>
-            <input
-                type="time"
-                name="heure"
-                id="heure"
-                value="<?= $date->format('H:i') ?>"
-                required
-            >
-
-            <!-- Quantité -->
-            <label for="quantite">Nombre de personnes *</label>
-            <input
-                type="number"
-                name="quantite"
-                id="quantite"
-                min="1"
-                value="<?= (int) $commande['quantite'] ?>"
-                required
-            >
-
-            <!-- Adresse -->
-            <label for="adresse">Adresse *</label>
-            <input
-                type="text"
-                name="adresse"
-                id="adresse"
-                value="<?= htmlspecialchars($commande['adresse'] ?? '') ?>"
-                required
-            >
-
-            <!-- Ville -->
-            <label for="ville">Ville *</label>
-            <input
-                type="text"
-                name="ville"
-                id="ville"
-                value="<?= htmlspecialchars($commande['ville'] ?? '') ?>"
-                required
-            >
-
-            <button type="submit" class="btn-commande">
-                Enregistrer les modifications
-            </button>
-
-        </form>
-
-        <!-- Retour au détail de la commande -->
-        <a
-            href="commande-detail-employe.php?id=<?= $commandeId ?>"
-            class="btn-secondary"
-        >
-            ← Retour au détail
-        </a>
-
-    </div>
-</section>
+        </div>
+    </section>
+</main>
 
 <?php
 /* ========== Pied de page ========== */
