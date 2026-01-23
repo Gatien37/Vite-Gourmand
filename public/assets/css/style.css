@@ -19,18 +19,18 @@
 
     .hero-section h1 {
         text-align: center;
-        font-size: 32px;
+        font-size: 2rem;
     }
 
     .hero-section p {
-        font-size: 18px;
+        font-size: 1.125rem;
         text-align: center;
     }
 
     .hero-section button{
         width: 100%;
         height: auto;
-        font-size: 16px;
+        font-size: 1rem;
     }
 
 /* --------- Accueil --------- */
@@ -42,7 +42,7 @@
 
     .histoire h2{
         margin-top: 0;
-        font-size: 28px;
+        font-size: 1.75rem;
     }
 
     .histoire p{
@@ -273,24 +273,24 @@
 
 @media (max-width: 768px) {
     h1 {
-        font-size: 32px;
+        font-size: 2rem;
     }
 
     h2 {
-        font-size: 26px;
+        font-size: 1.625rem;
     }
 
     h3 {
-        font-size: 20px;
+        font-size: 1.25rem;
     }
     
     p  {
-        font-size: 16px;
+        font-size: 1rem;
     }
 
 
     .hero-section .button{
-        font-size: 26px;
+        font-size: 1.625rem;
         height: 60px;
     }
     
@@ -301,7 +301,7 @@
         margin-left: auto;
         background: none;
         border: none;
-        font-size: 28px;
+        font-size: 1.75rem;
         cursor: pointer;
         color: #2C3E50;
         padding-right: 10px;
@@ -356,7 +356,7 @@
     .carousel-btn {
         width: 36px;
         height: 36px;
-        font-size: 18px;
+        font-size: 1.125rem;
     }
 
 }
@@ -366,19 +366,19 @@
 
 @media (max-width: 480px) {
     h1 {
-        font-size: 26px;
+        font-size: 1.625rem;
     }
 
     h2 {
-        font-size: 22px;
+        font-size: 1.375rem;
     }
 
     h3 {
-        font-size: 18px;
+        font-size: 1.125rem;
     }
 
     p  {
-        font-size: 14px;
+        font-size: 0.875rem;
     }
 
     .hero-section {
@@ -386,7 +386,7 @@
     }
 
     .hero-section button {
-        font-size: 16px;
+        font-size: 1rem;
         height: 50px;
     }
 
@@ -408,12 +408,12 @@
     }
 
     .ca-table {
-        font-size: 12px;
+        font-size: 0.875rem;
     }
 
     .filtre-btn{
         padding: 8px 12px;
-        font-size: 14px;
+        font-size: 0.875rem;
 
     }
 
@@ -430,20 +430,27 @@
     box-sizing: border-box;
 }
 
+
+*:focus-visible {
+  outline: 1px solid #A43F3B;
+  outline-offset: 3px;          
+}
+
+
 h2 {
-    font-size: 32px;
+    font-size: 2rem;
     text-align: center;
     color: #A43F3B;
     margin-bottom: 20px;
 }
 
 h3 {
-    font-size: 22px;
+    font-size: 1.375rem;
 }
 
 
 p  {
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 html, body {
@@ -459,7 +466,7 @@ body {
 
 h1{
     font-weight: bold;
-    font-size: 48px;
+    font-size: 3rem;
     font-family: 'Playfair Display', serif;
     color: #A43F3B;
 }
@@ -478,6 +485,21 @@ h1{
 
 
 /* =================== HEADER ====================== */
+
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 10px;
+  background: #000;
+  color: #fff;
+  padding: 8px 12px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  top: 10px;
+}
+
 
 .header-container {
     display: flex;
@@ -522,7 +544,7 @@ nav ul {
 nav ul li a {
     text-decoration: none;
     color: #2C3E50;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 nav ul li a:hover {
@@ -581,7 +603,16 @@ nav ul li a:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    font-size: 14px;
+    font-size: 0.875rem;
+}
+
+.legal a {
+    color: #2C3E50;
+    text-decoration: none;
+}
+
+.legal a:hover {
+    color: #A43F3B;
 }
 
 /* ===================== HERO ====================== */
@@ -597,7 +628,7 @@ nav ul li a:hover {
 }
 
 .hero-section p {
-    font-size: 20px;
+    font-size: 1.25rem;
     margin-bottom: 40px;
 }
 
@@ -616,7 +647,7 @@ nav ul li a:hover {
     height: 76px;
     width: 100%;
     max-width: 600px;
-    font-size: 32px;
+    font-size: 2rem;
     text-align: center;
     text-decoration: none;
 }
@@ -648,7 +679,7 @@ nav ul li a:hover {
 .histoire-text {
     max-width: 600px;
     text-align: justify;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
 }
 
@@ -691,7 +722,7 @@ nav ul li a:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
     padding-bottom: 20px;
 }
@@ -758,7 +789,7 @@ nav ul li a:hover {
 }
 
 .avis-footer a{
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #A43F3B;
     text-decoration: none;
 }
@@ -787,7 +818,7 @@ nav ul li a:hover {
     border: 1px solid #2C3E50;
     cursor: pointer;
     height: 40px;
-    font-size: 16px;
+    font-size: 1rem;
     background-color: white;
     border-radius: 10px;
     margin-right: 8px;
@@ -838,7 +869,7 @@ nav ul li a:hover {
 .no-result {
     grid-column: 1 / -1;
     text-align: center;
-    font-size: 18px;
+    font-size: 1.125rem;
     color: #2C3E50;
     margin: 60px 0;
 }
@@ -920,7 +951,7 @@ nav ul li a:hover {
     gap: 10px;
     background-color: #FFFFFF;
     text-align: left;
-    font-size: 16px;
+    font-size: 1rem;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 20px rgba(44, 62, 80, 0.15);
@@ -988,7 +1019,7 @@ nav ul li a:hover {
 
 .description-menu {
     max-width: 800px;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
     text-align: justify;
     line-height: 1.6;
@@ -1037,7 +1068,7 @@ nav ul li a:hover {
     border-radius:30px;
     margin: 0 auto 60px auto;
     border: none;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .btn-commande:hover {
@@ -1114,7 +1145,7 @@ nav ul li a:hover {
 }
 
 .ca-filter-form label {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #2C3E50;
     margin-bottom: 8px;
@@ -1124,7 +1155,7 @@ nav ul li a:hover {
     padding: 10px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
 }
 
@@ -1134,7 +1165,7 @@ nav ul li a:hover {
     border-radius: 30px;
     cursor: pointer;
     height: 40px;
-    font-size: 16px;
+    font-size: 1rem;
     margin:auto;
 }
 
@@ -1168,7 +1199,7 @@ nav ul li a:hover {
 }
 
 .ca-card .ca-value {
-    font-size: 28px;
+    font-size: 1.75rem;
     font-weight: bold;
     color: #2C3E50;
 }
@@ -1200,13 +1231,13 @@ nav ul li a:hover {
     color: white;
     padding: 15px;
     text-align: left;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .ca-table td {
     padding: 12px 15px;
     border-bottom: 1px solid #eee;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #2C3E50;
 }
 
@@ -1290,7 +1321,7 @@ nav ul li a:hover {
     border: 2px solid #A43F3B;
     color: #2C3E50;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 1rem;
     width: auto;
 }
 
@@ -1305,7 +1336,7 @@ nav ul li a:hover {
     justify-content: center;
     height: 50px;
     padding: 0 24px;
-    font-size: 16px;
+    font-size: 1rem;
     text-decoration: none;
     background-color: #A43F3B;
     color: white;
@@ -1346,13 +1377,13 @@ nav ul li a:hover {
     color: white;
     padding: 15px;
     text-align: left;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 .orders-table td {
     padding: 14px 15px;
     border-bottom: 1px solid #eee;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #2C3E50;
 }
 
@@ -1362,7 +1393,7 @@ nav ul li a:hover {
 
 .orders-table .btn-secondary{
     padding: 6px 12px;
-    font-size: 14px;
+    font-size: 0.875rem;
     height: auto;
 }
 
@@ -1373,13 +1404,13 @@ nav ul li a:hover {
     align-items: center;
     justify-content: center;
     padding: 6px 12px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: bold;
 }
 
 .retour-materiel {
     margin-top: 4px;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: #b45309;
 }
 
@@ -1407,7 +1438,7 @@ nav ul li a:hover {
     width: 120px;
     height: 40px;
     margin: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
     margin-top: 10px;
 }
 
@@ -1483,7 +1514,7 @@ nav ul li a:hover {
 }
 
 .commande-form label {
-    font-size: 16px;
+    font-size: 1rem;
     display: block;
 }
 
@@ -1495,7 +1526,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     width: 100%;
 }
 
@@ -1564,7 +1595,7 @@ nav ul li a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 #reduction-line {
@@ -1587,12 +1618,12 @@ nav ul li a:hover {
     margin-top: 10px;
     padding-top: 12px;
     border-top: 1px solid #ddd;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 .price-summary .price-total span {
     color: #A43F3B;
-    font-size: 20px;
+    font-size: 1.25rem;
 }
 
 
@@ -1643,7 +1674,7 @@ nav ul li a:hover {
 
 .confirmation-message {
     margin: 25px 0;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
     line-height: 1.6;
 }
@@ -1699,7 +1730,7 @@ nav ul li a:hover {
 }
 
 .contact-form label {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: bold;
     color: #2C3E50;
 }
@@ -1709,7 +1740,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'Inter', sans-serif;
     color: #2C3E50;
 }
@@ -1876,7 +1907,7 @@ nav ul li a:hover {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 1rem;
     margin: 0;
 }
 
@@ -1905,7 +1936,7 @@ nav ul li a:hover {
 /* -------- Texte info -------- */
 
 .employe-form .info {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: italic;
     margin-bottom: 10px;
 }
@@ -1913,7 +1944,7 @@ nav ul li a:hover {
 /* -------- Labels -------- */
 
 .employe-form label {
-    font-size: 15px;
+    font-size: 0.9375rem;
     margin-top: 10px;
 }
 
@@ -1925,7 +1956,7 @@ nav ul li a:hover {
     padding: 0 15px;
     border-radius: 12px;
     border: 1px solid #ccc;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-family: 'Inter', sans-serif;
 }
 
@@ -1941,7 +1972,7 @@ nav ul li a:hover {
     margin-top: 40px;
     width: 100%;
     height: 55px;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 /* -------- Lien retour -------- */
@@ -1952,7 +1983,7 @@ nav ul li a:hover {
 }
 
 .employe-form .auth-links a {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #A43F3B;
     text-decoration: none;
 }
@@ -1987,7 +2018,7 @@ nav ul li a:hover {
 /* -------- Labels -------- */
 
 .menu-form label {
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #2C3E50;
     margin-top: 10px;
 }
@@ -2001,7 +2032,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 12px;
     border: 1px solid #ccc;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-family: 'Inter', sans-serif;
 }
 
@@ -2024,7 +2055,7 @@ nav ul li a:hover {
     padding: 8px;
     background-color: #F7E9D7;
     border-radius: 10px;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 /* -------- Bouton validation -------- */
@@ -2033,7 +2064,7 @@ nav ul li a:hover {
     margin-top: 40px;
     width: 100%;
     height: 55px;
-    font-size: 18px;
+    font-size: 1.125rem;
 }
 
 /* -------- Lien retour -------- */
@@ -2044,7 +2075,7 @@ nav ul li a:hover {
 }
 
 .menu-form .auth-links a {
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #A43F3B;
     text-decoration: none;
 }
@@ -2069,7 +2100,7 @@ nav ul li a:hover {
     align-items: center;
     gap: 12px;
     margin: 8px 0;
-    font-size: 15px;
+    font-size: 0.9375rem;
     cursor: pointer;
 }
 
@@ -2081,21 +2112,21 @@ nav ul li a:hover {
 
 .alert-impact {
     display: inline-block;
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: #A43F3B;
     font-weight: 600;
 }
 
 .impact-details summary {
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #A43F3B;
     margin-top: 5px;
 }
 
 .impact-details ul {
     margin: 5px 0 0 15px;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 
@@ -2117,7 +2148,7 @@ nav ul li a:hover {
 .form-card label {
     font-weight: 600;
     color: #2C3E50;
-    font-size: 15px;
+    font-size: 0.9375rem;
 }
 
 /* -------- Inputs & Select -------- */
@@ -2126,7 +2157,7 @@ nav ul li a:hover {
 .form-card select {
     width: 100%;
     padding: 12px 14px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     border-radius: 10px;
     border: 1px solid #ccc;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -2144,7 +2175,7 @@ nav ul li a:hover {
 .form-card .btn-commande {
     margin-top: 10px;
     height: 45px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2159,7 +2190,7 @@ nav ul li a:hover {
 
 .form-card .auth-links a {
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #A43F3B;
 }
 
@@ -2174,7 +2205,7 @@ nav ul li a:hover {
     align-items: center;
     gap: 12px;
     margin: 8px 0;
-    font-size: 15px;
+    font-size: 0.9375rem;
     cursor: pointer;
 }
 
@@ -2218,13 +2249,13 @@ nav ul li a:hover {
 .avis-admin-table th {
     padding: 15px;
     text-align: center;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: white;
 }
 
 .avis-admin-table td {
     padding: 14px 15px;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #2C3E50;
     border-bottom: 1px solid #eee;
     vertical-align: middle;
@@ -2247,7 +2278,7 @@ nav ul li a:hover {
 .avis-admin-table .btn-commande,
 .avis-admin-table .btn-secondary {
     height: 38px;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding: 0 18px;
     display: flex;
     align-items: center;
@@ -2286,14 +2317,14 @@ nav ul li a:hover {
 .commandes-admin-table th {
     padding: 15px;
     text-align: center;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: white;
     white-space: nowrap;
 }
 
 .commandes-admin-table td {
     padding: 14px 15px;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #2C3E50;
     border-bottom: 1px solid #eee;
     vertical-align: middle;
@@ -2315,14 +2346,14 @@ nav ul li a:hover {
     padding: 6px 10px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 14px;
+    font-size: 0.875rem;
     background-color: white;
     cursor: pointer;
     color: #2C3E50;
 }
 
 .statut-info {
-    font-size: 13px;
+    font-size: 0.8125rem;
     color: #555;
     margin-top: 4px;
     white-space: pre-line;
@@ -2338,7 +2369,7 @@ nav ul li a:hover {
 
 .commandes-admin-table .btn-commande {
     height: 38px;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding: 0 18px;
     display: inline-flex;
     margin:auto;
@@ -2368,7 +2399,7 @@ nav ul li a:hover {
 }
 
 .ca-filter-form label {
-    font-size: 13px;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: #2C3E50;
 }
@@ -2380,7 +2411,7 @@ nav ul li a:hover {
     border: 1px solid #2C3E50;
     border-radius: 10px;
     background-color: white;
-    font-size: 15px;
+    font-size: 0.9375rem;
     cursor: pointer;
 }
 
@@ -2393,7 +2424,7 @@ nav ul li a:hover {
 .ca-filter-form .btn-commande {
     height: 40px;
     padding: 0 24px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     margin-bottom: 0;
 }
 
@@ -2412,7 +2443,7 @@ nav ul li a:hover {
 }
 
 .annulation-date {
-    font-size: 14px;
+    font-size: 0.875rem;
     font-style: italic;
 }
 
@@ -2426,7 +2457,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 12px;
     border: 1px solid #ccc;
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-family: 'Inter', sans-serif;
     background-color: #FFFFFF;
     resize: vertical;
@@ -2446,7 +2477,7 @@ nav ul li a:hover {
 
 .alert-modification p {
     margin: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
     text-align: center;
 }
 
@@ -2460,7 +2491,7 @@ nav ul li a:hover {
     border-radius: 12px;
     background-color: #F7E9D7;
     color: #2C3E50;
-    font-size: 15px;
+    font-size: 0.9375rem;
     border: 1px solid #ddd;
 }
 
@@ -2489,7 +2520,7 @@ nav ul li a:hover {
 .add-employe-container .btn-commande {
     display: inline-flex;
     height: 44px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     padding: 0 24px;
 }
 
@@ -2511,14 +2542,14 @@ nav ul li a:hover {
 .employes-admin-table th {
     padding: 15px;
     text-align: center;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: white;
     white-space: nowrap;
 }
 
 .employes-admin-table td {
     padding: 14px 15px;
-    font-size: 14px;
+    font-size: 0.875rem;
     color: #2C3E50;
     border-bottom: 1px solid #eee;
     vertical-align: middle;
@@ -2560,7 +2591,7 @@ nav ul li a:hover {
 .employes-admin-table .btn-secondary {
     width: 110px;
     height: 36px;
-    font-size: 14px;
+    font-size: 0.875rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -2604,7 +2635,7 @@ nav ul li a:hover {
 }
 
 .jour label {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #2C3E50;
     width: 120px;
@@ -2615,7 +2646,7 @@ nav ul li a:hover {
     padding: 10px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
 }
 
@@ -2634,7 +2665,7 @@ nav ul li a:hover {
 .horaires-form .auth-links a {
     color: #A43F3B;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 
@@ -2680,13 +2711,13 @@ nav ul li a:hover {
     background-color: #A43F3B;
     color: white;
     padding: 15px;
-    font-size: 16px;
+    font-size: 1rem;
     text-align: center;
 }
 
 .menus-admin-table td {
     padding: 14px 15px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #2C3E50;
     border-bottom: 1px solid #eee;
 }
@@ -2707,7 +2738,7 @@ nav ul li a:hover {
 .menus-admin-table .btn-commande,
 .menus-admin-table .btn-secondary {
     height: 40px;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding: 0 18px;
     display: inline-flex;
     align-items: center;
@@ -2744,13 +2775,13 @@ nav ul li a:hover {
     background-color: #A43F3B;
     color: white;
     padding: 15px;
-    font-size: 16px;
+    font-size: 1rem;
     text-align: center;
 }
 
 .plats-admin-table td {
     padding: 14px 15px;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #2C3E50;
     border-bottom: 1px solid #eee;
     text-align: center;
@@ -2774,7 +2805,7 @@ nav ul li a:hover {
 .plats-admin-table .btn-commande,
 .plats-admin-table .btn-secondary {
     height: 40px;
-    font-size: 14px;
+    font-size: 0.875rem;
     padding: 0 18px;
     display: inline-flex;
     align-items: center;
@@ -2809,7 +2840,7 @@ nav ul li a:hover {
 }
 
 .register-form label {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #2C3E50;
 }
@@ -2818,7 +2849,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
 }
 
@@ -2831,7 +2862,7 @@ nav ul li a:hover {
 .password-rules {
     list-style: none;
     padding-left: 0;
-    font-size: 14px;
+    font-size: 0.875rem;
     margin-top: 8px;
 }
 
@@ -2869,7 +2900,7 @@ nav ul li a:hover {
 .register-form .auth-links a {
     color: #A43F3B;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 
@@ -2905,7 +2936,7 @@ nav ul li a:hover {
 }
 
 .star {
-    font-size: 26px;
+    font-size: 1.625rem;
     cursor: pointer;
     color: #ccc;
     transition: color 0.2s ease, transform 0.1s ease;
@@ -2927,7 +2958,7 @@ nav ul li a:hover {
     padding: 15px;
     border-radius: 15px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     font-family: 'Inter', sans-serif;
     resize: vertical;
 }
@@ -2950,7 +2981,7 @@ nav ul li a:hover {
 .avis-form .auth-links a {
     color: #A43F3B;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 
@@ -3005,7 +3036,7 @@ nav ul li a:hover {
 }
 
 .forgot-form label {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #2C3E50;
 }
@@ -3014,7 +3045,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
 }
 
@@ -3035,7 +3066,7 @@ nav ul li a:hover {
 .forgot-form .auth-links a {
     color: #A43F3B;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 
@@ -3061,7 +3092,7 @@ nav ul li a:hover {
 }
 
 .reset-form label {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #2C3E50;
 }
@@ -3070,7 +3101,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
 }
 
@@ -3090,7 +3121,7 @@ nav ul li a:hover {
 .reset-form .auth-links a {
     color: #A43F3B;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 
@@ -3119,7 +3150,7 @@ nav ul li a:hover {
 }
 
 .profil-form label {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #2C3E50;
 }
@@ -3128,7 +3159,7 @@ nav ul li a:hover {
     padding: 12px 15px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    font-size: 16px;
+    font-size: 1rem;
     color: #2C3E50;
 }
 
@@ -3151,7 +3182,7 @@ nav ul li a:hover {
 .profil-form .auth-links a {
     color: #A43F3B;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
 
 
@@ -3185,7 +3216,7 @@ nav ul li a:hover {
 }
 
 .stats-value {
-    font-size: 22px;
+    font-size: 1.375rem;
     font-weight: bold;
 }
 
@@ -3240,14 +3271,14 @@ nav ul li a:hover {
     color: white;
     padding: 15px;
     text-align: left;
-    font-size: 16px;
+    font-size: 1rem;
     text-align: center;
 }
 
 .stats-table td {
     padding: 14px 15px;
     border-bottom: 1px solid #eee;
-    font-size: 15px;
+    font-size: 0.9375rem;
     color: #2C3E50;
     text-align: center;
 }

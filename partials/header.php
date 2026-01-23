@@ -1,14 +1,17 @@
+<?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+?>
+
+<a href="#main-content" class="skip-link">Aller au contenu principal</a>
+
 <header>
-
-  <?php
-  if (session_status() === PHP_SESSION_NONE) {
-      session_start();
-  }
-  ?>
-
   <div class="header-container">
-    <img src="assets/images/logo.png" alt="logo Vite & Gourmand">
-
+    <a href="index.php">
+    <img src="assets/images/logo.png" alt="logo Vite & Gourmand" >
+    </a>  
+  
     <button class="burger" id="burger">
       ☰
     </button>
@@ -20,15 +23,13 @@
         <li><a href="contact.php">Contact</a></li>
       </ul>
 
-      <!-- Boutons de connexion / déconnexion -->
-       
       <div class="buttons">
         <?php if (isset($_SESSION['user'])): ?>
 
           <a href="deconnexion.php" class="connect-button">
             Se déconnecter
           </a>
-          
+
           <?php
           $profilLink = 'espace-utilisateur.php';
           $profilLabel = 'Mon profil';
@@ -56,8 +57,7 @@
           </a>
 
         <?php endif; ?>
-    </div>
-
+      </div>
     </nav>
   </div>
 </header>
