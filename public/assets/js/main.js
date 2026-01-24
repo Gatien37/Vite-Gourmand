@@ -5,6 +5,13 @@
 document.addEventListener('DOMContentLoaded', () => {
   console.log('main.js chargé');
 
+  /* ========== CSRF (helper) ========== */
+
+  function getCsrfToken() {
+    const input = document.querySelector('input[name="csrf_token"]');
+    return input ? input.value : null;
+  }
+
   /* ========== MENU BURGER (mobile) ========== */
 
   const burger = document.getElementById('burger');
@@ -48,121 +55,120 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* ========== CALCUL PRIX COMMANDE (preview) ========== */
 
-const form = document.getElementById('commande-form');
+  const form = document.getElementById('commande-form');
 
-if (form) {
-  const prixBase = parseFloat(form.dataset.prixBase);
-  const minPersonnes = parseInt(form.dataset.minPersonnes, 10);
+  if (form) {
+    const prixBase = parseFloat(form.dataset.prixBase);
+    const minPersonnes = parseInt(form.dataset.minPersonnes, 10);
 
-  const nbInput = document.getElementById('nb_personnes');
-  const adresseInput = document.getElementById('adresse');
-  const villeInput = document.getElementById('ville');
-  const codePostalInput = document.getElementById('code_postal');
+    const nbInput = document.getElementById('nb_personnes');
+    const adresseInput = document.getElementById('adresse');
+    const villeInput = document.getElementById('ville');
+    const codePostalInput = document.getElementById('code_postal');
 
-  const prixMenuEl = document.getElementById('prix-menu');
-  const reductionEl = document.getElementById('reduction');
-  const reductionLine = document.getElementById('reduction-line');
-  const prixLivraisonEl = document.getElementById('prix-livraison');
-  const prixTotalEl = document.getElementById('prix-total');
+    const prixMenuEl = document.getElementById('prix-menu');
+    const reductionEl = document.getElementById('reduction');
+    const reductionLine = document.getElementById('reduction-line');
+    const prixLivraisonEl = document.getElementById('prix-livraison');
+    const prixTotalEl = document.getElementById('prix-total');
 
-  const TRAITEUR_LAT = 44.841225;
-  const TRAITEUR_LON = -0.579018;
+    const TRAITEUR_LAT = 44.841225;
+    const TRAITEUR_LON = -0.579018;
 
-  /* Calcul distance en km (Haversine) */
-  function calculerDistanceKm(lat1, lon1, lat2, lon2) {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
+    /* Calcul distance en km (Haversine) */
+    function calculerDistanceKm(lat1, lon1, lat2, lon2) {
+      const R = 6371;
+      const dLat = (lat2 - lat1) * Math.PI / 180;
+      const dLon = (lon2 - lon1) * Math.PI / 180;
 
-    const a =
-      Math.sin(dLat / 2) ** 2 +
-      Math.cos(lat1 * Math.PI / 180) *
-      Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLon / 2) ** 2;
+      const a =
+        Math.sin(dLat / 2) ** 2 +
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) ** 2;
 
-    return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  }
-
-  /* Géocodage adresse (API gouvernementale) */
-  async function geocodeAdresse(adresse, codePostal, ville) {
-    const query = encodeURIComponent(`${adresse} ${codePostal} ${ville}`);
-    const url = `https://api-adresse.data.gouv.fr/search/?q=${query}&limit=1`;
-
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      if (!data.features.length) return null;
-
-      const [lon, lat] = data.features[0].geometry.coordinates;
-      return { lat, lon };
-    } catch {
-      return null;
-    }
-  }
-
-  async function calculPrixPreview() {
-    const nb = parseInt(nbInput.value, 10);
-
-    if (isNaN(nb) || nb < minPersonnes) {
-      prixMenuEl.textContent = '0 €';
-      prixLivraisonEl.textContent = '0 €';
-      prixTotalEl.textContent = '0 €';
-      reductionLine.classList.add('is-hidden');
-      return;
+      return 2 * R * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     }
 
-    let prixMenu = nb * prixBase;
-    let reduction = 0;
+    /* Géocodage adresse (API gouvernementale) */
+    async function geocodeAdresse(adresse, codePostal, ville) {
+      const query = encodeURIComponent(`${adresse} ${codePostal} ${ville}`);
+      const url = `https://api-adresse.data.gouv.fr/search/?q=${query}&limit=1`;
 
-    if (nb >= minPersonnes + 5) {
-      reduction = prixMenu * 0.10;
-      reductionEl.textContent = `- ${reduction.toFixed(2)} €`;
-      reductionLine.classList.remove('is-hidden');
-    } else {
-      reductionLine.classList.add('is-hidden');
-    }
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!data.features.length) return null;
 
-    let prixLivraison = 0;
-    const reception = document.querySelector('input[name="reception"]:checked');
-
-    if (reception && reception.value === 'livraison') {
-      prixLivraison = 5;
-
-      const adresse = adresseInput.value.trim();
-      const ville = villeInput.value.trim().toLowerCase();
-      const cp = codePostalInput.value.trim();
-
-      if (adresse && ville && cp && ville !== 'bordeaux') {
-        const coords = await geocodeAdresse(adresse, cp, ville);
-        if (coords) {
-          const distance = calculerDistanceKm(
-            TRAITEUR_LAT,
-            TRAITEUR_LON,
-            coords.lat,
-            coords.lon
-          );
-          prixLivraison += distance * 0.59;
-        }
+        const [lon, lat] = data.features[0].geometry.coordinates;
+        return { lat, lon };
+      } catch {
+        return null;
       }
     }
 
-    const total = prixMenu - reduction + prixLivraison;
+    async function calculPrixPreview() {
+      const nb = parseInt(nbInput.value, 10);
 
-    prixMenuEl.textContent = prixMenu.toFixed(2) + ' €';
-    prixLivraisonEl.textContent = prixLivraison.toFixed(2) + ' €';
-    prixTotalEl.textContent = total.toFixed(2) + ' €';
+      if (isNaN(nb) || nb < minPersonnes) {
+        prixMenuEl.textContent = '0 €';
+        prixLivraisonEl.textContent = '0 €';
+        prixTotalEl.textContent = '0 €';
+        reductionLine.classList.add('is-hidden');
+        return;
+      }
+
+      let prixMenu = nb * prixBase;
+      let reduction = 0;
+
+      if (nb >= minPersonnes + 5) {
+        reduction = prixMenu * 0.10;
+        reductionEl.textContent = `- ${reduction.toFixed(2)} €`;
+        reductionLine.classList.remove('is-hidden');
+      } else {
+        reductionLine.classList.add('is-hidden');
+      }
+
+      let prixLivraison = 0;
+      const reception = document.querySelector('input[name="reception"]:checked');
+
+      if (reception && reception.value === 'livraison') {
+        prixLivraison = 5;
+
+        const adresse = adresseInput.value.trim();
+        const ville = villeInput.value.trim().toLowerCase();
+        const cp = codePostalInput.value.trim();
+
+        if (adresse && ville && cp && ville !== 'bordeaux') {
+          const coords = await geocodeAdresse(adresse, cp, ville);
+          if (coords) {
+            const distance = calculerDistanceKm(
+              TRAITEUR_LAT,
+              TRAITEUR_LON,
+              coords.lat,
+              coords.lon
+            );
+            prixLivraison += distance * 0.59;
+          }
+        }
+      }
+
+      const total = prixMenu - reduction + prixLivraison;
+
+      prixMenuEl.textContent = prixMenu.toFixed(2) + ' €';
+      prixLivraisonEl.textContent = prixLivraison.toFixed(2) + ' €';
+      prixTotalEl.textContent = total.toFixed(2) + ' €';
+    }
+
+    nbInput.addEventListener('input', calculPrixPreview);
+    document
+      .querySelectorAll('input[name="reception"]')
+      .forEach(r => r.addEventListener('change', calculPrixPreview));
+
+    adresseInput.addEventListener('blur', calculPrixPreview);
+    villeInput.addEventListener('blur', calculPrixPreview);
+    codePostalInput.addEventListener('blur', calculPrixPreview);
   }
-
-  nbInput.addEventListener('input', calculPrixPreview);
-  document
-    .querySelectorAll('input[name="reception"]')
-    .forEach(r => r.addEventListener('change', calculPrixPreview));
-
-  adresseInput.addEventListener('blur', calculPrixPreview);
-  villeInput.addEventListener('blur', calculPrixPreview);
-  codePostalInput.addEventListener('blur', calculPrixPreview);
-}
-
 
   /* ========== VALIDATION MOT DE PASSE (inscription) ========== */
 
@@ -188,17 +194,28 @@ if (form) {
     }
   }
 
-  /* ========== GESTION STATUT COMMANDE (employé) ========== */
+  /* ========== GESTION STATUT COMMANDE (employé) ==========
+     => Action sensible (modifie la BDD) : on envoie le token CSRF
+  ======================================================== */
 
   document.querySelectorAll('.select-statut').forEach(select => {
     select.addEventListener('change', () => {
       const commandeId = select.dataset.commandeId;
       const statut = select.value;
 
+      const csrfToken = getCsrfToken();
+      if (!csrfToken) {
+        console.warn('CSRF token manquant : changement de statut bloqué.');
+        return;
+      }
+
       fetch('update-statut-commande.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ commande_id: commandeId, statut })
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': csrfToken
+        },
+        body: JSON.stringify({ commande_id: commandeId, statut, csrf_token: csrfToken })
       });
 
       const info = select.parentElement.querySelector('.statut-info');

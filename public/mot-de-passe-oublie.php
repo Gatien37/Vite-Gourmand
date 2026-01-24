@@ -1,22 +1,38 @@
 <?php
-/* ========== Chargement des dépendances ========== */
+/* ========== Initialisation de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../services/passwordService.php';
 
 /* ========== Initialisation des messages ========== */
-
 $message = '';
 
 /* ========== Traitement de la demande de réinitialisation ========== */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        http_response_code(403);
+        exit('Action non autorisée (CSRF).');
+    }
 
     $email = trim($_POST['email'] ?? '');
 
-    /* 
-       Traitement volontairement neutre :
-       aucune indication sur l’existence réelle du compte
+    /*
+        Traitement volontairement neutre :
+        aucune indication sur l’existence réelle du compte
     */
     traiterDemandeReinitialisation($pdo, $email);
 
@@ -57,6 +73,13 @@ require_once __DIR__ . '/../partials/header.php';
             action="#"
             method="POST"
         >
+
+            <!-- CSRF -->
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>"
+            >
 
             <!-- Message de confirmation -->
             <?php if (!empty($message)): ?>

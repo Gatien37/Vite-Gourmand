@@ -1,28 +1,43 @@
 <?php
-/* ========== Chargement des dépendances ========== */
+/* ========== Initialisation de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/horaireModel.php';
 require_once __DIR__ . '/../services/mailService.php';
 
 /* ========== Récupération des horaires ========== */
-
 $horaires = getHoraires($pdo);
 
 /* ========== Initialisation des messages ========== */
-
 $message = '';
 $success = false;
 
 /* ========== Traitement du formulaire de contact ========== */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        http_response_code(403);
+        exit('Action non autorisée (CSRF).');
+    }
 
     $email   = trim($_POST['email'] ?? '');
     $sujet   = trim($_POST['sujet'] ?? '');
     $contenu = trim($_POST['message'] ?? '');
 
-    /* Validation des champs */
+    /* ===== Validation des champs ===== */
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Adresse e-mail invalide.";
     }
@@ -31,10 +46,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     else {
 
-        /* Envoi du message */
+        /* ===== Envoi du message ===== */
         if (envoyerMailContact($email, $sujet, $contenu)) {
             $message = "Votre message a bien été envoyé. Nous vous répondrons rapidement.";
             $success = true;
+
+            /* Sécurité : invalider le token après succès */
+            unset($_SESSION['csrf_token']);
         } else {
             $message = "Erreur lors de l'envoi du message.";
         }
@@ -82,6 +100,13 @@ require_once __DIR__ . '/../partials/header.php';
             <h2>Envoyer un message</h2>
 
             <form action="#" method="POST">
+
+                <!-- CSRF -->
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>"
+                >
 
                 <label for="email">E-mail</label>
                 <input

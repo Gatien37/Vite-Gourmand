@@ -1,15 +1,22 @@
 <?php
-/* ========== Sécurité : accès employé ou administrateur ========== */
+/* ========== Initialisation de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+/* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/avisModel.php';
 
 /* ========== Récupération des avis clients ========== */
-
 $avisList = getAllAvis($pdo);
 ?>
 
@@ -40,6 +47,21 @@ require_once __DIR__ . '/../partials/header.php';
 
     <section class="avis-admin-container">
 
+        <!-- ===== Messages retour ===== -->
+        <?php if (!empty($_SESSION['success'])): ?>
+            <p class="alert-success">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+            </p>
+            <?php unset($_SESSION['success']); ?>
+        <?php endif; ?>
+
+        <?php if (!empty($_SESSION['error'])): ?>
+            <p class="error-message">
+                <?= htmlspecialchars($_SESSION['error']) ?>
+            </p>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
+
         <!-- ===== Tableau des avis ===== -->
         <table class="avis-admin-table">
 
@@ -47,7 +69,7 @@ require_once __DIR__ . '/../partials/header.php';
                 <tr>
                     <th>ID</th>
                     <th>Client</th>
-                    <th>Menu</th>
+                    <th>Commande</th>
                     <th>Note</th>
                     <th>Commentaire</th>
                     <th>Statut</th>
@@ -60,30 +82,24 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php foreach ($avisList as $avis): ?>
                     <tr>
 
-                        <!-- Identifiant -->
                         <td>#<?= (int) $avis['id'] ?></td>
 
-                        <!-- Client -->
                         <td>
                             <?= htmlspecialchars($avis['prenom'] . ' ' . $avis['nom']) ?>
                         </td>
 
-                        <!-- Commande -->
                         <td>
-                            Commande #<?= (int) $avis['commande_id'] ?>
+                            #<?= (int) $avis['commande_id'] ?>
                         </td>
 
-                        <!-- Note -->
                         <td>
                             <?= str_repeat('⭐', (int) $avis['note']) ?>
                         </td>
 
-                        <!-- Commentaire -->
                         <td>
-                            <?= htmlspecialchars($avis['commentaire']) ?>
+                            <?= nl2br(htmlspecialchars($avis['commentaire'])) ?>
                         </td>
 
-                        <!-- Statut -->
                         <td>
                             <?php if ($avis['valide']): ?>
                                 <span class="status valide">Validé</span>
@@ -92,25 +108,30 @@ require_once __DIR__ . '/../partials/header.php';
                             <?php endif; ?>
                         </td>
 
-                        <!-- Actions -->
                         <td>
 
                             <?php if (!$avis['valide']): ?>
-                                <a
-                                    href="toggle-avis.php?id=<?= (int) $avis['id'] ?>&action=valider"
-                                    class="btn-commande"
-                                >
-                                    Valider
-                                </a>
+                                <!-- Valider -->
+                                <form method="POST" action="toggle-avis.php">
+                                    <input type="hidden" name="id" value="<?= (int) $avis['id'] ?>">
+                                    <input type="hidden" name="action" value="valider">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                    <button type="submit" class="btn-commande">
+                                        Valider
+                                    </button>
+                                </form>
                             <?php endif; ?>
 
                             <?php if ($avis['valide']): ?>
-                                <a
-                                    href="toggle-avis.php?id=<?= (int) $avis['id'] ?>&action=refuser"
-                                    class="btn-secondary btn-delete"
-                                >
-                                    Refuser
-                                </a>
+                                <!-- Refuser -->
+                                <form method="POST" action="toggle-avis.php">
+                                    <input type="hidden" name="id" value="<?= (int) $avis['id'] ?>">
+                                    <input type="hidden" name="action" value="refuser">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                    <button type="submit" class="btn-secondary btn-delete">
+                                        Refuser
+                                    </button>
+                                </form>
                             <?php endif; ?>
 
                         </td>

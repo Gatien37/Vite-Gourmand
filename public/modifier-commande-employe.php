@@ -6,6 +6,11 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 require_once __DIR__ . '/../services/commandeService.php';
 
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 /* ========== Validation de l’identifiant de commande ========== */
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
@@ -63,6 +68,13 @@ require_once __DIR__ . '/../partials/header.php';
                 action="traiter-modification-commande.php"
                 class="form-card"
             >
+
+                <!-- CSRF -->
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= $_SESSION['csrf_token'] ?>"
+                >
 
                 <!-- Identifiant de la commande -->
                 <input

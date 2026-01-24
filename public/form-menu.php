@@ -5,6 +5,11 @@ require_once __DIR__ . '/../models/menuModel.php';
 require_once __DIR__ . '/../models/platModel.php';
 require_once __DIR__ . '/../services/menuService.php';
 
+/* ========= Génération du token CSRF ========= */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 /* ========= Initialisation ========= */
 $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
 $menu = null;
@@ -51,6 +56,15 @@ if ($id) {
 /* ========= Traitement formulaire ========= */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        http_response_code(403);
+        exit('Action non autorisée (CSRF).');
+    }
+
     $error = enregistrerMenu($pdo, $_POST, $id);
 
     if (!$error) {
@@ -60,103 +74,146 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
-    $title = "Modifier un menu";
+    $title = $menu ? "Modifier un menu" : "Créer un menu";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
 <body>
 
-    <!-- Header -->
-    <?php require_once __DIR__ . '/../partials/header.php'; ?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
-    <main id="main-content">
+<main id="main-content">
 
-        <section class="hero-section commandes-hero">
-            <h1><?= $menu ? 'Modifier un menu' : 'Créer un menu' ?></h1>
-            <p>Complétez les champs ci-dessous pour <?= $menu ? 'modifier' : 'ajouter' ?> un menu.</p>
-        </section>
+    <section class="hero-section commandes-hero">
+        <h1><?= $menu ? 'Modifier un menu' : 'Créer un menu' ?></h1>
+        <p>Complétez les champs ci-dessous pour <?= $menu ? 'modifier' : 'ajouter' ?> un menu.</p>
+    </section>
 
-        <section class="menu-form-container">
-            <form class="menu-form form-card" action="#" method="POST" enctype="multipart/form-data">
-                <!-- TITRE -->
-                <h2>Informations générales</h2>
-                <label for="titre">Titre du menu</label>
-                <input type="text" id="titre" name="titre"
-                    value="<?= htmlspecialchars($menu['nom'] ?? '') ?>">
+    <section class="menu-form-container">
+        <form
+            class="menu-form form-card"
+            method="POST"
+            enctype="multipart/form-data"
+        >
 
-                <label for="prix">Prix par personne (€)</label>
-                <input type="number" step="0.01" id="prix" name="prix"
-                    value="<?= htmlspecialchars($menu['prix_base'] ?? '') ?>">
+            <!-- CSRF -->
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= $_SESSION['csrf_token'] ?>"
+            >
 
-                <label for="theme">Thème</label>
-                <select id="theme" name="theme">
-                    <option value="noel" <?= ($menu['theme'] ?? '') === 'noel' ? 'selected' : '' ?>>Noël</option>
-                    <option value="paques" <?= ($menu['theme'] ?? '') === 'paques' ? 'selected' : '' ?>>Pâques</option>
-                    <option value="evenement" <?= ($menu['theme'] ?? '') === 'evenement' ? 'selected' : '' ?>>Événement</option>
-                    <option value="classique" <?= ($menu['theme'] ?? '') === 'classique' ? 'selected' : '' ?>>Classique</option>
-                </select>
+            <!-- TITRE -->
+            <h2>Informations générales</h2>
 
-                <label for="regime">Régime</label>
-                <select id="regime" name="regime">
-                    <option value="classique" <?= ($menu['regime'] ?? '') === 'classique' ? 'selected' : '' ?>>Classique</option>
-                    <option value="vegetarien" <?= ($menu['regime'] ?? '') === 'vegetarien' ? 'selected' : '' ?>>Végétarien</option>
-                    <option value="vegan" <?= ($menu['regime'] ?? '') === 'vegan' ? 'selected' : '' ?>>Vegan</option>
-                </select>
+            <label for="titre">Titre du menu</label>
+            <input
+                type="text"
+                id="titre"
+                name="titre"
+                value="<?= htmlspecialchars($menu['nom'] ?? '') ?>"
+            >
 
-                <label for="minimum">Nombre minimum de personnes</label>
-                <input type="number" id="minimum" name="minimum"
-                    value="<?= htmlspecialchars($menu['nb_personnes_min'] ?? '') ?>">
+            <label for="prix">Prix par personne (€)</label>
+            <input
+                type="number"
+                step="0.01"
+                id="prix"
+                name="prix"
+                value="<?= htmlspecialchars($menu['prix_base'] ?? '') ?>"
+            >
 
-                <label for="stock">Stock disponible</label>
-                <input type="number" id="stock" name="stock"
-                    value="<?= htmlspecialchars($menu['stock'] ?? '') ?>">
+            <label for="theme">Thème</label>
+            <select id="theme" name="theme">
+                <option value="noel" <?= ($menu['theme'] ?? '') === 'noel' ? 'selected' : '' ?>>Noël</option>
+                <option value="paques" <?= ($menu['theme'] ?? '') === 'paques' ? 'selected' : '' ?>>Pâques</option>
+                <option value="evenement" <?= ($menu['theme'] ?? '') === 'evenement' ? 'selected' : '' ?>>Événement</option>
+                <option value="classique" <?= ($menu['theme'] ?? '') === 'classique' ? 'selected' : '' ?>>Classique</option>
+            </select>
 
-                <!-- DESCRIPTION -->
-                <h2>Description</h2>
-                <label for="description">Description courte</label>
-                <textarea id="description" name="description" rows="4"><?= htmlspecialchars($menu['description'] ?? '') ?></textarea>
+            <label for="regime">Régime</label>
+            <select id="regime" name="regime">
+                <option value="classique" <?= ($menu['regime'] ?? '') === 'classique' ? 'selected' : '' ?>>Classique</option>
+                <option value="vegetarien" <?= ($menu['regime'] ?? '') === 'vegetarien' ? 'selected' : '' ?>>Végétarien</option>
+                <option value="vegan" <?= ($menu['regime'] ?? '') === 'vegan' ? 'selected' : '' ?>>Vegan</option>
+            </select>
 
-                <label for="description-complete">Description complète</label>
-                <textarea id="description-complete" name="description_complete" rows="6"><?= htmlspecialchars($menu['description_longue'] ?? '') ?></textarea>
+            <label for="minimum">Nombre minimum de personnes</label>
+            <input
+                type="number"
+                id="minimum"
+                name="minimum"
+                value="<?= htmlspecialchars($menu['nb_personnes_min'] ?? '') ?>"
+            >
 
-                <!-- PLATS -->
-                <h2>Plats du menu</h2>
-                <?php foreach ($platsParType as $type => $liste): ?>
-                    <fieldset class="plats-group">
-                        <legend><?= ucfirst($type) ?><?= $type === 'plat' ? ' principal' : '' ?></legend>
+            <label for="stock">Stock disponible</label>
+            <input
+                type="number"
+                id="stock"
+                name="stock"
+                value="<?= htmlspecialchars($menu['stock'] ?? '') ?>"
+            >
 
-                        <?php if (empty($liste)): ?>
-                            <p class="info">Aucun plat disponible</p>
-                        <?php else: ?>
-                            <?php foreach ($liste as $plat): ?>
-                                <label class="checkbox-plat">
-                                    <input type="checkbox"
-                                        name="plats[]"
-                                        value="<?= $plat['id'] ?>"
-                                        <?= in_array($plat['id'], $platsSelectionnes) ? 'checked' : '' ?>>
-                                    <?= htmlspecialchars($plat['nom']) ?>
-                                </label>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </fieldset>
-                <?php endforeach; ?>
+            <!-- DESCRIPTION -->
+            <h2>Description</h2>
 
-                <!-- BOUTON VALIDATION -->
-                <button type="submit" class="btn-commande">Enregistrer le menu</button>
-                <div class="auth-links">
-                    <a href="gestion-menus.php">← Retour à la liste des menus</a>
-                </div>
-            </form>
-        </section>
-    </main>
+            <label for="description">Description courte</label>
+            <textarea
+                id="description"
+                name="description"
+                rows="4"
+            ><?= htmlspecialchars($menu['description'] ?? '') ?></textarea>
 
-    <!-- Footer -->
-    <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+            <label for="description-complete">Description complète</label>
+            <textarea
+                id="description-complete"
+                name="description_complete"
+                rows="6"
+            ><?= htmlspecialchars($menu['description_longue'] ?? '') ?></textarea>
+
+            <!-- PLATS -->
+            <h2>Plats du menu</h2>
+
+            <?php foreach ($platsParType as $type => $liste): ?>
+                <fieldset class="plats-group">
+                    <legend><?= ucfirst($type) ?><?= $type === 'plat' ? ' principal' : '' ?></legend>
+
+                    <?php if (empty($liste)): ?>
+                        <p class="info">Aucun plat disponible</p>
+                    <?php else: ?>
+                        <?php foreach ($liste as $plat): ?>
+                            <label class="checkbox-plat">
+                                <input
+                                    type="checkbox"
+                                    name="plats[]"
+                                    value="<?= (int) $plat['id'] ?>"
+                                    <?= in_array($plat['id'], $platsSelectionnes) ? 'checked' : '' ?>
+                                >
+                                <?= htmlspecialchars($plat['nom']) ?>
+                            </label>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </fieldset>
+            <?php endforeach; ?>
+
+            <!-- BOUTON -->
+            <button type="submit" class="btn-commande">
+                Enregistrer le menu
+            </button>
+
+            <div class="auth-links">
+                <a href="gestion-menus.php">← Retour à la liste des menus</a>
+            </div>
+
+        </form>
+    </section>
+</main>
+
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

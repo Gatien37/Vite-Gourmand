@@ -1,21 +1,27 @@
 <?php
-/* ========== Chargement des dépendances ========== */
+/* ========== Initialisation de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../services/passwordService.php';
 
 /* ========== Initialisation des états ========== */
-
 $message = null;
 $success = false;
 
-/* ========== Récupération du token ========== */
-
+/* ========== Récupération du token de réinitialisation ========== */
 $token = $_GET['token'] ?? null;
 $user  = null;
 
 /* ========== Validation du lien de réinitialisation ========== */
-
 if (!$token) {
 
     $message = "Lien de réinitialisation invalide.";
@@ -30,8 +36,16 @@ if (!$token) {
 
     } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-        /* ========== Traitement du nouveau mot de passe ========== */
+        /* ===== Vérification CSRF ===== */
+        if (
+            empty($_POST['csrf_token']) ||
+            !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+        ) {
+            http_response_code(403);
+            exit('Action non autorisée (CSRF).');
+        }
 
+        /* ========== Traitement du nouveau mot de passe ========== */
         $error = traiterNouveauMotDePasse(
             $pdo,
             (int) $user['id'],
@@ -43,6 +57,9 @@ if (!$token) {
         } else {
             $success = true;
             $message = "Votre mot de passe a été réinitialisé avec succès.";
+
+            /* Sécurité : invalider le token CSRF après succès */
+            unset($_SESSION['csrf_token']);
         }
     }
 }
@@ -89,6 +106,13 @@ require_once __DIR__ . '/../partials/header.php';
                 action="#"
                 method="POST"
             >
+
+                <!-- CSRF -->
+                <input
+                    type="hidden"
+                    name="csrf_token"
+                    value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>"
+                >
 
                 <label for="password">Nouveau mot de passe</label>
                 <input

@@ -1,6 +1,16 @@
 <?php
+/* ========== Initialisation explicite de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
+
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 /* ========== Chargement des dépendances ========== */
 
@@ -31,6 +41,14 @@ $error = null;
 /* ========== Traitement du formulaire ========== */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die('Action non autorisée.');
+    }
 
     /* Acceptation des CGV obligatoire */
     if (empty($_POST['accept_cgv'])) {
@@ -116,6 +134,8 @@ require_once __DIR__ . '/../partials/header.php';
             data-prix-base="<?= (float) $menu['prix_base'] ?>"
             data-min-personnes="<?= (int) $menu['nb_personnes_min'] ?>"
         >
+            <!-- CSRF -->
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
             <!-- Message d’erreur -->
             <?php if ($error): ?>

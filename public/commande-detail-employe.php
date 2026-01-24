@@ -1,15 +1,17 @@
 <?php
 /* ========== Sécurisation : accès employé ========== */
-
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Dépendances ========== */
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 
-/* ========== Validation de l’ID commande ========== */
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
+/* ========== Validation de l’ID commande ========== */
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: gestion-commandes.php');
     exit;
@@ -19,18 +21,15 @@ $commandeId = (int) $_GET['id'];
 $commande   = getCommandeById($pdo, $commandeId);
 
 /* ========== Commande inexistante ========== */
-
 if (!$commande) {
     header('Location: gestion-commandes.php');
     exit;
 }
 
 /* ========== Données dérivées ========== */
-
 $date = new DateTime($commande['date_prestation']);
 
 /* ========== Historique : annulation / modification ========== */
-
 $motifAnnulation = null;
 
 if ($commande['statut'] === 'annulee') {
@@ -44,7 +43,6 @@ $derniereModification = getDerniereModificationCommande($pdo, $commandeId);
 <html lang="fr">
 <head>
     <?php
-    /* ========== Métadonnées ========== */
     $title = "Détail commande employé";
     require_once __DIR__ . '/../partials/head.php';
     ?>
@@ -52,14 +50,10 @@ $derniereModification = getDerniereModificationCommande($pdo, $commandeId);
 
 <body>
 
-<?php
-/* ========== En-tête ========== */
-require_once __DIR__ . '/../partials/header.php';
-?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <main id="main-content">
 
-    <!-- ===== Titre ===== -->
     <section class="hero-section commandes-hero">
         <h1>Commande #CMD-<?= (int) $commande['id'] ?></h1>
         <p>Détail complet de la commande client</p>
@@ -68,27 +62,23 @@ require_once __DIR__ . '/../partials/header.php';
     <section class="order-detail-container">
         <div class="order-card">
 
-            <!-- Confirmation d’action -->
             <?php if (isset($_GET['success'])): ?>
                 <div class="alert-success">
                     L'action a bien été enregistrée.
                 </div>
             <?php endif; ?>
 
-            <!-- Informations client -->
             <h3>Informations client</h3>
             <p><strong>Nom :</strong> <?= htmlspecialchars($commande['client_nom']) ?></p>
             <p><strong>Email :</strong> <?= htmlspecialchars($commande['client_email']) ?></p>
             <p><strong>GSM :</strong> <?= htmlspecialchars($commande['client_gsm']) ?></p>
 
-            <!-- Détails commande -->
             <h3>Commande</h3>
             <p><strong>Menu :</strong> <?= htmlspecialchars($commande['menu_nom']) ?></p>
             <p><strong>Date prestation :</strong> <?= $date->format('d/m/Y') ?></p>
             <p><strong>Heure :</strong> <?= $date->format('H:i') ?></p>
             <p><strong>Nombre de personnes :</strong> <?= (int) $commande['quantite'] ?></p>
 
-            <!-- Adresse (si livraison) -->
             <?php if (!empty($commande['adresse'])): ?>
                 <h3>Adresse</h3>
                 <p>
@@ -97,13 +87,11 @@ require_once __DIR__ . '/../partials/header.php';
                 </p>
             <?php endif; ?>
 
-            <!-- Statut -->
             <h3>Statut</h3>
             <span class="status-en-cours">
                 <?= ucfirst(str_replace('_', ' ', htmlspecialchars($commande['statut']))) ?>
             </span>
 
-            <!-- Dernière modification -->
             <?php if ($derniereModification): ?>
                 <div class="alert-modification">
                     <p><strong>Commande modifiée</strong></p>
@@ -125,7 +113,6 @@ require_once __DIR__ . '/../partials/header.php';
                 </div>
             <?php endif; ?>
 
-            <!-- Annulation -->
             <?php if ($commande['statut'] === 'annulee' && $motifAnnulation): ?>
                 <div class="alert-annulation">
                     <p><strong>Commande annulée</strong></p>
@@ -147,22 +134,19 @@ require_once __DIR__ . '/../partials/header.php';
                 </div>
             <?php endif; ?>
 
-            <!-- Total -->
             <h3>Total</h3>
             <p><strong><?= number_format($commande['prix_total'], 2, ',', ' ') ?> €</strong></p>
 
-            <!-- Actions employé -->
             <div class="order-actions">
 
                 <?php if ($commande['statut'] !== 'annulee'): ?>
 
                     <h3>Action sur la commande</h3>
 
-                    <form
-                        method="POST"
-                        action="traiter-action-commande.php"
-                        class="form-card"
-                    >
+                    <form method="POST" action="traiter-action-commande.php" class="form-card">
+
+                        <!-- CSRF -->
+                        <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
                         <input
                             type="hidden"
@@ -203,7 +187,6 @@ require_once __DIR__ . '/../partials/header.php';
 
                 <?php endif; ?>
 
-                <!-- Retour -->
                 <a href="gestion-commandes.php" class="btn-secondary">
                     ← Retour à la gestion des commandes
                 </a>
@@ -214,10 +197,7 @@ require_once __DIR__ . '/../partials/header.php';
     </section>
 </main>
 
-<?php
-/* ========== Pied de page ========== */
-require_once __DIR__ . '/../partials/footer.php';
-?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

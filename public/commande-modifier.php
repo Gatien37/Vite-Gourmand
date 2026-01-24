@@ -1,11 +1,16 @@
 <?php
-/* =====================================================
-   MODIFICATION D’UNE COMMANDE UTILISATEUR
-   (GET : affichage / POST : traitement)
-   ===================================================== */
+/* ========== Initialisation explicite de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
+
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
@@ -25,7 +30,7 @@ if (!$commande || (int) $commande['utilisateur_id'] !== $userId) {
     exit;
 }
 
-/* ========== Règle métier : commande modifiable uniquement si en attente ========== */
+/* ========== Commande modifiable uniquement si en attente ========== */
 if ($commande['statut'] !== STATUT_EN_ATTENTE) {
     $_SESSION['error'] = "Vous ne pouvez modifier une commande que si elle est en attente.";
     header('Location: commande-utilisateur.php');
@@ -36,6 +41,14 @@ if ($commande['statut'] !== STATUT_EN_ATTENTE) {
 $error = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die('Action non autorisée.');
+    }
 
     $error = modifierCommandeUtilisateur($pdo, $commande, $_POST);
 
@@ -81,6 +94,9 @@ require_once __DIR__ . '/../partials/header.php';
 
     <section class="profil-container">
         <form class="profil-form form-card" method="POST">
+
+            <!-- CSRF -->
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
             <?php if ($error): ?>
                 <p class="error-message"><?= htmlspecialchars($error) ?></p>

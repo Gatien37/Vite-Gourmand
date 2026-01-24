@@ -1,11 +1,28 @@
 <?php
-
+/* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
+
+/* ========== Sécurité CSRF ========== */
+if (
+    empty($_POST['csrf_token']) ||
+    empty($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+) {
+    http_response_code(403);
+    exit('Action non autorisée (CSRF).');
+}
+
+/* ========== Sécurité : méthode HTTP ========== */
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: gestion-commandes.php');
+    exit;
+}
+
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 
 /* ================== VALIDATION ================== */
-
 if (
     empty($_POST['commande_id']) ||
     empty($_POST['contact_mode']) ||
@@ -22,7 +39,6 @@ $motif       = trim($_POST['motif']);
 $action      = $_POST['action'];
 
 /* ================== RECUP COMMANDE ================== */
-
 $commande = getCommandeById($pdo, $commandeId);
 
 if (!$commande) {
@@ -37,12 +53,10 @@ $nbPersonnes = (int) ($commande['quantite'] ?? 0);
 $menuId      = (int) $commande['menu_id'];
 
 /* ================== TRANSACTION ================== */
-
 try {
     $pdo->beginTransaction();
 
     /* ================== TRACE ACTION ================== */
-
     $stmt = $pdo->prepare("
         INSERT INTO commande_actions 
         (commande_id, employe_id, action, contact_mode, motif, created_at)
@@ -58,10 +72,9 @@ try {
     ]);
 
     /* ================== ACTION METIER ================== */
-
     if ($action === 'annuler' && $commande['statut'] !== 'annulee') {
 
-        // 1️⃣ Restitution du stock
+        /* Restitution du stock */
         $stmtStock = $pdo->prepare("
             UPDATE menu
             SET stock = stock + :nb
@@ -72,7 +85,7 @@ try {
             'menu_id' => $menuId
         ]);
 
-        // 2️⃣ Mise à jour du statut
+        /* Mise à jour du statut */
         $stmtCmd = $pdo->prepare("
             UPDATE commande 
             SET statut = 'annulee'

@@ -1,12 +1,10 @@
 <?php
-session_start();
+require_once __DIR__ . '/initSession.php';
 
-if (!isset($_SESSION['user'])) {
-    header('Location: connexion.php');
-    exit;
-}
-
-if ($_SESSION['user']['role'] !== 'admin') {
+if (
+    empty($_SESSION['user']) ||
+    $_SESSION['user']['role'] !== 'admin'
+) {
     http_response_code(403);
-    exit('Accès réservé administrateur');
+    exit;
 }

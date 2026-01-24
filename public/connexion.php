@@ -1,25 +1,40 @@
 <?php
-/* ========== Initialisation de la session ========== */
+/* ========== Sécurisation cookies de session ========== */
+session_set_cookie_params([
+    'httponly' => true,
+    'secure'   => true,   // à laisser à true en HTTPS
+    'samesite' => 'Strict'
+]);
 
+/* ========== Initialisation de la session ========== */
 session_start();
 
-/* ========== Chargement des dépendances ========== */
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/utilisateurModel.php';
 
 /* ========== Paramètres de redirection éventuelle ========== */
-
 $redirect = $_GET['redirect'] ?? null;
 $menuId   = $_GET['menu_id'] ?? null;
 
 /* ========== Initialisation des erreurs ========== */
-
 $error = null;
 
 /* ========== Traitement du formulaire de connexion ========== */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die('Action non autorisée.');
+    }
 
     $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
@@ -110,8 +125,18 @@ require_once __DIR__ . '/../partials/header.php';
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
+        <!-- Message d’erreur -->
+        <?php if (!empty($error)): ?>
+            <div class="alert-error">
+                <?= htmlspecialchars($error) ?>
+            </div>
+        <?php endif; ?>
+
         <!-- Formulaire de connexion -->
-        <form class="login-form form-card" action="#" method="POST">
+        <form class="login-form form-card" method="POST">
+
+            <!-- CSRF -->
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
             <label for="email">Adresse e-mail</label>
             <input

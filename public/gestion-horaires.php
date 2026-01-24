@@ -1,21 +1,31 @@
 <?php
 /* ========== Sécurité : accès employé ou administrateur ========== */
-
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
-/* ========== Chargement des dépendances ========== */
+/* ========== Initialisation CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/horaireModel.php';
 require_once __DIR__ . '/../services/horaireService.php';
 
 /* ========== Récupération des horaires ========== */
-
 $horaires = getHoraires($pdo);
 
 /* ========== Traitement du formulaire ========== */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        http_response_code(403);
+        exit('Action non autorisée (CSRF).');
+    }
 
     traiterMiseAJourHoraires($pdo, $horaires, $_POST);
 
@@ -53,6 +63,13 @@ require_once __DIR__ . '/../partials/header.php';
 
         <!-- ===== Formulaire des horaires ===== -->
         <form method="POST" class="horaires-form form-card">
+
+            <!-- CSRF -->
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>"
+            >
 
             <h2>Horaires d'ouverture</h2>
 

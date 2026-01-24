@@ -1,17 +1,29 @@
 <?php
-/* ========== Chargement des middlewares et dépendances ========== */
-
+/* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
+
+/* ========== Sécurité CSRF (AJAX) ========== */
+$headers = getallheaders();
+
+if (
+    empty($headers['X-CSRF-Token']) ||
+    empty($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $headers['X-CSRF-Token'])
+) {
+    http_response_code(403);
+    echo json_encode(['error' => 'Action non autorisée (CSRF).']);
+    exit;
+}
+
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 require_once __DIR__ . '/../services/mailService.php';
 
 /* ========== Réponse JSON ========== */
-
 header('Content-Type: application/json');
 
 /* ========== Lecture et validation des données JSON ========== */
-
 $data = json_decode(file_get_contents('php://input'), true);
 
 if (
@@ -27,7 +39,6 @@ $commandeId = (int) $data['commande_id'];
 $statut     = $data['statut'];
 
 /* ========== Validation du statut demandé ========== */
-
 $statutsAutorises = [
     'en_attente',
     'acceptee',
@@ -45,7 +56,6 @@ if (!in_array($statut, $statutsAutorises, true)) {
 }
 
 /* ========== Fonction utilitaire : ajout de jours ouvrés ========== */
-
 function ajouterJoursOuvres(DateTime $date, int $jours): DateTime
 {
     $date    = clone $date;
@@ -53,8 +63,6 @@ function ajouterJoursOuvres(DateTime $date, int $jours): DateTime
 
     while ($ajoutes < $jours) {
         $date->modify('+1 day');
-
-        /* 1 = lundi, 5 = vendredi */
         if ($date->format('N') < 6) {
             $ajoutes++;
         }
@@ -64,11 +72,9 @@ function ajouterJoursOuvres(DateTime $date, int $jours): DateTime
 }
 
 /* ========== Traitement transactionnel du changement de statut ========== */
-
 try {
     $pdo->beginTransaction();
 
-    /* ===== Cas spécifique : prêt de matériel ===== */
     if ($statut === 'attente_retour_materiel') {
 
         $dateLimite = ajouterJoursOuvres(new DateTime(), 10);
@@ -88,10 +94,8 @@ try {
             'id'          => $commandeId
         ]);
 
-        /* Suivi de commande */
         insertCommandeSuivi($pdo, $commandeId, $statut);
 
-        /* Envoi de l’e-mail de notification */
         $commande = getCommandeById($pdo, $commandeId);
 
         envoyerMailPretMateriel(
@@ -100,9 +104,7 @@ try {
             $dateLimite->format('d/m/Y')
         );
 
-    }
-    /* ===== Cas général : changement de statut simple ===== */
-    else {
+    } else {
 
         $stmt = $pdo->prepare("
             UPDATE commande

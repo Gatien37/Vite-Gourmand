@@ -1,38 +1,46 @@
 <?php
+/* ========== Initialisation de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
-/* ========== Chargement des dépendances ========== */
-
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
-
-
 /* ========== Sécurisation de la méthode HTTP ========== */
-
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: commande-utilisateur.php');
     exit;
 }
 
-/* ========== Récupération des données ========== */
+/* ========== Vérification CSRF ========== */
+if (
+    empty($_POST['csrf_token']) ||
+    empty($_SESSION['csrf_token']) ||
+    !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+) {
+    http_response_code(403);
+    exit('Action non autorisée (CSRF).');
+}
 
+/* ========== Chargement des dépendances ========== */
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../models/commandeModel.php';
+
+/* ========== Récupération des données ========== */
 $commandeId = (int) ($_POST['commande_id'] ?? 0);
 $userId     = (int) $_SESSION['user']['id'];
 
 /* ========== Récupération de la commande ========== */
-
 $commande = getCommandeById($pdo, $commandeId);
 
 /* ========== Sécurité : propriété de la commande ========== */
-
 if (!$commande || (int) $commande['utilisateur_id'] !== $userId) {
     header('Location: commande-utilisateur.php');
     exit;
 }
 
-/* ========== Règle métier : annulation autorisée uniquement si en attente ========== */
-
+/* ========== Annulation autorisée uniquement si en attente ========== */
 if ($commande['statut'] !== 'en_attente') {
     $_SESSION['error'] = "Impossible d'annuler : commande déjà traitée.";
     header('Location: commande-utilisateur.php');
@@ -40,11 +48,10 @@ if ($commande['statut'] !== 'en_attente') {
 }
 
 /* ========== Traitement de l'annulation ========== */
-
 try {
     $pdo->beginTransaction();
 
-    // Mise à jour du statut de la commande
+    /* Mise à jour du statut */
     $stmtUpdate = $pdo->prepare("
         UPDATE commande
         SET statut = 'annulee'
@@ -52,27 +59,30 @@ try {
     ");
     $stmtUpdate->execute(['id' => $commandeId]);
 
-    // Ajout dans l'historique de suivi
+    /* Historique */
     $stmtSuivi = $pdo->prepare("
         INSERT INTO commande_suivi (commande_id, statut)
         VALUES (:commande_id, 'annulee')
     ");
     $stmtSuivi->execute(['commande_id' => $commandeId]);
 
-    // Restitution du stock du menu
+    /* Restitution du stock */
     $stmtStock = $pdo->prepare("
         UPDATE menu
         SET stock = stock + :nb
         WHERE id = :menu_id
     ");
     $stmtStock->execute([
-        'nb'      => (int) $commande['nb_personnes'],
-        'menu_id'=> (int) $commande['menu_id']
+        'nb'       => (int) $commande['nb_personnes'],
+        'menu_id' => (int) $commande['menu_id']
     ]);
 
     $pdo->commit();
 
     $_SESSION['success'] = "Commande annulée avec succès.";
+
+    /* Sécurité : invalider le token CSRF après succès */
+    unset($_SESSION['csrf_token']);
 
 } catch (Exception $e) {
 
@@ -81,6 +91,5 @@ try {
 }
 
 /* ========== Redirection finale ========== */
-
 header('Location: commande-utilisateur.php');
 exit;

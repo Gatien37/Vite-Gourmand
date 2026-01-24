@@ -1,23 +1,24 @@
 <?php
 /* ========== Sécurité : accès employé ou administrateur ========== */
-
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
-/* ========== Chargement des dépendances ========== */
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/platModel.php';
 require_once __DIR__ . '/../models/allergeneModel.php';
 require_once __DIR__ . '/../services/platService.php';
 
 /* ========== Initialisation ========== */
-
 $id    = isset($_GET['id']) ? (int) $_GET['id'] : null;
 $plat  = null;
 $error = null;
 
 /* ========== Mode édition (plat existant) ========== */
-
 if ($id) {
     $plat = getPlatById($pdo, $id);
 
@@ -28,11 +29,9 @@ if ($id) {
 }
 
 /* ========== Données nécessaires à l’affichage ========== */
-
 $allergenes = getAllAllergenes($pdo);
 
 /* ========== Allergènes déjà associés au plat ========== */
-
 $allergenesSelectionnes = [];
 
 if ($id) {
@@ -46,8 +45,16 @@ if ($id) {
 }
 
 /* ========== Traitement du formulaire ========== */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        http_response_code(403);
+        exit('Action non autorisée (CSRF).');
+    }
 
     $error = enregistrerPlat($pdo, $_POST, $id);
 
@@ -62,18 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <?php
-    /* ========== Métadonnées ========== */
-    $titre = "Modifier un plat";
+    $title = $plat ? "Modifier un plat" : "Créer un plat";
     require_once __DIR__ . '/../partials/head.php';
     ?>
 </head>
 
 <body>
 
-<?php
-/* ========== En-tête du site ========== */
-require_once __DIR__ . '/../partials/header.php';
-?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <main id="main-content">
 
@@ -87,23 +90,31 @@ require_once __DIR__ . '/../partials/header.php';
         <!-- ===== Formulaire plat ===== -->
         <form method="POST" class="form-card">
 
+            <!-- CSRF -->
+            <input
+                type="hidden"
+                name="csrf_token"
+                value="<?= $_SESSION['csrf_token'] ?>"
+            >
+
             <!-- Message d’erreur -->
             <?php if ($error): ?>
                 <p class="error-message"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
 
             <!-- Nom -->
-            <label>Nom</label>
+            <label for="nom">Nom</label>
             <input
                 type="text"
+                id="nom"
                 name="nom"
                 value="<?= htmlspecialchars($plat['nom'] ?? '') ?>"
                 required
             >
 
             <!-- Type -->
-            <label>Type</label>
-            <select name="type">
+            <label for="type">Type</label>
+            <select name="type" id="type">
                 <option value="entree" <?= ($plat['type'] ?? '') === 'entree' ? 'selected' : '' ?>>
                     Entrée
                 </option>
@@ -123,7 +134,7 @@ require_once __DIR__ . '/../partials/header.php';
                     <input
                         type="checkbox"
                         name="allergenes[]"
-                        value="<?= $allergene['id'] ?>"
+                        value="<?= (int) $allergene['id'] ?>"
                         <?= in_array($allergene['id'], $allergenesSelectionnes) ? 'checked' : '' ?>
                     >
                     <?= htmlspecialchars($allergene['nom']) ?>
@@ -131,7 +142,7 @@ require_once __DIR__ . '/../partials/header.php';
             <?php endforeach; ?>
 
             <!-- Bouton validation -->
-            <button class="btn-commande">
+            <button type="submit" class="btn-commande">
                 Enregistrer
             </button>
 
@@ -144,10 +155,7 @@ require_once __DIR__ . '/../partials/header.php';
     </section>
 </main>
 
-<?php
-/* ========== Pied de page ========== */
-require_once __DIR__ . '/../partials/footer.php';
-?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

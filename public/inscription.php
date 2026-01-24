@@ -1,22 +1,30 @@
 <?php
-/* ========== Initialisation de la session ========== */
+/* ========== Initialisation sécurisée de la session ========== */
+require_once __DIR__ . '/../middlewares/initSession.php';
 
-session_start();
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 /* ========== Chargement des dépendances ========== */
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../services/mailService.php';
 require_once __DIR__ . '/../services/inscriptionService.php';
 
 /* ========== Initialisation des états ========== */
-
-$error   = null;
-$success = false;
+$error = null;
 
 /* ========== Traitement du formulaire d’inscription ========== */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die('Action non autorisée.');
+    }
 
     $result = traiterInscription($pdo, $_POST);
 
@@ -31,6 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -66,6 +75,8 @@ require_once __DIR__ . '/../partials/header.php';
             action="#"
             method="POST"
         >
+            <!-- CSRF -->
+            <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
             <!-- Message d’erreur -->
             <?php if ($error): ?>
@@ -80,6 +91,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="prenom"
                 name="prenom"
                 placeholder="Votre prénom"
+                required
             >
 
             <label for="nom">Nom <span class="required">*</span></label>
@@ -88,6 +100,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="nom"
                 name="nom"
                 placeholder="Votre nom"
+                required
             >
 
             <label for="email">Adresse e-mail <span class="required">*</span></label>
@@ -96,6 +109,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="email"
                 name="email"
                 placeholder="exemple@mail.com"
+                required
             >
 
             <label for="telephone">Téléphone <span class="required">*</span></label>
@@ -104,6 +118,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="telephone"
                 name="telephone"
                 placeholder="Votre numéro de téléphone"
+                required
             >
 
             <label for="adresse">Adresse <span class="required">*</span></label>
@@ -112,6 +127,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="adresse"
                 name="adresse"
                 placeholder="Votre adresse"
+                required
             >
 
             <label for="ville">Ville <span class="required">*</span></label>
@@ -120,6 +136,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="ville"
                 name="ville"
                 placeholder="Votre ville"
+                required
             >
 
             <label for="code-postal">Code postal <span class="required">*</span></label>
@@ -128,6 +145,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="code-postal"
                 name="code_postal"
                 placeholder="Code postal"
+                required
             >
 
             <h2>Sécurité du compte</h2>
@@ -138,6 +156,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="password"
                 name="password"
                 placeholder="Votre mot de passe"
+                required
             >
 
             <!-- Règles de sécurité du mot de passe -->
@@ -157,6 +176,7 @@ require_once __DIR__ . '/../partials/header.php';
                 id="confirm-password"
                 name="confirm_password"
                 placeholder="Confirmez le mot de passe"
+                required
             >
 
             <button type="submit" class="btn-commande">

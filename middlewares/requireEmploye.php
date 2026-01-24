@@ -1,12 +1,10 @@
 <?php
-session_start();
+require_once __DIR__ . '/initSession.php';
 
-if (!isset($_SESSION['user'])) {
-    header('Location: connexion.php');
-    exit;
-}
-
-if (!in_array($_SESSION['user']['role'], ['employe', 'admin'])) {
+if (
+    empty($_SESSION['user']) ||
+    !in_array($_SESSION['user']['role'], ['employe', 'admin'], true)
+) {
     http_response_code(403);
-    exit('Accès interdit');
+    exit;
 }

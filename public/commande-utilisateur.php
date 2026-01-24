@@ -1,11 +1,20 @@
 <?php
+/* ========== Initialisation explicite de la session ========== */
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
-/* ========== Récupération des commandes utilisateur ========== */
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
-$userId     = (int) $_SESSION['user']['id'];
-$commandes  = getCommandesByUtilisateur($pdo, $userId);
+/* ========== Récupération des commandes utilisateur ========== */
+$userId    = (int) $_SESSION['user']['id'];
+$commandes = getCommandesByUtilisateur($pdo, $userId);
 ?>
 
 <!DOCTYPE html>
@@ -27,14 +36,12 @@ require_once __DIR__ . '/../partials/header.php';
 
 <main id="main-content">
 
-    <!-- ===== Titre ===== -->
     <section class="hero-section commandes-hero">
         <h1>Mes commandes</h1>
         <p>Consultez vos commandes passées et en cours.</p>
     </section>
 
-    <!-- ===== Messages de retour ===== -->
-
+    <!-- Messages de retour -->
     <?php if (!empty($_SESSION['success'])): ?>
         <p class="alert-success">
             <?= htmlspecialchars($_SESSION['success']) ?>
@@ -49,13 +56,11 @@ require_once __DIR__ . '/../partials/header.php';
         <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
 
-    <!-- ===== Liste des commandes ===== -->
+    <!-- Liste des commandes -->
     <section class="orders-container">
         <div class="table-wrapper">
 
             <table class="orders-table">
-
-                <!-- En-tête du tableau -->
                 <thead>
                     <tr>
                         <th>Menu</th>
@@ -68,111 +73,93 @@ require_once __DIR__ . '/../partials/header.php';
 
                 <tbody>
 
-                    <!-- Aucune commande -->
-                    <?php if (empty($commandes)): ?>
+                <?php if (empty($commandes)): ?>
+                    <tr>
+                        <td colspan="6">Aucune commande enregistrée.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($commandes as $commande): ?>
                         <tr>
-                            <td colspan="6">Aucune commande enregistrée.</td>
-                        </tr>
 
-                    <!-- Liste des commandes -->
-                    <?php else: ?>
-                        <?php foreach ($commandes as $commande): ?>
-                            <tr>
+                            <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
 
-                                <!-- Menu -->
-                                <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
+                            <td><?= date('d/m/Y', strtotime($commande['date_prestation'])) ?></td>
 
-                                <!-- Date -->
-                                <td>
-                                    <?= date('d/m/Y', strtotime($commande['date_prestation'])) ?>
-                                </td>
+                            <td>
+                                <span class="status <?= htmlspecialchars($commande['statut']) ?>">
+                                    <?= ucfirst(str_replace('_', ' ', $commande['statut'])) ?>
+                                </span>
+                            </td>
 
-                                <!-- Statut -->
-                                <td>
-                                    <span class="status <?= htmlspecialchars($commande['statut']) ?>">
-                                        <?= ucfirst(str_replace('_', ' ', $commande['statut'])) ?>
-                                    </span>
+                            <td><?= number_format((float) $commande['prix_total'], 2) ?> €</td>
 
-                                    <?php if (!empty($commande['pret_materiel']) && !empty($commande['date_limite_retour'])): ?>
-                                        <div class="retour-materiel">
-                                            ⚠️ Matériel à restituer avant le
-                                            <?= date('d/m/Y', strtotime($commande['date_limite_retour'])) ?>
-                                        </div>
-                                    <?php endif; ?>
-                                </td>
+                            <td>
+                                <div class="order-actions">
 
-                                <!-- Total -->
-                                <td>
-                                    <?= number_format((float) $commande['prix_total'], 2) ?> €
-                                </td>
+                                    <a
+                                        href="commande-detail.php?id=<?= (int) $commande['id'] ?>"
+                                        class="btn-commande"
+                                    >
+                                        Détails
+                                    </a>
 
-                                <!-- Actions -->
-                                <td>
-                                    <div class="order-actions">
+                                    <?php if ($commande['statut'] === 'en_attente'): ?>
 
-                                        <!-- Détails -->
                                         <a
-                                            href="commande-detail.php?id=<?= (int) $commande['id'] ?>"
-                                            class="btn-commande"
+                                            href="commande-modifier.php?id=<?= (int) $commande['id'] ?>"
+                                            class="btn-secondary"
                                         >
-                                            Détails
+                                            Modifier
                                         </a>
 
-                                        <!-- Actions possibles si commande en attente -->
-                                        <?php if ($commande['statut'] === 'en_attente'): ?>
-
-                                            <a
-                                                href="commande-modifier.php?id=<?= (int) $commande['id'] ?>"
-                                                class="btn-secondary"
+                                        <form
+                                            method="POST"
+                                            action="commande-annuler.php"
+                                            class="js-confirm-annulation"
+                                        >
+                                            <input
+                                                type="hidden"
+                                                name="commande_id"
+                                                value="<?= (int) $commande['id'] ?>"
                                             >
-                                                Modifier
-                                            </a>
 
-                                            <form
-                                                method="POST"
-                                                action="commande-annuler.php"
-                                                class="js-confirm-annulation"
+                                            <input
+                                                type="hidden"
+                                                name="csrf_token"
+                                                value="<?= $_SESSION['csrf_token'] ?>"
                                             >
-                                                <input
-                                                    type="hidden"
-                                                    name="commande_id"
-                                                    value="<?= (int) $commande['id'] ?>"
-                                                >
 
-                                                <button type="submit" class="btn-secondary">
-                                                    Annuler
-                                                </button>
-                                            </form>
+                                            <button type="submit" class="btn-secondary">
+                                                Annuler
+                                            </button>
+                                        </form>
 
-                                        <?php endif; ?>
+                                    <?php endif; ?>
 
-                                        <!-- Laisser un avis si commande terminée -->
-                                        <?php if ($commande['statut'] === 'terminee'): ?>
-                                            <a
-                                                href="laisser-un-avis.php?commande_id=<?= (int) $commande['id'] ?>"
-                                                class="btn-commande"
-                                            >
-                                                Laisser un avis
-                                            </a>
-                                        <?php endif; ?>
+                                    <?php if ($commande['statut'] === 'terminee'): ?>
+                                        <a
+                                            href="laisser-un-avis.php?commande_id=<?= (int) $commande['id'] ?>"
+                                            class="btn-commande"
+                                        >
+                                            Laisser un avis
+                                        </a>
+                                    <?php endif; ?>
 
-                                    </div>
-                                </td>
+                                </div>
+                            </td>
 
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
 
                 </tbody>
             </table>
+
         </div>
     </section>
 </main>
 
-<?php
-/* ========== Pied de page ========== */
-require_once __DIR__ . '/../partials/footer.php';
-?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

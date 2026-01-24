@@ -1,15 +1,17 @@
 <?php
 /* ========== Sécurité : accès administrateur ========== */
-
 require_once __DIR__ . '/../middlewares/requireAdmin.php';
 
-/* ========== Chargement des dépendances ========== */
+/* ========== Génération CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
+/* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/utilisateurModel.php';
 
 /* ========== Récupération des employés ========== */
-
 $employes = getEmployes($pdo);
 ?>
 
@@ -17,7 +19,6 @@ $employes = getEmployes($pdo);
 <html lang="fr">
 <head>
     <?php
-    /* ========== Métadonnées ========== */
     $title = "Gestion des employés";
     require_once __DIR__ . '/../partials/head.php';
     ?>
@@ -25,31 +26,24 @@ $employes = getEmployes($pdo);
 
 <body>
 
-<?php
-/* ========== En-tête du site ========== */
-require_once __DIR__ . '/../partials/header.php';
-?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <main id="main-content">
 
-    <!-- ===== Titre ===== -->
     <section class="hero-section commandes-hero">
         <h1>Gestion des employés</h1>
         <p>Ajoutez, modifiez ou désactivez des comptes employés.</p>
     </section>
 
-    <!-- ===== Ajout d’un employé ===== -->
     <div class="add-employe-container">
         <a href="form-employe.php" class="btn-commande">
             Ajouter un employé
         </a>
     </div>
 
-    <!-- ===== Liste des employés ===== -->
     <section class="employes-admin-container">
 
         <table class="employes-admin-table">
-
             <thead>
                 <tr>
                     <th>Email</th>
@@ -63,10 +57,8 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php foreach ($employes as $employe): ?>
                     <tr>
 
-                        <!-- Email -->
                         <td><?= htmlspecialchars($employe['email']) ?></td>
 
-                        <!-- Statut -->
                         <td>
                             <?php if ($employe['actif']): ?>
                                 <span class="status actif">Actif</span>
@@ -75,23 +67,24 @@ require_once __DIR__ . '/../partials/header.php';
                             <?php endif; ?>
                         </td>
 
-                        <!-- Actions -->
                         <td>
-                            <?php if ($employe['actif']): ?>
-                                <a
-                                    href="toggle-employe.php?id=<?= (int) $employe['id'] ?>&action=disable"
-                                    class="btn-secondary btn-delete"
+                            <form
+                                method="POST"
+                                action="toggle-employe.php"
+                            >
+                                <input type="hidden" name="id" value="<?= (int) $employe['id'] ?>">
+                                <input type="hidden" name="action"
+                                       value="<?= $employe['actif'] ? 'disable' : 'enable' ?>">
+                                <input type="hidden" name="csrf_token"
+                                       value="<?= $_SESSION['csrf_token'] ?>">
+
+                                <button
+                                    type="submit"
+                                    class="<?= $employe['actif'] ? 'btn-secondary btn-delete' : 'btn-commande' ?>"
                                 >
-                                    Désactiver
-                                </a>
-                            <?php else: ?>
-                                <a
-                                    href="toggle-employe.php?id=<?= (int) $employe['id'] ?>&action=enable"
-                                    class="btn-commande"
-                                >
-                                    Activer
-                                </a>
-                            <?php endif; ?>
+                                    <?= $employe['actif'] ? 'Désactiver' : 'Activer' ?>
+                                </button>
+                            </form>
                         </td>
 
                     </tr>
@@ -99,13 +92,11 @@ require_once __DIR__ . '/../partials/header.php';
 
             </tbody>
         </table>
+
     </section>
 </main>
 
-<?php
-/* ========== Pied de page ========== */
-require_once __DIR__ . '/../partials/footer.php';
-?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>
