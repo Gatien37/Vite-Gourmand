@@ -1,9 +1,4 @@
 <?php
-/* ========== Initialisation explicite de la session ========== */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
@@ -13,14 +8,13 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 /* ========== Chargement des dépendances ========== */
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/menuModel.php';
+require_once __DIR__ . '/../models/utilisateurModel.php';
 require_once __DIR__ . '/../services/commandeService.php';
 require_once __DIR__ . '/../services/mailService.php';
 
 /* ========== Sécurité : menu valide ========== */
-
 if (!isset($_GET['menu_id']) || !is_numeric($_GET['menu_id'])) {
     header('Location: menus.php');
     exit;
@@ -34,12 +28,23 @@ if (!$menu) {
     exit;
 }
 
-/* ========== Initialisation des erreurs ========== */
+/* ========== Récupération utilisateur connecté (BDD) ========== */
+$userId = (int) $_SESSION['user']['id'];
+$utilisateur = getUtilisateurById($pdo, $userId);
 
+if (!$utilisateur) {
+    die('Utilisateur introuvable.');
+}
+
+$prenom = htmlspecialchars($utilisateur['prenom']);
+$nom    = htmlspecialchars($utilisateur['nom']);
+$email  = htmlspecialchars($utilisateur['email']);
+$gsm    = htmlspecialchars($utilisateur['gsm']);
+
+/* ========== Initialisation des erreurs ========== */
 $error = null;
 
 /* ========== Traitement du formulaire ========== */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     /* ===== Vérification CSRF ===== */
@@ -55,26 +60,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = "Vous devez accepter les Conditions Générales de Vente pour valider la commande.";
     } else {
 
-        /* Traitement métier de la commande */
+        /* Traitement métier */
         $resultat = traiterCommande(
             $pdo,
             $menu,
             $_POST,
-            $_SESSION['user']
+            $_SESSION['user'] // source fiable côté métier
         );
 
-        /* Gestion des erreurs */
         if (!empty($resultat['error'])) {
             $error = $resultat['error'];
         } else {
 
-            /* Envoi de l’email de confirmation */
             envoyerMailConfirmation(
                 $_SESSION['user']['email'],
                 $resultat['recap']
             );
 
-            /* Redirection vers la confirmation */
             header('Location: confirmation.php?id=' . $resultat['commande_id']);
             exit;
         }
@@ -86,7 +88,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
     <?php
-    /* ========== Métadonnées ========== */
     $title = "Commande";
     require_once __DIR__ . '/../partials/head.php';
     ?>
@@ -94,14 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-<?php
-/* ========== En-tête du site ========== */
-require_once __DIR__ . '/../partials/header.php';
-?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <main id="main-content">
 
-    <!-- ===== Titre ===== -->
     <section class="hero-section commandes-hero">
         <h1>Passer commande</h1>
         <p>Complétez les informations ci-dessous pour finaliser votre commande.</p>
@@ -134,28 +131,44 @@ require_once __DIR__ . '/../partials/header.php';
             data-prix-base="<?= (float) $menu['prix_base'] ?>"
             data-min-personnes="<?= (int) $menu['nb_personnes_min'] ?>"
         >
-            <!-- CSRF -->
+
             <input type="hidden" name="csrf_token" value="<?= $_SESSION['csrf_token'] ?>">
 
-            <!-- Message d’erreur -->
             <?php if ($error): ?>
                 <p id="commande-error"><?= htmlspecialchars($error) ?></p>
             <?php endif; ?>
 
+            <!-- ===== Informations client ===== -->
+            <h2>Informations client</h2>
+
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" value="<?= $prenom ?>" readonly>
+
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" value="<?= $nom ?>" readonly>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" value="<?= $email ?>" readonly>
+
+            <label for="gsm">Téléphone (GSM)</label>
+            <input type="text" id="gsm" value="<?= $gsm ?>" readonly>
+
+            <p class="legal-hint">
+                Ces informations proviennent de votre compte et ne peuvent pas être modifiées ici.
+            </p>
+
+            <!-- ===== Informations de commande ===== -->
             <h2>Informations de commande</h2>
 
-            <!-- Nombre de personnes -->
             <label for="nb_personnes">Nombre de personnes *</label>
             <input
                 type="number"
                 id="nb_personnes"
                 name="nb_personnes"
                 min="<?= (int) $menu['nb_personnes_min'] ?>"
-                data-min="<?= (int) $menu['nb_personnes_min'] ?>"
                 required
             >
 
-            <!-- Date -->
             <label for="date">Date *</label>
             <input
                 type="date"
@@ -165,16 +178,9 @@ require_once __DIR__ . '/../partials/header.php';
                 required
             >
 
-            <!-- Heure -->
             <label for="heure">Heure *</label>
-            <input
-                type="time"
-                id="heure"
-                name="heure"
-                required
-            >
+            <input type="time" id="heure" name="heure" required>
 
-            <!-- Mode de réception -->
             <h2>Mode de réception *</h2>
 
             <label class="radio-option">
@@ -187,7 +193,6 @@ require_once __DIR__ . '/../partials/header.php';
                 <span>Livraison (5 € + 0,59 €/km en dehors de Bordeaux)</span>
             </label>
 
-            <!-- Adresse de livraison -->
             <div class="livraison-adresse is-hidden">
                 <label for="adresse">Adresse *</label>
                 <input type="text" id="adresse" name="adresse">
@@ -197,6 +202,16 @@ require_once __DIR__ . '/../partials/header.php';
 
                 <label for="ville">Ville *</label>
                 <input type="text" id="ville" name="ville">
+            </div>
+
+            <div class="cgv-validation">
+                <label>
+                    <input type="checkbox" name="accept_cgv" required>
+                    J'ai lu et j'accepte les
+                    <a href="cgv.php" target="_blank" rel="noopener">
+                        Conditions Générales de Vente
+                    </a>
+                </label>
             </div>
 
             <!-- ===== Récapitulatif du prix ===== -->
@@ -217,35 +232,21 @@ require_once __DIR__ . '/../partials/header.php';
                 </p>
             </div>
 
-            <!-- ===== Validation des CGV ===== -->
-            <div class="cgv-validation">
-                <label>
-                    <input type="checkbox" name="accept_cgv" required>
-                    J'ai lu et j'accepte les
-                    <a href="cgv.php" target="_blank" rel="noopener">
-                        Conditions Générales de Vente
-                    </a>
-                </label>
+            <div>
+                Si vous souhaitez emprunté du matériel (assiettes, couverts, verres, nappes...), merci de nous contacter par e-mail ou téléphone avant de passer votre commande.
             </div>
 
-            <!-- Bouton validation -->
+            <!-- ===== Bouton de soumission ===== -->
             <button type="submit" class="btn-commande">
                 Valider la commande
             </button>
-
-            <p class="legal-hint">
-                Les informations recueillies sont nécessaires au traitement de votre commande.
-            </p>
 
         </form>
 
     </section>
 </main>
 
-<?php
-/* ========== Pied de page ========== */
-require_once __DIR__ . '/../partials/footer.php';
-?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

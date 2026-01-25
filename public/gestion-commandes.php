@@ -1,28 +1,57 @@
 <?php
 /* ========== Sécurité : accès employé ou administrateur ========== */
-
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
-
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
 
-/* ========== Récupération des filtres ========== */
+/* ========== Génération du token CSRF ========== */
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
-$statut = $_GET['statut'] ?? null;
-$client = $_GET['client'] ?? null;
+/* ========== Traitement mise à jour statut (POST) ========== */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    /* ===== Vérification CSRF ===== */
+    if (
+        empty($_POST['csrf_token']) ||
+        empty($_SESSION['csrf_token']) ||
+        !hash_equals($_SESSION['csrf_token'], $_POST['csrf_token'])
+    ) {
+        die('Action non autorisée.');
+    }
+
+    $commandeId = isset($_POST['commande_id']) ? (int) $_POST['commande_id'] : 0;
+    $newStatut  = $_POST['statut'] ?? '';
+
+    if ($commandeId > 0 && $newStatut !== '') {
+        updateStatutCommande($pdo, $commandeId, $newStatut);
+    }
+
+    /* Conserver les filtres */
+    $qs = http_build_query([
+        'statut' => $_GET['statut'] ?? '',
+        'client' => $_GET['client'] ?? '',
+    ]);
+
+    header('Location: gestion-commandes.php' . ($qs ? ('?' . $qs) : ''));
+    exit;
+}
+
+/* ========== Récupération des filtres ========== */
+$statut = $_GET['statut'] ?? '';
+$client = $_GET['client'] ?? '';
 
 /* ========== Récupération des commandes filtrées ========== */
-
-$commandes = getCommandesFiltrees($pdo, $statut, $client);
+$commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <?php
-    /* ========== Métadonnées ========== */
     $title = "Gestion des commandes";
     require_once __DIR__ . '/../partials/head.php';
     ?>
@@ -30,10 +59,7 @@ $commandes = getCommandesFiltrees($pdo, $statut, $client);
 
 <body>
 
-<?php
-/* ========== En-tête du site ========== */
-require_once __DIR__ . '/../partials/header.php';
-?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <main id="main-content">
 
@@ -51,14 +77,14 @@ require_once __DIR__ . '/../partials/header.php';
             <div>
                 <label for="statut">Statut</label>
                 <select name="statut" id="statut">
-                    <option value="">Tous</option>
-                    <option value="en_attente">En attente</option>
-                    <option value="acceptee">Acceptée</option>
-                    <option value="en_preparation">En préparation</option>
-                    <option value="en_livraison">En livraison</option>
-                    <option value="livree">Livrée</option>
-                    <option value="terminee">Terminée</option>
-                    <option value="attente_retour_materiel">
+                    <option value="" <?= $statut === '' ? 'selected' : '' ?>>Tous</option>
+                    <option value="en_attente" <?= $statut === 'en_attente' ? 'selected' : '' ?>>En attente</option>
+                    <option value="acceptee" <?= $statut === 'acceptee' ? 'selected' : '' ?>>Acceptée</option>
+                    <option value="en_preparation" <?= $statut === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
+                    <option value="en_livraison" <?= $statut === 'en_livraison' ? 'selected' : '' ?>>En livraison</option>
+                    <option value="livree" <?= $statut === 'livree' ? 'selected' : '' ?>>Livrée</option>
+                    <option value="terminee" <?= $statut === 'terminee' ? 'selected' : '' ?>>Terminée</option>
+                    <option value="attente_retour_materiel" <?= $statut === 'attente_retour_materiel' ? 'selected' : '' ?>>
                         En attente retour matériel
                     </option>
                 </select>
@@ -72,7 +98,7 @@ require_once __DIR__ . '/../partials/header.php';
                     name="client"
                     id="client"
                     placeholder="Nom ou email"
-                    value="<?= htmlspecialchars($_GET['client'] ?? '') ?>"
+                    value="<?= htmlspecialchars($client) ?>"
                 >
             </div>
 
@@ -105,24 +131,15 @@ require_once __DIR__ . '/../partials/header.php';
                 <?php foreach ($commandes as $commande): ?>
                     <tr>
 
-                        <!-- Identifiant -->
-                        <td>#CMD-<?= htmlspecialchars($commande['id']) ?></td>
+                        <td>#CMD-<?= (int) $commande['id'] ?></td>
 
-                        <!-- Client -->
                         <td><?= htmlspecialchars($commande['client_nom']) ?></td>
 
-                        <!-- Menu -->
                         <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
 
-                        <!-- Date -->
-                        <td>
-                            <?= date('d/m/Y', strtotime($commande['date_prestation'])) ?>
-                        </td>
+                        <td><?= date('d/m/Y', strtotime($commande['date_prestation'])) ?></td>
 
-                        <!-- Heure -->
-                        <td>
-                            <?= date('H:i', strtotime($commande['date_prestation'])) ?>
-                        </td>
+                        <td><?= date('H:i', strtotime($commande['date_prestation'])) ?></td>
 
                         <!-- Statut -->
                         <td>
@@ -132,45 +149,41 @@ require_once __DIR__ . '/../partials/header.php';
 
                             <?php else: ?>
 
-                                <select
-                                    class="select-statut"
-                                    data-commande-id="<?= $commande['id'] ?>"
-                                >
-                                    <option value="en_attente" <?= $commande['statut'] === 'en_attente' ? 'selected' : '' ?>>
-                                        En attente
-                                    </option>
-                                    <option value="acceptee" <?= $commande['statut'] === 'acceptee' ? 'selected' : '' ?>>
-                                        Acceptée
-                                    </option>
-                                    <option value="en_preparation" <?= $commande['statut'] === 'en_preparation' ? 'selected' : '' ?>>
-                                        En préparation
-                                    </option>
-                                    <option value="en_livraison" <?= $commande['statut'] === 'en_livraison' ? 'selected' : '' ?>>
-                                        En cours de livraison
-                                    </option>
-                                    <option value="livree" <?= $commande['statut'] === 'livree' ? 'selected' : '' ?>>
-                                        Livrée
-                                    </option>
-                                    <option value="attente_retour_materiel" <?= $commande['statut'] === 'attente_retour_materiel' ? 'selected' : '' ?>>
-                                        En attente retour matériel
-                                    </option>
-                                    <option value="terminee" <?= $commande['statut'] === 'terminee' ? 'selected' : '' ?>>
-                                        Terminée
-                                    </option>
-                                </select>
+                                <form method="POST" class="statut-form" style="display:inline;">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
+                                    <input type="hidden" name="commande_id" value="<?= (int) $commande['id'] ?>">
+
+                                    <select name="statut" class="select-statut" onchange="this.form.submit()">
+                                        <option value="en_attente" <?= $commande['statut'] === 'en_attente' ? 'selected' : '' ?>>En attente</option>
+                                        <option value="acceptee" <?= $commande['statut'] === 'acceptee' ? 'selected' : '' ?>>Acceptée</option>
+                                        <option value="en_preparation" <?= $commande['statut'] === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
+                                        <option value="en_livraison" <?= $commande['statut'] === 'en_livraison' ? 'selected' : '' ?>>En livraison</option>
+                                        <option value="livree" <?= $commande['statut'] === 'livree' ? 'selected' : '' ?>>Livrée</option>
+                                        <option value="attente_retour_materiel" <?= $commande['statut'] === 'attente_retour_materiel' ? 'selected' : '' ?>>
+                                            En attente retour matériel
+                                        </option>
+                                        <option value="terminee" <?= $commande['statut'] === 'terminee' ? 'selected' : '' ?>>Terminée</option>
+                                    </select>
+                                </form>
+
+                                <?php if (
+                                    $commande['statut'] === 'attente_retour_materiel'
+                                    && !empty($commande['date_limite_retour'])
+                                ): ?>
+                                    <div class="retour-butoir">
+                                        Retour avant le
+                                        <?= date('d/m/Y', strtotime($commande['date_limite_retour'])) ?>
+                                    </div>
+                                <?php endif; ?>
 
                             <?php endif; ?>
                         </td>
 
-                        <!-- Total -->
-                        <td>
-                            <?= number_format($commande['prix_total'], 2, ',', ' ') ?> €
-                        </td>
+                        <td><?= number_format((float) $commande['prix_total'], 2, ',', ' ') ?> €</td>
 
-                        <!-- Action -->
                         <td>
                             <a
-                                href="commande-detail-employe.php?id=<?= $commande['id'] ?>"
+                                href="commande-detail-employe.php?id=<?= (int) $commande['id'] ?>"
                                 class="btn-commande"
                             >
                                 Détails
@@ -186,10 +199,7 @@ require_once __DIR__ . '/../partials/header.php';
     </section>
 </main>
 
-<?php
-/* ========== Pied de page ========== */
-require_once __DIR__ . '/../partials/footer.php';
-?>
+<?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
 </body>
 </html>

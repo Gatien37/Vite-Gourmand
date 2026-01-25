@@ -2481,6 +2481,16 @@ nav ul li a:hover {
     text-align: center;
 }
 
+.order-motif-action {
+    margin-top: 8px;
+    font-size: 0.875rem;
+    font-style: italic;
+    text-align: center;
+}
+
+.order-motif-action .form-card {
+    margin: 30px;
+}
 
 
 /* ================= PAGE MODIFICATION COMMANDE (EMPLOYE) =============== */

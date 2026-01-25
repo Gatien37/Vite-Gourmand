@@ -1,9 +1,4 @@
 <?php
-/* ========== Initialisation explicite de la session ========== */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
@@ -128,13 +123,13 @@ require_once __DIR__ . '/../partials/header.php';
                 type="number"
                 name="nb_personnes"
                 min="<?= (int) $commande['nb_personnes_min'] ?>"
-                value="<?= (int) $commande['nb_personnes'] ?>"
+                value="<?= (int) $commande['quantite'] ?>"
                 required
             >
 
             <h2>Mode de réception *</h2>
 
-            <label>
+            <label class="radio-option">
                 <input
                     type="radio"
                     name="reception"
@@ -144,7 +139,7 @@ require_once __DIR__ . '/../partials/header.php';
                 Retrait sur place
             </label>
 
-            <label>
+            <label class="radio-option">
                 <input
                     type="radio"
                     name="reception"

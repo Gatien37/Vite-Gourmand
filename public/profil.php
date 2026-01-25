@@ -2,11 +2,6 @@
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
-/* ========== Initialisation explicite de la session ========== */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 /* ========== Génération du token CSRF ========== */
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));

@@ -1,8 +1,4 @@
 <?php
-/* ========== Initialisation de la session ========== */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';

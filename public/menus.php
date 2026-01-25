@@ -3,13 +3,12 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/menuModel.php';
 require_once __DIR__ . '/../services/menuService.php';
 
-/* ========= FILTRES ========= */
+/* ========= FILTRES (chargement initial uniquement) ========= */
 $filters = buildMenuFilters($_GET);
 
-/* ========= DONNÉES ========= */
+/* ========= DONNÉES INITIALES ========= */
 $menus = getFilteredMenus($pdo, $filters);
 ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -24,13 +23,14 @@ $menus = getFilteredMenus($pdo, $filters);
 
 <main id="main-content">
 
+    <!-- ===== HERO ===== -->
     <section class="hero-section commandes-hero">
         <h1>Tous nos menus</h1>
         <p>Trouvez facilement le menu adapté à votre événement.</p>
     </section>
 
     <!-- ===== FILTRES ===== -->
-    <form method="GET" class="filtres">
+    <form class="filtres" id="filters-form">
 
         <select name="theme" class="filtre-btn filtre-visible">
             <option value="">Thèmes</option>
@@ -40,7 +40,7 @@ $menus = getFilteredMenus($pdo, $filters);
             <option value="classique" <?= ($_GET['theme'] ?? '') === 'classique' ? 'selected' : '' ?>>Classique</option>
         </select>
 
-        <!-- bouton mobile -->
+        <!-- bouton mobile (UI uniquement) -->
         <button type="button" class="filtre-btn" id="toggle-filtres">
             Filtres avancés
         </button>
@@ -76,14 +76,10 @@ $menus = getFilteredMenus($pdo, $filters);
             </select>
 
         </div>
-
-        <button type="submit" class="filtre-appliquer">
-            Appliquer
-        </button>
     </form>
 
     <!-- ===== LISTE DES MENUS ===== -->
-    <section class="menus-list">
+    <section class="menus-list" id="menus-list">
 
         <?php if (empty($menus)): ?>
 
@@ -100,9 +96,55 @@ $menus = getFilteredMenus($pdo, $filters);
         <?php endif; ?>
 
     </section>
+
 </main>
 
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
+
+<!-- ===== JS FILTRES DYNAMIQUES ===== -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const form = document.getElementById('filters-form');
+    const menusList = document.getElementById('menus-list');
+
+    if (!form || !menusList) return;
+
+    const selects = form.querySelectorAll('select');
+
+    const fetchMenus = async () => {
+        const formData = new FormData(form);
+        const params = new URLSearchParams(formData);
+
+        try {
+            const response = await fetch(`menus-filter.php?${params.toString()}`, {
+                headers: { 'X-Requested-With': 'fetch' }
+            });
+
+            if (!response.ok) {
+                throw new Error('Erreur chargement filtres');
+            }
+
+            const html = await response.text();
+            menusList.innerHTML = html;
+
+            // Mise à jour URL sans reload (bonne pratique jury)
+            const newUrl = `${window.location.pathname}?${params.toString()}`;
+            window.history.pushState({}, '', newUrl);
+
+        } catch (error) {
+            menusList.innerHTML = '<p class="no-result">Erreur lors du filtrage.</p>';
+            console.error(error);
+        }
+    };
+
+    // Déclenchement automatique au changement
+    selects.forEach(select => {
+        select.addEventListener('change', fetchMenus);
+    });
+
+});
+</script>
 
 </body>
 </html>

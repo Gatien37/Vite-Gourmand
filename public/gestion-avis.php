@@ -1,8 +1,4 @@
 <?php
-/* ========== Initialisation de la session ========== */
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
 
 /* ========== Génération du token CSRF ========== */
 if (empty($_SESSION['csrf_token'])) {

@@ -28,10 +28,11 @@ if (!$commande) {
 
 /* ========== Sécurité : propriété de la commande ========== */
 
-if ((int) $commande['utilisateur_id'] !== (int) $_SESSION['utilisateur']['id']) {
+if ((int) $commande['utilisateur_id'] !== (int) $_SESSION['user']['id']) {
     header('Location: index.php');
     exit;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -88,7 +89,6 @@ require_once __DIR__ . '/../partials/header.php';
                 <p>
                     <strong>Adresse de livraison :</strong>
                     <?= htmlspecialchars($commande['adresse']) ?>,
-                    <?= htmlspecialchars($commande['code_postal']) ?>
                     <?= htmlspecialchars($commande['ville']) ?>
                 </p>
             <?php else: ?>
@@ -113,7 +113,7 @@ require_once __DIR__ . '/../partials/header.php';
             <!-- Message confirmation -->
             <p class="confirmation-message">
                 Un e-mail de confirmation vous a été envoyé.<br>
-                Vous pouvez suivre l’avancement de votre commande depuis votre espace client.
+                Vous pouvez suivre l'avancement de votre commande depuis votre espace client.
             </p>
 
             <!-- Actions -->
@@ -122,14 +122,12 @@ require_once __DIR__ . '/../partials/header.php';
             </a>
 
             <a class="btn-secondary" href="index.php">
-                Retour à l’accueil
+                Retour à l'accueil
             </a>
 
             <!-- ===== Rappel légal ===== -->
             <p class="legal-hint">
-                Commande effectuée auprès de <strong>Vite & Gourmand SARL</strong> —
-                <a href="cgv.php" target="_blank" rel="noopener">CGV</a> |
-                <a href="mentions-legales.php" target="_blank" rel="noopener">Mentions légales</a>
+                Commande effectuée auprès de <strong>Vite & Gourmand SARL</strong>
             </p>
 
         </div>

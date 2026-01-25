@@ -23,6 +23,74 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+
+  /* ========== SYSTÈME DE NOTATION (étoiles) ========== */
+
+  const ratingContainer = document.getElementById('rating');
+  const noteInput = document.getElementById('note');
+
+  if (ratingContainer && noteInput) {
+    const stars = ratingContainer.querySelectorAll('.star');
+
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        const value = parseInt(star.dataset.value, 10);
+        noteInput.value = value;
+
+        // Mise à jour visuelle
+        stars.forEach(s => {
+          s.classList.toggle(
+            'active',
+            parseInt(s.dataset.value, 10) <= value
+          );
+        });
+      });
+    });
+  }
+
+
+    /* ========== FILTRAGE MENUS (AJAX, sans reload) ========== */
+
+  const filtersForm = document.getElementById('filters-form');
+  const menusList = document.getElementById('menus-list');
+
+  if (filtersForm && menusList) {
+    const selects = filtersForm.querySelectorAll('select');
+
+    const fetchMenus = async () => {
+      const formData = new FormData(filtersForm);
+      const params = new URLSearchParams(formData);
+
+      try {
+        const response = await fetch(`menus-filter.php?${params.toString()}`, {
+          headers: { 'X-Requested-With': 'fetch' }
+        });
+
+        if (!response.ok) {
+          throw new Error('Erreur lors du filtrage des menus');
+        }
+
+        const html = await response.text();
+        menusList.innerHTML = html;
+
+        // Mise à jour de l’URL sans rechargement (bonne pratique jury)
+        const newUrl = `${window.location.pathname}?${params.toString()}`;
+        window.history.pushState({}, '', newUrl);
+
+      } catch (error) {
+        menusList.innerHTML =
+          '<p class="no-result">Erreur lors du chargement des menus.</p>';
+        console.error(error);
+      }
+    };
+
+    // Déclenchement automatique au changement d’un select
+    selects.forEach(select => {
+      select.addEventListener('change', fetchMenus);
+    });
+  }
+
+
   /* ========== AFFICHAGE ADRESSE LIVRAISON ========== */
 
   const receptionRadios = document.querySelectorAll('input[name="reception"]');
@@ -194,9 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* ========== GESTION STATUT COMMANDE (employé) ==========
-     => Action sensible (modifie la BDD) : on envoie le token CSRF
-  ======================================================== */
+  /* ========== GESTION STATUT COMMANDE (employé) ========== */
 
   document.querySelectorAll('.select-statut').forEach(select => {
     select.addEventListener('change', () => {
@@ -219,13 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const info = select.parentElement.querySelector('.statut-info');
-
-      if (statut === 'attente_retour_materiel' && info) {
-        const dateLimite = ajouterJoursOuvres(new Date(), 10);
-        info.textContent =
-          '⚠️ Le client sera notifié par email.\n' +
-          `Le matériel devra être restitué au plus tard le ${dateLimite.toLocaleDateString('fr-FR')}.`;
-      }
     });
   });
 
@@ -255,6 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
+
 
 /* ========== Calcul jours ouvrés ==========
    Exclut samedi (6) et dimanche (0)

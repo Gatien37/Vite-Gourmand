@@ -137,7 +137,7 @@ $derniereModification = getDerniereModificationCommande($pdo, $commandeId);
             <h3>Total</h3>
             <p><strong><?= number_format($commande['prix_total'], 2, ',', ' ') ?> €</strong></p>
 
-            <div class="order-actions">
+            <div class="order-motif-action">
 
                 <?php if ($commande['statut'] !== 'annulee'): ?>
 

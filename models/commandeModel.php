@@ -153,6 +153,7 @@ function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
             c.date_prestation,
             c.prix_total,
             c.statut,
+            c.date_limite_retour,
             u.nom AS client_nom,
             u.email AS client_email,
             m.nom AS menu_nom
@@ -181,6 +182,67 @@ function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
 
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+/* ========== Mise à jour du statut d’une commande et notification mail ========== */
+
+require_once __DIR__ . '/../services/mailService.php';
+
+function updateStatutCommande(PDO $pdo, int $commandeId, string $statut): void
+{
+    if ($statut === 'attente_retour_materiel') {
+
+        // Calcul date limite (10 jours ouvrés ou calendaires selon ton choix)
+        $dateLimite = date('Y-m-d', strtotime('+10 weekdays'));
+
+        // Mise à jour commande
+        $stmt = $pdo->prepare("
+            UPDATE commande
+            SET
+                statut = :statut,
+                pret_materiel = 1,
+                date_limite_retour = :date_limite
+            WHERE id = :id
+        ");
+        $stmt->execute([
+            'statut'      => $statut,
+            'date_limite' => $dateLimite,
+            'id'          => $commandeId
+        ]);
+
+        // Récupération infos client + menu
+        $stmt = $pdo->prepare("
+            SELECT u.email, m.nom AS menu_nom
+            FROM commande c
+            JOIN utilisateur u ON u.id = c.utilisateur_id
+            JOIN menu m ON m.id = c.menu_id
+            WHERE c.id = :id
+        ");
+        $stmt->execute(['id' => $commandeId]);
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data) {
+            envoyerMailPretMateriel(
+                $data['email'],
+                $data['menu_nom'],
+                date('d/m/Y', strtotime($dateLimite))
+            );
+        }
+
+        return;
+    }
+
+    // Autres statuts
+    $stmt = $pdo->prepare("
+        UPDATE commande
+        SET statut = :statut
+        WHERE id = :id
+    ");
+    $stmt->execute([
+        'statut' => $statut,
+        'id'     => $commandeId
+    ]);
+}
+
 
 /* ========== Motif d’annulation d’une commande ========== */
 
