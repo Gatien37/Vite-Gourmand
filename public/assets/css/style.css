@@ -1,427 +1,3 @@
-/* ================= RESPONSIVE ================= */
-
-/* --------Tablettes (max-width: 1024px) -------- */
-
-@media (max-width: 1024px) {
-    
-/*-------- Footer --------*/
-
-    .footer-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 15px;
-        padding: 20px 10px;
-    }
-
-
-/* -------- Hero -------- */
-
-    .hero-section h1 {
-        text-align: center;
-        font-size: 2rem;
-    }
-
-    .hero-section p {
-        font-size: 1.125rem;
-        text-align: center;
-    }
-
-    .hero-section button{
-        width: 100%;
-        height: auto;
-        font-size: 1rem;
-    }
-
-/* --------- Accueil --------- */
-
-    .histoire{
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .histoire h2{
-        margin-top: 0;
-        font-size: 1.75rem;
-    }
-
-    .histoire p{
-        margin: 20px;
-
-    }
-
-    .histoire img{
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        border-radius: 0;
-    }
-
-    .experience-photos  {
-        flex-direction: column;
-        width: 100%;
-        max-width: 70%;
-        height: auto;
-    }
-
-    .experience-icons {
-        margin: 20px;
-    }
-
-    .avis-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 0;
-    }
-
-/*------ Page Chiffre d'Affaires --------*/
-
-    .ca-filter-form {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 20px;
-        width: 100%;
-    }
-
-    .ca-filter-form .date-field, .ca-filter-form input, .ca-filter-form .btn-commande {
-        width: 100%;
-    }
-
-    .ca-summary {
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .table-wrapper {
-        width: 100%;
-        overflow-x: auto;
-    }
-
-    .ca-table {
-        min-width: 700px;
-    }
-
-    .ca-actions {
-        text-align:center;
-        margin-bottom:40px;
-    }
-
-
-/*------ Page Commande Utilisateur --------*/
-
-    .orders-table{
-        border-radius: 0;
-    }
-
-
-/*------ Page Commande ---------*/
-
-    .commande-container{
-        flex-direction: column;
-        align-items: center;
-    }
-
-
-/*------ Page Contact ---------*/
-
-    .contact-container{
-        flex-direction: column;
-        align-items: center;
-    }
-
-
-/*------ Page Détail Menu ---------*/
-
-    .menu-present{
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .menu-image{
-        display: flex;
-        justify-content: center;
-    }
-
-    .menu-image img{
-        width: 100%;
-        height: auto;
-        border-radius: 0;
-    }
-
-    .plats-menu{
-        flex-direction: column;
-        align-items: center;
-    }
-
-
-/*------ Page Espace Admin ---------*/
-
-    .admin-dashboard-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        justify-items: center;
-    }
-
-
-/*------ Page Espace Employé ---------*/
-
-    .employe-dashboard-container {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        justify-items: center;
-    }
-
-
-/*------ Pages Espace Utilisateur ---------*/
-
-    .dashboard-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-    }
-
-
-/*------ Page Gestion Avis ---------*/
-
-    .avis-admin-container {
-        overflow-x: auto;
-    }
-
-    .avis-admin-table{
-        border-radius: 0;
-    }
-
-
-/*------ Page Gestion Commandes ---------*/
-
-    .commandes-admin-container {
-        overflow-x: auto;
-    }
-
-    .commandes-admin-table{
-        border-radius: 0;
-    }
-
-
-/*------ Page Gestion Employés ---------*/
-
-    .employes-admin-container {
-        overflow-x: auto;
-    }
-
-    .employes-admin-table{
-        border-radius: 0;
-    }
-
-
-/*------ Page Gestion Menus ---------*/
-
-    .menus-admin-container {
-        overflow-x: auto;
-    }
-
-    .menus-admin-table{
-        border-radius: 0;
-    }
-    
-
-/*------ Page Menus ---------*/
-
-    .menus-list {
-        grid-template-columns: 1fr;
-        justify-items: center;
-    }
-
-    .menu-item .btn-commande{
-        margin:0;
-    }
-
-    #toggle-filtres {
-        display: flex;
-    }
-
-    #toggle-filtres:hover {
-        background-color: #A43F3B;
-        color: white;
-    }
-
-    .filtres-avances {
-        display: none;
-        flex-direction: column;
-        width: 100%;
-        align-items: center;
-        gap: 12px;
-    }
-
-    .filtres-avances.is-open {
-        display: flex;
-    }
-
-
-
-/*------ Page Statistiques ---------*/
-
-    .stats-graphs, .stats-summary {
-        flex-direction: column;
-        align-items: center;
-    }
-}
-
-
-/*--------- Mobiles (max-width: 768px) --------*/
-
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.625rem;
-    }
-
-    h3 {
-        font-size: 1.25rem;
-    }
-    
-    p  {
-        font-size: 1rem;
-    }
-
-
-    .hero-section .button{
-        font-size: 1.625rem;
-        height: 60px;
-    }
-    
-
-    /* burger visible */
-    .burger {
-        display: block;
-        margin-left: auto;
-        background: none;
-        border: none;
-        font-size: 1.75rem;
-        cursor: pointer;
-        color: #2C3E50;
-        padding-right: 10px;
-    }
-
-    /* menu caché par défaut */
-    .main-nav {
-        display: none;
-    }
-
-    /* menu ouvert */
-    .main-nav.nav-open {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        width: 100%;
-        background-color: #F7E9D7;
-        padding: 20px 0;
-        z-index: 3000;
-    }
-
-    .main-nav.nav-open ul {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .main-nav.nav-open .buttons {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-        padding-top: 20px;
-        margin: auto;
-        width: 100%;
-    }
-
-    
-    .filtres{
-        flex-direction: column;
-    }
-
-    /* page index avis */
-    .avis {
-        padding: 30px 20px;
-    }
-    
-    .carousel-btn {
-        width: 36px;
-        height: 36px;
-        font-size: 1.125rem;
-    }
-
-}
-
-
-/*--------- Petits Mobiles (max-width: 480px) --------*/
-
-@media (max-width: 480px) {
-    h1 {
-        font-size: 1.625rem;
-    }
-
-    h2 {
-        font-size: 1.375rem;
-    }
-
-    h3 {
-        font-size: 1.125rem;
-    }
-
-    p  {
-        font-size: 0.875rem;
-    }
-
-    .hero-section {
-        padding: 40px 15px;
-    }
-
-    .hero-section button {
-        font-size: 1rem;
-        height: 50px;
-    }
-
-    .btn-commande {
-        width: 100%;
-        height: 50px;
-    }
-
-    .form-card,
-    .conditions-wrapper,
-    .graph-card {
-        padding: 20px;
-        border-radius: 20px;
-    }
-
-    .menu-item {
-        width: 100%;
-        max-width: 320px;
-    }
-
-    .ca-table {
-        font-size: 0.875rem;
-    }
-
-    .filtre-btn{
-        padding: 8px 12px;
-        font-size: 0.875rem;
-
-    }
-
-
-}
-
-
-
 /* ================== GLOBAL ======================= */
 
 * {
@@ -3251,10 +2827,6 @@ nav ul li a:hover {
     box-shadow: 0 4px 20px rgba(44, 62, 80, 0.2);
 }
 
-.stats-graphs canvas {
-    width: 100%;
-    height: 100%;
-}
 
 
 /* -------- Tableau statistiques -------- */
@@ -3319,3 +2891,493 @@ nav ul li a:hover {
     line-height: 1.7;
     text-align: justify;
 }
+
+
+/* ================= RESPONSIVE ================= */
+
+/* --------Tablettes (max-width: 1024px) -------- */
+
+@media (max-width: 1024px) {
+    
+/*-------- Footer --------*/
+
+    .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+        padding: 20px 10px;
+    }
+
+
+/* -------- Hero -------- */
+
+    .hero-section h1 {
+        text-align: center;
+        font-size: 2rem;
+    }
+
+    .hero-section p {
+        font-size: 1.125rem;
+        text-align: center;
+    }
+
+    .hero-section button{
+        width: 100%;
+        height: auto;
+        font-size: 1rem;
+    }
+
+/* --------- Accueil --------- */
+
+    .histoire{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .histoire h2{
+        margin-top: 0;
+        font-size: 1.75rem;
+    }
+
+    .histoire p{
+        margin: 20px;
+
+    }
+
+    .histoire img{
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+        border-radius: 0;
+    }
+
+    .experience-photos  {
+        flex-direction: column;
+        width: 100%;
+        max-width: 70%;
+        height: auto;
+    }
+
+
+
+
+    .avis-card {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        margin-top: 20px;
+    }
+
+/*------ Page Chiffre d'Affaires --------*/
+
+    .ca-filter-form {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .ca-filter-form .date-field, .ca-filter-form input, .ca-filter-form .btn-commande {
+        width: 100%;
+    }
+
+    .ca-summary {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .ca-table {
+        min-width: 700px;
+    }
+
+    .ca-actions {
+        text-align:center;
+        margin-bottom:40px;
+    }
+
+
+/*------ Page Commande Utilisateur --------*/
+
+    .orders-table{
+        border-radius: 0;
+    }
+
+
+/*------ Page Commande ---------*/
+
+    .commande-container{
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+/*------ Page Contact ---------*/
+
+    .contact-container{
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+/*------ Page Détail Menu ---------*/
+
+    .menu-present{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menu-image{
+        display: flex;
+        justify-content: center;
+    }
+
+    .menu-image img{
+        width: 100%;
+        height: auto;
+        border-radius: 0;
+    }
+
+    .plats-menu{
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+/*------ Page Espace Admin ---------*/
+
+    .admin-dashboard-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        justify-items: center;
+    }
+
+
+/*------ Page Espace Employé ---------*/
+
+    .employe-dashboard-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        justify-items: center;
+    }
+
+
+/*------ Pages Espace Utilisateur ---------*/
+
+    .dashboard-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+
+/*------ Page Gestion Avis ---------*/
+
+    .avis-admin-container {
+        overflow-x: auto;
+    }
+
+    .avis-admin-table{
+        border-radius: 0;
+    }
+
+
+/*------ Page Gestion Commandes ---------*/
+
+    .commandes-admin-container {
+        overflow-x: auto;
+    }
+
+    .commandes-admin-table{
+        border-radius: 0;
+    }
+
+
+/*------ Page Gestion Employés ---------*/
+
+    .employes-admin-container {
+        overflow-x: auto;
+    }
+
+    .employes-admin-table{
+        border-radius: 0;
+    }
+
+
+/*------ Page Gestion Menus ---------*/
+
+    .menus-admin-container {
+        overflow-x: auto;
+    }
+
+    .menus-admin-table{
+        border-radius: 0;
+    }
+
+/*------ Page Gestion Plats ---------*/
+
+    .plats-admin-container {
+        overflow-x: auto;
+        width: 100%;
+    }
+    
+
+/*------ Page Menus ---------*/
+
+    .menus-list {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .menu-item .btn-commande{
+        margin:0;
+    }
+
+    #toggle-filtres {
+        display: flex;
+    }
+
+    #toggle-filtres:hover {
+        background-color: #A43F3B;
+        color: white;
+    }
+
+    .filtres-avances {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .filtres-avances.is-open {
+        display: flex;
+    }
+
+
+
+/*------ Page Statistiques ---------*/
+
+    .stats-graphs, .stats-summary {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .graph-wrapper {
+        position: relative;
+        width: 100%;
+        height: 360px; 
+    }
+
+
+}
+
+
+/*--------- Mobiles (max-width: 768px) --------*/
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.625rem;
+    }
+
+    h3 {
+        font-size: 1.25rem;
+    }
+    
+    p  {
+        font-size: 1rem;
+    }
+
+
+    .hero-section .button{
+        font-size: 1.625rem;
+        height: 60px;
+    }
+    
+
+    /* burger visible */
+    .burger {
+        display: block;
+        margin-left: auto;
+        background: none;
+        border: none;
+        font-size: 1.75rem;
+        cursor: pointer;
+        color: #2C3E50;
+        padding-right: 10px;
+    }
+
+    /* menu caché par défaut */
+    .main-nav {
+        display: none;
+    }
+
+    /* menu ouvert */
+    .main-nav.nav-open {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        width: 100%;
+        background-color: #F7E9D7;
+        padding: 20px 0;
+        z-index: 3000;
+    }
+
+    .main-nav.nav-open ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .main-nav.nav-open .buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding-top: 20px;
+        margin: auto;
+        width: 100%;
+    }
+
+    
+    .filtres{
+        flex-direction: column;
+    }
+
+    /* page index avis */
+    .avis {
+        padding: 30px 20px;
+    }
+    
+    .carousel-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.125rem;
+    }
+
+    /*Page Gestion Horaires*/
+
+    .horaires-form-container {
+        width: 300px;
+        margin: auto;
+    }
+
+}
+
+
+/*--------- Petits Mobiles (max-width: 480px) --------*/
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.625rem;
+    }
+
+    h2 {
+        font-size: 1.375rem;
+    }
+
+    h3 {
+        font-size: 1.125rem;
+    }
+
+    p  {
+        font-size: 0.875rem;
+    }
+
+    .hero-section {
+        padding: 40px 15px;
+    }
+
+    .hero-section button {
+        font-size: 1rem;
+        height: 50px;
+    }
+
+    .btn-commande {
+        width: 100%;
+        height: 50px;
+    }
+
+    .form-card,
+    .conditions-wrapper,
+    .graph-card {
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    .menu-item {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .ca-table {
+        font-size: 0.875rem;
+    }
+
+    .filtre-btn{
+        padding: 8px 12px;
+        font-size: 0.875rem;
+
+    }
+
+    .experience-icons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+    }
+
+
+
+    .commande-container {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .recap-menu,
+    .commande-form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .confirmation-card .btn-commande,
+    .confirmation-card .btn-secondary {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .graph-card {
+        width: 100%;
+    }
+
+    .horaires-form-container {
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .jour {
+        flex-direction: column;
+    }
+
+    .contact-form, .contact-infos {
+        width: 100%;
+    }
+
+
+}
+
+

@@ -118,7 +118,7 @@ require_once __DIR__ . '/../partials/header.php';
 
             <!-- Actions -->
             <a class="btn-commande" href="commande-utilisateur.php">
-                Voir mes commandes
+                Mes commandes
             </a>
 
             <a class="btn-secondary" href="index.php">

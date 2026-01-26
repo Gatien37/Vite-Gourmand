@@ -70,11 +70,13 @@ $allMenus    = $stats['allMenus'];
         <div class="graph-card">
             <h2>Menus les plus commandés</h2>
 
-            <canvas
-                id="graphMenus"
-                data-labels='<?= json_encode($labels, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
-                data-values='<?= json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
-            ></canvas>
+            <div class="graph-wrapper">
+                <canvas
+                    id="graphMenus"
+                    data-labels='<?= json_encode($labels, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
+                    data-values='<?= json_encode($data, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT) ?>'
+                ></canvas>
+            </div>
         </div>
     </section>
 </main>

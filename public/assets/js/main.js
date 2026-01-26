@@ -90,6 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  /* ========== TOGGLE FILTRES AVANCÉS (mobile) ========== */
+
+  const toggleFiltresBtn = document.getElementById('toggle-filtres');
+  const filtresAvances = document.getElementById('filtres-avances');
+
+  if (toggleFiltresBtn && filtresAvances) {
+    toggleFiltresBtn.addEventListener('click', () => {
+      filtresAvances.classList.toggle('is-open');
+    });
+  }
+
+
 
   /* ========== AFFICHAGE ADRESSE LIVRAISON ========== */
 
