@@ -1,10 +1,3 @@
--- Données de test pour la base de données ViteGourmand
-
-INSERT IGNORE INTO utilisateur (prenom, nom, email, gsm, adresse, ville, code_postal, mot_de_passe, role)
-VALUES
-('Test','User', 'test.utilisateur@gmail.com', '0600000000', '123 Rue Exemple', 'Paris', '75001',
-'$2y$10$bdbRXReVInjHF7tTPyY8Wed0FMvf1W5KDOaTAUuMLRtGvKQxVol6y', 'user');
-
 
 INSERT INTO menu (nom, description, description_longue, theme, regime, nb_personnes_min, prix_base, stock, image)
 VALUES
@@ -421,12 +414,3 @@ VALUES
 ('samedi', '10:00:00', '19:00:00'),
 ('dimanche', '10:00:00', '14:00:00');
 
-
-
-
--- Compte Administrateur
-INSERT IGNORE INTO utilisateur (prenom, nom, email, mot_de_passe, role, actif)
-VALUES
-('Julie', 'José', 'admin@viteetgourmand.fr',
-'$2y$10$Rv2vO2AAu7ZnFhqGLOXkf.AqpFF8m34f8aCvyEy7Lnj.suhUsjoSW',
-'admin', 1);
