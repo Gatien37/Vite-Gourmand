@@ -1,17 +1,22 @@
 <?php
 
 /* ========== Chargement de l’autoloader Composer ========== */
-
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use MongoDB\Client;
 
-/* ========== Connexion à MongoDB ========== */
+/* ========== Connexion à MongoDB (local / prod) ========== */
 
-$mongoClient = new Client("mongodb://localhost:27017");
+$mongoUri = getenv('MONGO_URI');
 
-// Sélection de la base de données
+if ($mongoUri === false) {
+    // --- Local (fallback) ---
+    $mongoUri = 'mongodb://localhost:27017';
+}
+
+$mongoClient = new Client($mongoUri);
+
+/* ========== Sélection base et collections ========== */
+
 $mongoDb = $mongoClient->vite_gourmand;
-
-// Sélection de la collection des statistiques menus
 $menuStatsCollection = $mongoDb->menu_stats;
