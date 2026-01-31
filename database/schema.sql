@@ -1,7 +1,7 @@
 /* ================ BASE DE DONNÉES ================ */
 
-CREATE DATABASE vite_gourmand;
-USE vite_gourmand;
+/*CREATE DATABASE vite_gourmand;
+USE vite_gourmand;*/
 
 
 /* ================ UTILISATEUR ================ */
