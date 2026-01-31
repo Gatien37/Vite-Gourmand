@@ -1,14 +1,14 @@
 <?php
 
-require_once __DIR__ . '/../middlewares/requireAdmin.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/mongo.php';
+require_once __DIR__ . '/../../middlewares/requireAdmin.php';
+require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../../config/mongo.php';
 
 use MongoDB\BSON\UTCDateTime;
 
 /* ========= Sécurisation MongoDB ========= */
 if (!$menuStatsCollection) {
-    header('Location: ../public/statistiques.php?error=mongodb');
+    header('Location: /statistiques.php?error=mongodb');
     exit;
 }
 
@@ -53,5 +53,5 @@ foreach ($rows as $row) {
 }
 
 /* ========= Redirection ========= */
-header("Location: ../public/{$redirect}.php?sync=success");
+header("Location: /{$redirect}.php?sync=success");
 exit;
