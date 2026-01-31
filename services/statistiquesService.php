@@ -87,25 +87,11 @@ function getStatistiquesMenus(
     PDO $pdo
 ): array {
 
-    /* ========== AGRÉGATION MONGODB ========== */
     $pipeline = [
-        [
-            '$match' => [
-                'nb_commandes' => ['$exists' => true]
-            ]
-        ],
         [
             '$group' => [
                 '_id' => '$menu_nom',
-                'total_commandes' => [
-                    '$sum' => [
-                        '$cond' => [
-                            ['$isNumber' => '$nb_commandes'],
-                            '$nb_commandes',
-                            0
-                        ]
-                    ]
-                ]
+                'total_commandes' => ['$sum' => '$nb_commandes']
             ]
         ],
         [
@@ -113,31 +99,26 @@ function getStatistiquesMenus(
         ]
     ];
 
+    $cursor = $menuStatsCollection->aggregate($pipeline);
 
-
-    $result = $menuStatsCollection->aggregate($pipeline);
-
-    /* ========== Préparation des données graphiques ========== */
     $labels = [];
     $data   = [];
 
-    foreach ($result as $row) {
-        $labels[] = $row->_id;
-        $data[]   = (int) $row->total_commandes;
+    foreach ($cursor as $row) {
+
+        // 🔴 CORRECTION CLÉ
+        $row = is_object($row) ? (array) $row : $row;
+
+        $labels[] = (string) $row['_id'];
+        $data[]   = (int) $row['total_commandes'];
     }
 
-    /* ========== Association menu => nombre de commandes ========== */
     $statsByMenu = [];
     foreach ($labels as $i => $menuName) {
         $statsByMenu[$menuName] = $data[$i];
     }
 
-    /* ========== Récupération de tous les menus (SQL) ========== */
-    $stmt = $pdo->query("
-        SELECT nom
-        FROM menu
-        ORDER BY nom ASC
-    ");
+    $stmt = $pdo->query("SELECT nom FROM menu ORDER BY nom ASC");
     $allMenus = $stmt->fetchAll(PDO::FETCH_COLUMN);
 
     return [
