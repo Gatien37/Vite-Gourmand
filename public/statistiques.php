@@ -42,7 +42,7 @@ $allMenus    = $stats['allMenus'];
 
     <section class="ca-actions">
         <a
-            href="../sync/sync_menu_stats.php?redirect=statistiques"
+            href="/sync/sync_menu_stats.php?redirect=statistiques"
             class="btn-commande js-confirm-sync"
         >
             Mettre à jour les statistiques
@@ -50,7 +50,7 @@ $allMenus    = $stats['allMenus'];
     </section>
 
     <!-- ===== TABLEAU DES STATS ===== -->
-     
+
     <section class="stats-table-section">
         <h2>Nombre de commandes par menu</h2>
 

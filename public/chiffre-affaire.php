@@ -58,7 +58,7 @@ $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <section class="ca-actions">
         <a
-            href="../sync/sync_menu_stats.php?redirect=chiffre-affaire"
+            href="/sync/sync_menu_stats.php?redirect=chiffre-affaire"
             class="btn-commande js-confirm-sync"
         >
             Mettre à jour les statistiques
