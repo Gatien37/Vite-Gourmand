@@ -5,18 +5,27 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use MongoDB\Client;
 
-/* ========== Connexion à MongoDB (local / prod) ========== */
+$mongoClient = null;
+$mongoDb = null;
+$menuStatsCollection = null;
 
-$mongoUri = getenv('MONGODB_URI');
+$mongoUri = getenv('MONGO_URI') ?: getenv('MONGODB_URI');
 
-if ($mongoUri === false) {
-    // --- Local (fallback) ---
-    $mongoUri = 'mongodb://localhost:27017';
+try {
+    if ($mongoUri) {
+        $mongoClient = new Client(
+            $mongoUri,
+            [],
+            ['typeMap' => ['root' => 'array', 'document' => 'array']]
+        );
+    } else {
+        // Fallback local
+        $mongoClient = new Client('mongodb://127.0.0.1:27017');
+    }
+
+    $mongoDb = $mongoClient->vite_gourmand;
+    $menuStatsCollection = $mongoDb->menu_stats;
+
+} catch (Throwable $e) {
+    error_log('[MongoDB disabled] ' . $e->getMessage());
 }
-
-$mongoClient = new Client($mongoUri);
-
-/* ========== Sélection base et collections ========== */
-
-$mongoDb = $mongoClient->vite_gourmand;
-$menuStatsCollection = $mongoDb->menu_stats;
