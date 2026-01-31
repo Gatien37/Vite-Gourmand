@@ -4,6 +4,13 @@ require_once __DIR__ . '/../config/mongo.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../services/statistiquesService.php';
 
+try {
+    $mongo = getMongoCollections();
+    $menuStatsCollection = $mongo['menuStatsCollection'];
+} catch (Throwable $e) {
+    die('Statistiques indisponibles.');
+}
+
 /* ===== RÉCUPÉRATION DES DONNÉES ===== */
 $stats = getStatistiquesMenus($menuStatsCollection, $pdo);
 

@@ -6,5 +6,3 @@ Thumbs.db
 .env
 
 /vendor/
-
-config/database.php

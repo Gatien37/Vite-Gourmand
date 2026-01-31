@@ -1,31 +1,25 @@
 <?php
 
-/* ========== Chargement de l’autoloader Composer ========== */
-require_once __DIR__ . '/../vendor/autoload.php';
-
 use MongoDB\Client;
 
-$mongoClient = null;
-$mongoDb = null;
-$menuStatsCollection = null;
+/**
+ * Retourne les collections MongoDB utilisées par l'application.
+ * Mongo est chargé UNIQUEMENT quand cette fonction est appelée.
+ */
+function getMongoCollections(): array
+{
+    $mongoUri = getenv('MONGODB_URI');
 
-$mongoUri = getenv('MONGO_URI') ?: getenv('MONGODB_URI');
-
-try {
-    if ($mongoUri) {
-        $mongoClient = new Client(
-            $mongoUri,
-            [],
-            ['typeMap' => ['root' => 'array', 'document' => 'array']]
-        );
-    } else {
-        // Fallback local
-        $mongoClient = new Client('mongodb://127.0.0.1:27017');
+    if (!$mongoUri) {
+        throw new RuntimeException('MONGODB_URI non définie');
     }
 
-    $mongoDb = $mongoClient->vite_gourmand;
-    $menuStatsCollection = $mongoDb->menu_stats;
+    $client = new Client($mongoUri);
 
-} catch (Throwable $e) {
-    error_log('[MongoDB disabled] ' . $e->getMessage());
+    $db = $client->vite_gourmand;
+
+    return [
+        'db' => $db,
+        'menuStatsCollection' => $db->menu_stats
+    ];
 }
