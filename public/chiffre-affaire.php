@@ -11,34 +11,24 @@ require_once __DIR__ . '/../services/statistiquesService.php';
 /* ========== Filtres (GET) ========== */
 $filter = buildChiffreAffaireFilter($_GET);
 
-/* ========== Données chiffre d'affaires (MongoDB sécurisé) ========== */
-
+/* ========== Initialisation valeurs par défaut ========== */
 $stats = [];
 $totalCA = 0;
 $totalCommandes = 0;
 $ticketMoyen = 0;
 $statsParMenu = [];
 
-try {
-    if (function_exists('getMongoCollections')) {
-        $mongo = getMongoCollections();
+/* ========== Données MongoDB (sécurisées) ========== */
+if ($menuStatsCollection) {
+    $cursor = $menuStatsCollection->find($filter);
+    $stats = iterator_to_array($cursor);
 
-        if (!empty($mongo['menuStatsCollection'])) {
-            $cursor = $mongo['menuStatsCollection']->find($filter);
-            $stats = iterator_to_array($cursor);
+    $resultats = calculerStatistiques($stats);
 
-            /* ========== Calculs statistiques (service) ========== */
-            $resultats = calculerStatistiques($stats);
-
-            $totalCA         = $resultats['totalCA'];
-            $totalCommandes  = $resultats['totalCommandes'];
-            $ticketMoyen     = $resultats['ticketMoyen'];
-            $statsParMenu    = $resultats['statsParMenu'];
-        }
-    }
-} catch (Throwable $e) {
-    // Mongo indisponible → la page reste fonctionnelle
-    error_log('[Mongo CA indisponible] ' . $e->getMessage());
+    $totalCA        = $resultats['totalCA'];
+    $totalCommandes = $resultats['totalCommandes'];
+    $ticketMoyen    = $resultats['ticketMoyen'];
+    $statsParMenu   = $resultats['statsParMenu'];
 }
 
 /* ========== Menus disponibles (SQL) ========== */
@@ -50,7 +40,6 @@ $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <html lang="fr">
 <head>
     <?php
-    /* ========== Métadonnées de la page ========== */
     $title = "Chiffre d'affaires";
     require_once __DIR__ . '/../partials/head.php';
     ?>
@@ -58,10 +47,7 @@ $menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <body>
 
-<?php
-/* ========== En-tête du site ========== */
-require_once __DIR__ . '/../partials/header.php';
-?>
+<?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <main id="main-content">
 
@@ -86,7 +72,6 @@ require_once __DIR__ . '/../partials/header.php';
                 <label for="menu_id">Menu</label>
                 <select name="menu_id" id="menu_id">
                     <option value="">Tous les menus</option>
-
                     <?php foreach ($menus as $menu): ?>
                         <option
                             value="<?= (int) $menu['id'] ?>"
@@ -95,7 +80,6 @@ require_once __DIR__ . '/../partials/header.php';
                             <?= htmlspecialchars($menu['nom']) ?>
                         </option>
                     <?php endforeach; ?>
-
                 </select>
             </div>
 
@@ -110,12 +94,14 @@ require_once __DIR__ . '/../partials/header.php';
             </div>
 
             <button type="submit" class="btn-commande">Filtrer</button>
-
         </form>
     </section>
 
-    <section class="ca-summary">
+    <?php if (!$menuStatsCollection): ?>
+        <p class="error-message">Statistiques indisponibles (MongoDB).</p>
+    <?php endif; ?>
 
+    <section class="ca-summary">
         <div class="ca-card">
             <h3>Total CA</h3>
             <p class="ca-value"><?= number_format($totalCA, 2, ',', ' ') ?> €</p>
@@ -125,7 +111,6 @@ require_once __DIR__ . '/../partials/header.php';
             <h3>Commandes sur la période</h3>
             <p class="ca-value"><?= (int) $totalCommandes ?></p>
         </div>
-
     </section>
 
     <section class="ca-table-section">
@@ -140,7 +125,6 @@ require_once __DIR__ . '/../partials/header.php';
                         <th>Chiffre d'affaires (€)</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <?php if (empty($statsParMenu)): ?>
                         <tr>

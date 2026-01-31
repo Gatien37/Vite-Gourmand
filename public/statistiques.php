@@ -1,14 +1,15 @@
 <?php
-require_once __DIR__ . '/../middlewares/requireAdmin.php';
-require_once __DIR__ . '/../config/mongo.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../services/statistiquesService.php';
 
-try {
-    $mongo = getMongoCollections();
-    $menuStatsCollection = $mongo['menuStatsCollection'];
-} catch (Throwable $e) {
-    die('Statistiques indisponibles.');
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/mongo.php';
+require_once __DIR__ . '/../services/statistiquesService.php';
+require_once __DIR__ . '/../middlewares/requireAdmin.php';
+
+if (!$menuStatsCollection) {
+    require_once __DIR__ . '/../partials/header.php';
+    echo '<main><p>Statistiques indisponibles.</p></main>';
+    require_once __DIR__ . '/../partials/footer.php';
+    exit;
 }
 
 /* ===== RÉCUPÉRATION DES DONNÉES ===== */
@@ -30,7 +31,6 @@ $allMenus    = $stats['allMenus'];
 </head>
 <body>
 
-<!-- Header -->
 <?php require_once __DIR__ . '/../partials/header.php'; ?>
 
 <main id="main-content">
@@ -40,7 +40,6 @@ $allMenus    = $stats['allMenus'];
         <p>Analyse des commandes par menu.</p>
     </section>
 
-    <!-- ===== ACTION ADMIN : SYNCHRONISATION ===== -->
     <section class="ca-actions">
         <a
             href="../sync/sync_menu_stats.php?redirect=statistiques"
@@ -50,7 +49,8 @@ $allMenus    = $stats['allMenus'];
         </a>
     </section>
 
-    <!-- ================= TABLEAU DES STATISTIQUES ================= -->
+    <!-- ===== TABLEAU DES STATS ===== -->
+     
     <section class="stats-table-section">
         <h2>Nombre de commandes par menu</h2>
 
@@ -72,7 +72,6 @@ $allMenus    = $stats['allMenus'];
         </table>
     </section>
 
-    <!-- ================= GRAPHIQUE ================= -->
     <section class="stats-graphs">
         <div class="graph-card">
             <h2>Menus les plus commandés</h2>
@@ -86,14 +85,13 @@ $allMenus    = $stats['allMenus'];
             </div>
         </div>
     </section>
+
 </main>
 
-<!-- Footer -->
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="/vite-gourmand/public/assets/js/stats.js"></script>
+<script src="/assets/js/stats.js"></script>
 
 </body>
 </html>

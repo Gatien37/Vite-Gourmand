@@ -1,9 +1,16 @@
 <?php
+
 require_once __DIR__ . '/../middlewares/requireAdmin.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../config/mongo.php';
 
 use MongoDB\BSON\UTCDateTime;
+
+/* ========= Sécurisation MongoDB ========= */
+if (!$menuStatsCollection) {
+    header('Location: ../public/statistiques.php?error=mongodb');
+    exit;
+}
 
 /* ========= Sécurisation de la redirection ========= */
 $allowedPages = ['statistiques', 'chiffre-affaire'];
@@ -45,6 +52,6 @@ foreach ($rows as $row) {
     ]);
 }
 
-/* ========= Redirection dynamique ========= */
+/* ========= Redirection ========= */
 header("Location: ../public/{$redirect}.php?sync=success");
 exit;
