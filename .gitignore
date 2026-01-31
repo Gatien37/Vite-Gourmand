@@ -6,3 +6,6 @@ config/database.php
 Thumbs.db
 .vscode/
 .idea/
+
+/vendor/
+
