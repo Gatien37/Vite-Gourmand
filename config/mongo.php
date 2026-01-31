@@ -7,7 +7,7 @@ use MongoDB\Client;
 
 /* ========== Connexion à MongoDB (local / prod) ========== */
 
-$mongoUri = getenv('MONGO_URI');
+$mongoUri = getenv('MONGODB_URI');
 
 if ($mongoUri === false) {
     // --- Local (fallback) ---
