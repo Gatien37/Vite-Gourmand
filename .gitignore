@@ -1,6 +1,3 @@
-# Configuration locale sensible
-config/database.php
-
 # Fichiers système / IDE
 .DS_Store
 Thumbs.db
