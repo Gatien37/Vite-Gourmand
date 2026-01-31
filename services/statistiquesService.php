@@ -89,29 +89,30 @@ function getStatistiquesMenus(
 
     /* ========== AGRÉGATION MONGODB ========== */
     $pipeline = [
-    [
-        '$match' => [
-            'nb_commandes' => ['$exists' => true]
-        ]
-    ],
-    [
-        '$group' => [
-            '_id' => '$menu_nom',
-            'total_commandes' => [
-                '$sum' => [
-                    '$cond' => [
-                        ['$isNumber' => '$nb_commandes'],
-                        '$nb_commandes',
-                        0
+        [
+            '$match' => [
+                'nb_commandes' => ['$exists' => true]
+            ]
+        ],
+        [
+            '$group' => [
+                '_id' => '$menu_nom',
+                'total_commandes' => [
+                    '$sum' => [
+                        '$cond' => [
+                            ['$isNumber' => '$nb_commandes'],
+                            '$nb_commandes',
+                            0
+                        ]
                     ]
                 ]
             ]
+        ],
+        [
+            '$sort' => ['total_commandes' => -1]
         ]
-    ],
-    [
-        '$sort' => ['total_commandes' => -1]
-    ]
-];
+    ];
+
 
 
     $result = $menuStatsCollection->aggregate($pipeline);
