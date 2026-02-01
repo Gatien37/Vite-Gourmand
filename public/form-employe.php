@@ -32,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = $result['error'];
     }
     elseif (!empty($result['success'])) {
+        usleep(300000); 
+
         header('Location: gestion-employes.php');
         exit;
     }
@@ -72,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input
                 type="hidden"
                 name="csrf_token"
-                value="<?= $_SESSION['csrf_token'] ?>"
+                value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>"
             >
 
             <!-- Message d’erreur -->
