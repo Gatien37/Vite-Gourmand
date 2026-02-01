@@ -1,7 +1,47 @@
 <?php
-/* ========== Envoi de l’email de confirmation de commande ========== */
 
-function envoyerMailConfirmation($email, $recap)
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+/* ======================= AUTOLOAD COMPOSER (PHPMailer) ======================= */
+require_once __DIR__ . '/../vendor/autoload.php';
+
+/* ======================= FONCTION SMTP GÉNÉRIQUE (INTERNE) ======================= */
+function envoyerMailSMTP(
+    string $to,
+    string $subject,
+    string $body,
+    bool $html = false
+): bool {
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host       = getenv('SMTP_HOST');
+        $mail->SMTPAuth   = true;
+        $mail->Username   = getenv('SMTP_USER');
+        $mail->Password   = getenv('SMTP_PASS');
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = getenv('SMTP_PORT');
+
+        $mail->CharSet = 'UTF-8';
+
+        $mail->setFrom('no-reply@vite-gourmand.fr', 'Vite & Gourmand');
+        $mail->addAddress($to);
+
+        $mail->isHTML($html);
+        $mail->Subject = $subject;
+        $mail->Body    = $body;
+
+        return $mail->send();
+    } catch (Exception $e) {
+        error_log('Erreur envoi mail : ' . $mail->ErrorInfo);
+        return false;
+    }
+}
+
+/* ======================= EMAIL CONFIRMATION DE COMMANDE ======================= */
+function envoyerMailConfirmation($email, $recap): void
 {
     $message = "
 Bonjour,
@@ -17,18 +57,12 @@ Total : " . number_format($recap['total'], 2, ',', ' ') . " €
 Merci pour votre confiance.
 ";
 
-    $headers  = "From: Vite & Gourmand <contact@vite-gourmand.fr>\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8";
-
-    @mail($email, 'Confirmation de commande', $message, $headers);
+    envoyerMailSMTP($email, 'Confirmation de commande', nl2br($message), true);
 }
 
-/* ========== Envoi de l’email de bienvenue utilisateur ========== */
-
+/* ======================= EMAIL BIENVENUE UTILISATEUR ======================= */
 function envoyerMailBienvenue(string $email, string $prenom): void
 {
-    $subject = "Bienvenue chez Vite & Gourmand 🎉";
-
     $message = "
 Bonjour $prenom,
 
@@ -39,19 +73,15 @@ Votre compte a bien été créé. Vous pouvez maintenant vous connecter et passe
 L'équipe Vite & Gourmand
 ";
 
-    @mail($email, $subject, $message);
+    envoyerMailSMTP($email, 'Bienvenue chez Vite & Gourmand', nl2br($message), true);
 }
 
-/* ========== Envoi de l’email de prêt de matériel ========== */
-
+/* ======================= EMAIL PRÊT DE MATÉRIEL ======================= */
 function envoyerMailPretMateriel(
     string $emailClient,
     string $menuNom,
     string $dateLimite
-): void
-{
-    $sujet = 'Retour de matériel - Commande Vite & Gourmand';
-
+): void {
     $message =
         "Bonjour,\n\n" .
         "Lors de votre commande « {$menuNom} », du matériel a été mis à votre disposition.\n\n" .
@@ -62,15 +92,17 @@ function envoyerMailPretMateriel(
         "Cordialement,\n" .
         "L'équipe Vite & Gourmand";
 
-    @mail($emailClient, $sujet, $message);
+    envoyerMailSMTP(
+        $emailClient,
+        'Retour de matériel - Commande Vite & Gourmand',
+        nl2br($message),
+        true
+    );
 }
 
-/* ========== Envoi de l’email de création de compte employé ========== */
-
+/* ======================= EMAIL CRÉATION COMPTE EMPLOYÉ ======================= */
 function envoyerMailCreationEmploye(string $email): void
 {
-    $sujet = "Création de votre compte employé - Vite & Gourmand";
-
     $message =
         "Bonjour,\n\n" .
         "Un compte employé a été créé pour vous sur le site Vite & Gourmand.\n\n" .
@@ -79,39 +111,39 @@ function envoyerMailCreationEmploye(string $email): void
         "Cordialement,\n" .
         "L'équipe Vite & Gourmand";
 
-    @mail($email, $sujet, $message);
+    envoyerMailSMTP(
+        $email,
+        'Création de votre compte employé - Vite & Gourmand',
+        nl2br($message),
+        true
+    );
 }
 
-/* ========== Envoi d’un message depuis le formulaire de contact ========== */
-
+/* ======================= EMAIL FORMULAIRE DE CONTACT ======================= */
 function envoyerMailContact(
     string $email,
     string $sujet,
     string $message
-): bool
-{
-    $to = "contact@viteetgourmand.fr";
-
-    $headers = "From: $email";
-
+): bool {
     $body =
         "Message envoyé depuis le formulaire de contact :\n\n" .
         "Email : $email\n" .
         "Sujet : $sujet\n\n" .
         $message;
 
-    return mail($to, $sujet, $body, $headers);
+    return envoyerMailSMTP(
+        'contact@viteetgourmand.fr',
+        $sujet,
+        nl2br($body),
+        true
+    );
 }
 
-/* ========== Envoi de l’email de réinitialisation du mot de passe ========== */
-
+/* ======================= EMAIL RÉINITIALISATION MOT DE PASSE ======================= */
 function envoyerMailResetMotDePasse(
     string $email,
     string $resetLink
-): void
-{
-    $sujet = "Réinitialisation de votre mot de passe - Vite & Gourmand";
-
+): void {
     $message =
         "Bonjour,\n\n" .
         "Vous avez demandé la réinitialisation de votre mot de passe.\n\n" .
@@ -122,8 +154,10 @@ function envoyerMailResetMotDePasse(
         "Cordialement,\n" .
         "L'équipe Vite & Gourmand";
 
-    $headers  = "From: Vite & Gourmand <no-reply@vite-gourmand.fr>\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8";
-
-    @mail($email, $sujet, $message, $headers);
+    envoyerMailSMTP(
+        $email,
+        'Réinitialisation de votre mot de passe - Vite & Gourmand',
+        nl2br($message),
+        true
+    );
 }

@@ -41,7 +41,8 @@ function traiterDemandeReinitialisation(PDO $pdo, string $email): void
     $stmt->execute([$token, $expires, $email]);
 
     /* Lien de réinitialisation */
-    $resetLink = "http://localhost/vite-gourmand/public/nouveau-mot-de-passe.php?token=$token";
+        $baseUrl = getenv('APP_URL') ?: 'http://localhost/vite-gourmand/public';
+        $resetLink = $baseUrl . "/nouveau-mot-de-passe.php?token=$token";
 
     /* Envoi email */
     envoyerMailResetMotDePasse($email, $resetLink);
