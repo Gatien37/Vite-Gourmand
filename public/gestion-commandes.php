@@ -33,33 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $commandeAvant = getCommandeById($pdo, $commandeId);
 
         updateStatutCommande($pdo, $commandeId, $newStatut);
-
-        /* ===== Envoi mails conditionnels ===== */
-        if ($commandeAvant && $commandeAvant['statut'] !== $newStatut) {
-
-            /* Récupération commande à jour */
-            $commande = getCommandeById($pdo, $commandeId);
-
-            if ($commande) {
-
-                /* ===== Commande terminée → demande d’avis ===== */
-                if ($newStatut === 'terminee') {
-                    envoyerMailCommandeTerminee(
-                        $commande['email_client'],
-                        $commande['menu_nom']
-                    );
-                }
-
-                /* ===== Attente retour matériel ===== */
-                if ($newStatut === 'attente_retour_materiel') {
-                    envoyerMailPretMateriel(
-                        $commande['email_client'],
-                        $commande['menu_nom'],
-                        $commande['date_limite_retour']
-                    );
-                }
-            }
-        }
     }
 
     /* ===== Conserver les filtres ===== */
