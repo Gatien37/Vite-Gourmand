@@ -26,7 +26,7 @@ function envoyerMailSMTP(
 
         $mail->CharSet = 'UTF-8';
 
-        $mail->setFrom('gatien.parat@hotmail.fr', 'Vite & Gourmand');
+        $mail->setFrom('test.entreprise78@yahoo.com', 'Vite & Gourmand');
         $mail->addAddress($to);
 
         $mail->isHTML($html);
@@ -156,7 +156,7 @@ function envoyerMailContact(
         $message;
 
     return envoyerMailSMTP(
-        'contact@viteetgourmand.fr',
+        'test.entreprise78@yahoo.com',
         $sujet,
         nl2br($body),
         true
