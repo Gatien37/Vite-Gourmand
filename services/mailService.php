@@ -11,7 +11,8 @@ function envoyerMailSMTP(
     string $to,
     string $subject,
     string $body,
-    bool $html = false
+    bool $html = false,
+    ?string $replyTo = null
 ): bool {
     $mail = new PHPMailer(true);
 
@@ -28,6 +29,10 @@ function envoyerMailSMTP(
 
         $mail->setFrom('test.entreprise78@yahoo.com', 'Vite & Gourmand');
         $mail->addAddress($to);
+
+        if ($replyTo) {
+            $mail->addReplyTo($replyTo);
+        }
 
         $mail->isHTML($html);
         $mail->Subject = $subject;
@@ -159,7 +164,8 @@ function envoyerMailContact(
         'test.entreprise78@yahoo.com',
         $sujet,
         nl2br($body),
-        true
+        true,
+        $email
     );
 }
 
