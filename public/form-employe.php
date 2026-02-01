@@ -30,9 +30,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($result['error'])) {
         $error = $result['error'];
-    } else {
+    }
+    elseif (!empty($result['success'])) {
         header('Location: gestion-employes.php');
         exit;
+    }
+    else {
+        $error = "Erreur inattendue lors de la création de l'employé.";
     }
 }
 ?>
