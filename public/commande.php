@@ -72,11 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = $resultat['error'];
         } else {
 
-            envoyerMailConfirmation(
-                $_SESSION['user']['email'],
-                $resultat['recap']
-            );
+        $mailEnvoye = envoyerMailConfirmation(
+            $_SESSION['user']['email'],
+            $resultat['recap']
+        );
 
+        if (!$mailEnvoye) {
+            error_log(
+                'ECHEC MAIL CONFIRMATION COMMANDE #' . $resultat['commande_id']
+            );
+        }
             header('Location: confirmation.php?id=' . $resultat['commande_id']);
             exit;
         }

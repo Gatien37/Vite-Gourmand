@@ -41,24 +41,27 @@ function envoyerMailSMTP(
 }
 
 /* ======================= EMAIL CONFIRMATION DE COMMANDE ======================= */
-function envoyerMailConfirmation($email, $recap): void
+function envoyerMailConfirmation(string $email, array $recap): bool
 {
-    $message = "
-Bonjour,
+    $message =
+        "Bonjour,\n\n" .
+        "Votre commande a bien été enregistrée.\n\n" .
+        "Menu : {$recap['menu']}\n" .
+        "Date : {$recap['date']} à {$recap['heure']}\n" .
+        "Personnes : {$recap['nb']}\n" .
+        "Mode : {$recap['reception']}\n" .
+        "Total : " . number_format($recap['total'], 2, ',', ' ') . " €\n\n" .
+        "Merci pour votre confiance.\n\n" .
+        "L'équipe Vite & Gourmand";
 
-Votre commande a bien été enregistrée.
-
-Menu : {$recap['menu']}
-Date : {$recap['date']} à {$recap['heure']}
-Personnes : {$recap['nb']}
-Mode : {$recap['reception']}
-Total : " . number_format($recap['total'], 2, ',', ' ') . " €
-
-Merci pour votre confiance.
-";
-
-    envoyerMailSMTP($email, 'Confirmation de commande', nl2br($message), true);
+    return envoyerMailSMTP(
+        $email,
+        'Confirmation de commande',
+        $message,
+        false
+    );
 }
+
 
 /* ======================= EMAIL BIENVENUE UTILISATEUR ======================= */
 function envoyerMailBienvenue(string $email, string $prenom): void
