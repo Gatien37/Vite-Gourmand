@@ -63,17 +63,15 @@ function enregistrerMenu(
             }
         }
 
-        /* ========== Image du menu (héritée d’un plat) ========== */
+        /* ========== Image du menu (héritée aléatoirement d’un plat) ========== */
 
         $stmt = $pdo->prepare("
-            SELECT image
-            FROM plat
-            WHERE id IN (
-                SELECT plat_id
-                FROM menu_plat
-                WHERE menu_id = ?
-            )
-            AND image IS NOT NULL
+            SELECT p.image
+            FROM plat p
+            JOIN menu_plat mp ON mp.plat_id = p.id
+            WHERE mp.menu_id = ?
+            AND p.image IS NOT NULL
+            ORDER BY RAND()
             LIMIT 1
         ");
         $stmt->execute([$menuId]);
@@ -87,7 +85,7 @@ function enregistrerMenu(
                 WHERE id = ?
             ")->execute([$image, $menuId]);
         }
-
+        
         /* ========== Validation transaction ========== */
 
         $pdo->commit();
