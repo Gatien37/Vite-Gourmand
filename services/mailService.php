@@ -26,7 +26,7 @@ function envoyerMailSMTP(
 
         $mail->CharSet = 'UTF-8';
 
-        $mail->setFrom('no-reply@vite-gourmand.fr', 'Vite & Gourmand');
+        $mail->setFrom('gatien.parat@hotmail.fr', 'Vite & Gourmand');
         $mail->addAddress($to);
 
         $mail->isHTML($html);
