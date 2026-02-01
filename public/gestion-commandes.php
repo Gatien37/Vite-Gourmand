@@ -5,6 +5,7 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../services/mailService.php';
 
 /* ========== Génération du token CSRF ========== */
 if (empty($_SESSION['csrf_token'])) {
@@ -27,10 +28,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newStatut  = $_POST['statut'] ?? '';
 
     if ($commandeId > 0 && $newStatut !== '') {
+
+        /* ===== Récupération statut actuel ===== */
+        $commandeAvant = getCommandeById($pdo, $commandeId);
+
         updateStatutCommande($pdo, $commandeId, $newStatut);
+
+        /* ===== Envoi mails conditionnels ===== */
+        if ($commandeAvant && $commandeAvant['statut'] !== $newStatut) {
+
+            /* Récupération commande à jour */
+            $commande = getCommandeById($pdo, $commandeId);
+
+            if ($commande) {
+
+                /* ===== Commande terminée → demande d’avis ===== */
+                if ($newStatut === 'terminee') {
+                    envoyerMailCommandeTerminee(
+                        $commande['email_client'],
+                        $commande['menu_nom']
+                    );
+                }
+
+                /* ===== Attente retour matériel ===== */
+                if ($newStatut === 'attente_retour_materiel') {
+                    envoyerMailPretMateriel(
+                        $commande['email_client'],
+                        $commande['menu_nom'],
+                        $commande['date_limite_retour']
+                    );
+                }
+            }
+        }
     }
 
-    /* Conserver les filtres */
+    /* ===== Conserver les filtres ===== */
     $qs = http_build_query([
         'statut' => $_GET['statut'] ?? '',
         'client' => $_GET['client'] ?? '',
@@ -63,7 +95,6 @@ $commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
 
 <main id="main-content">
 
-    <!-- ===== Titre ===== -->
     <section class="hero-section commandes-hero">
         <h1>Gestion des commandes</h1>
         <p>Consultez et mettez à jour les commandes clients.</p>
@@ -73,7 +104,6 @@ $commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
     <section class="filtres">
         <form method="GET" class="ca-filter-form">
 
-            <!-- Filtre par statut -->
             <div>
                 <label for="statut">Statut</label>
                 <select name="statut" id="statut">
@@ -83,14 +113,13 @@ $commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
                     <option value="en_preparation" <?= $statut === 'en_preparation' ? 'selected' : '' ?>>En préparation</option>
                     <option value="en_livraison" <?= $statut === 'en_livraison' ? 'selected' : '' ?>>En livraison</option>
                     <option value="livree" <?= $statut === 'livree' ? 'selected' : '' ?>>Livrée</option>
-                    <option value="terminee" <?= $statut === 'terminee' ? 'selected' : '' ?>>Terminée</option>
                     <option value="attente_retour_materiel" <?= $statut === 'attente_retour_materiel' ? 'selected' : '' ?>>
                         En attente retour matériel
                     </option>
+                    <option value="terminee" <?= $statut === 'terminee' ? 'selected' : '' ?>>Terminée</option>
                 </select>
             </div>
 
-            <!-- Filtre par client -->
             <div>
                 <label for="client">Client</label>
                 <input
@@ -127,29 +156,20 @@ $commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
             </thead>
 
             <tbody>
-
                 <?php foreach ($commandes as $commande): ?>
                     <tr>
 
                         <td>#CMD-<?= (int) $commande['id'] ?></td>
-
                         <td><?= htmlspecialchars($commande['client_nom']) ?></td>
-
                         <td><?= htmlspecialchars($commande['menu_nom']) ?></td>
-
                         <td><?= date('d/m/Y', strtotime($commande['date_prestation'])) ?></td>
-
                         <td><?= date('H:i', strtotime($commande['date_prestation'])) ?></td>
 
-                        <!-- Statut -->
                         <td>
                             <?php if ($commande['statut'] === 'annulee'): ?>
-
                                 <span class="status annulee">Annulée</span>
-
                             <?php else: ?>
-
-                                <form method="POST" class="statut-form" style="display:inline;">
+                                <form method="POST" style="display:inline;">
                                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
                                     <input type="hidden" name="commande_id" value="<?= (int) $commande['id'] ?>">
 
@@ -165,17 +185,6 @@ $commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
                                         <option value="terminee" <?= $commande['statut'] === 'terminee' ? 'selected' : '' ?>>Terminée</option>
                                     </select>
                                 </form>
-
-                                <?php if (
-                                    $commande['statut'] === 'attente_retour_materiel'
-                                    && !empty($commande['date_limite_retour'])
-                                ): ?>
-                                    <div class="retour-butoir">
-                                        Retour avant le
-                                        <?= date('d/m/Y', strtotime($commande['date_limite_retour'])) ?>
-                                    </div>
-                                <?php endif; ?>
-
                             <?php endif; ?>
                         </td>
 
@@ -192,7 +201,6 @@ $commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
 
                     </tr>
                 <?php endforeach; ?>
-
             </tbody>
 
         </table>

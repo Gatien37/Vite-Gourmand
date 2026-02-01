@@ -76,6 +76,27 @@ L'équipe Vite & Gourmand
     envoyerMailSMTP($email, 'Bienvenue chez Vite & Gourmand', nl2br($message), true);
 }
 
+/* ======================= EMAIL COMMANDE TERMINÉE (AVIS CLIENT) ======================= */
+function envoyerMailCommandeTerminee(string $email, string $menuNom): void
+{
+    $message =
+        "Bonjour,\n\n" .
+        "Votre commande pour le menu « {$menuNom} » est maintenant terminée.\n\n" .
+        "Nous espérons que la prestation vous a donné entière satisfaction.\n\n" .
+        "Vous pouvez dès à présent vous connecter à votre espace client afin de laisser un avis " .
+        "depuis votre commande.\n\n" .
+        "Cordialement,\n" .
+        "L'équipe Vite & Gourmand";
+
+    envoyerMailSMTP(
+        $email,
+        'Votre commande est terminée - Donnez votre avis',
+        nl2br($message),
+        true
+    );
+}
+
+
 /* ======================= EMAIL PRÊT DE MATÉRIEL ======================= */
 function envoyerMailPretMateriel(
     string $emailClient,
