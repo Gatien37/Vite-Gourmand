@@ -26,14 +26,14 @@ $horaires = getHoraires($pdo);
             <div class="contact">
                 <p>Vite & Gourmand, 12 Rue Lafaurie de Monbadon, 33000 Bordeaux</p>
                 <p>Téléphone : 05 56 48 32 10</p>
-                <p>Email : contact@viteetgourmand.fr </p>
+                <a href="contact.php">Nous contacter</a>
             </div>
             <div class="legal">
                 <a href="mentions-legales.php">Mentions légales</a>
                 <a href="cgv.php">Conditions Générales de Vente</a>
             </div>
             <div class="copyright">
-                <p>&copy; 2025 Vite & Gourmand. Tous droits réservés.</p>
+                <p>&copy; 2026 Vite & Gourmand. Tous droits réservés.</p>
             </div>
         </div>
         <script src="assets/js/main.js" defer></script>

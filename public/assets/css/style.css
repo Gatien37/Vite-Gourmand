@@ -182,12 +182,12 @@ nav ul li a:hover {
     font-size: 0.875rem;
 }
 
-.legal a {
+.legal a, .contact a {
     color: #2C3E50;
     text-decoration: none;
 }
 
-.legal a:hover {
+.legal a:hover, .contact a:hover {
     color: #A43F3B;
 }
 
