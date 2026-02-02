@@ -101,50 +101,6 @@ $menus = getFilteredMenus($pdo, $filters);
 
 <?php require_once __DIR__ . '/../partials/footer.php'; ?>
 
-<!-- ===== JS FILTRES DYNAMIQUES ===== -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    const form = document.getElementById('filters-form');
-    const menusList = document.getElementById('menus-list');
-
-    if (!form || !menusList) return;
-
-    const selects = form.querySelectorAll('select');
-
-    const fetchMenus = async () => {
-        const formData = new FormData(form);
-        const params = new URLSearchParams(formData);
-
-        try {
-            const response = await fetch(`menus-filter.php?${params.toString()}`, {
-                headers: { 'X-Requested-With': 'fetch' }
-            });
-
-            if (!response.ok) {
-                throw new Error('Erreur chargement filtres');
-            }
-
-            const html = await response.text();
-            menusList.innerHTML = html;
-
-            // Mise à jour URL sans reload (bonne pratique jury)
-            const newUrl = `${window.location.pathname}?${params.toString()}`;
-            window.history.pushState({}, '', newUrl);
-
-        } catch (error) {
-            menusList.innerHTML = '<p class="no-result">Erreur lors du filtrage.</p>';
-            console.error(error);
-        }
-    };
-
-    // Déclenchement automatique au changement
-    selects.forEach(select => {
-        select.addEventListener('change', fetchMenus);
-    });
-
-});
-</script>
 
 </body>
 </html>

@@ -24,6 +24,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
+  /* ===== ANIMATION AU SCROLL ===== */
+
+const revealElements = document.querySelectorAll('.js-reveal');
+
+const revealOnScroll = () => {
+  revealElements.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight - 100) {
+      el.classList.add('is-visible');
+    }
+  });
+};
+
+window.addEventListener('scroll', revealOnScroll);
+revealOnScroll();
+
+
+  /* ===== COMPTEUR ANIMÉ ===== */
+  const counter = document.getElementById('experience-counter');
+
+  if (counter) {
+    let value = 0;
+    const target = 25;
+
+    const interval = setInterval(() => {
+      value++;
+      counter.textContent = value;
+
+      if (value === target) {
+        clearInterval(interval);
+      }
+    }, 80);
+  }
+
+
+
   /* ========== SYSTÈME DE NOTATION (étoiles) ========== */
 
   const ratingContainer = document.getElementById('rating');

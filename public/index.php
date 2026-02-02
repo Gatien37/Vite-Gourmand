@@ -35,7 +35,7 @@ require_once __DIR__ . '/../partials/header.php';
     </section>
 
     <!-- ===== Histoire ===== -->
-    <section class="histoire">
+    <section class="histoire js-reveal">
 
         <img src="assets/images/histoire.jpg" alt="assortiment de fruits frais">
 
@@ -61,9 +61,9 @@ require_once __DIR__ . '/../partials/header.php';
     </section>
 
     <!-- ===== Expérience ===== -->
-    <section class="experience">
+    <section class="experience js-reveal">
 
-        <h2>25 ans d'expérience</h2>
+        <h2><span id="experience-counter">0</span> ans d'expérience</h2>
 
         <div class="experience-photos">
             <img src="assets/images/experience1.jpg" alt="José et Julie en cuisine">
@@ -92,7 +92,7 @@ require_once __DIR__ . '/../partials/header.php';
     </section>
 
     <!-- ===== Avis clients ===== -->
-    <section class="avis">
+    <section class="avis js-reveal">
 
         <h2>Avis clients</h2>
 
@@ -103,7 +103,7 @@ require_once __DIR__ . '/../partials/header.php';
             <div class="avis-container">
 
                 <?php foreach ($avisList as $avis): ?>
-                    <div class="avis-card">
+                    <div class="avis-card js-reveal">
 
                         <!-- En-tête avis -->
                         <div class="avis-header">

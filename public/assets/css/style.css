@@ -120,7 +120,7 @@ nav ul {
 nav ul li a {
     text-decoration: none;
     color: #2C3E50;
-    font-size: 1.125rem;
+    font-size: 1.2rem;
 }
 
 nav ul li a:hover {
@@ -232,6 +232,17 @@ nav ul li a:hover {
     background-color: #8C3230;
 }
 
+.hero-section .button {
+  display: inline-block;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hero-section .button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+
 
 /* =================  ACCUEIL ================ */
 
@@ -303,6 +314,16 @@ nav ul li a:hover {
     padding-bottom: 20px;
 }
 
+.experience-photos img {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.experience-photos img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+
 
 /* -------- Avis -------- */
 
@@ -368,6 +389,19 @@ nav ul li a:hover {
     font-size: 0.875rem;
     color: #A43F3B;
     text-decoration: none;
+}
+
+/* -------Animation Reveal------- */
+
+.js-reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.js-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* ================= PAGE MENUS =============== */
@@ -495,6 +529,16 @@ nav ul li a:hover {
 .btn-menu:hover {
     background-color: #8C3230;
 }
+
+.menu-item {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.menu-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
 
 /* ================= PAGE DETAIL MENU =============== */
 
