@@ -1,4 +1,44 @@
 
+-- Identifiants des rôles
+INSERT INTO utilisateur (prenom, nom, email, gsm, adresse, ville, code_postal, mot_de_passe, role, actif)
+VALUES (
+    'Test',
+    'Utilisateur',
+    'test.utilisateur78@yahoo.com',
+    '0600000000',
+    '14 Rue Fondaudège',
+    'Bordeaux',
+    '33000',
+    '$2y$10$5TGoD9Ot6g99rKAUHrPyZ.0/XOcgnEox8RyxSUgzxs1DIfhIRiFnO',
+    'user',
+    1
+),
+(
+    'Admin',
+    'ViteGourmand',
+    'admin@viteetgourmand.fr',
+    '05 56 48 32 10',
+    '12 Rue Lafaurie de Monbadon',
+    'Bordeaux',
+    '33000',
+    '$2y$10$Vxiq9b.HgzlwSWFEsnsoHOQD.3R5NTN1.t2a5qiwRNgsjz3X4QK8m',
+    'admin',
+    1
+),
+(
+    'Employe',
+    'Employe1',
+    'test.employe78@yahoo.com',
+    '0600000001',
+    '10 Rue de Test',
+    'Bordeaux',
+    '33000',
+    '$2y$10$bZM8pCP0Gaszc.DwkCYpjucWRPAOF40DSSdMyDxklZLtUd4lyfGYC',
+    'employe',
+    1
+);
+
+
 INSERT INTO menu (nom, description, description_longue, theme, regime, nb_personnes_min, prix_base, stock, image)
 VALUES
 (
