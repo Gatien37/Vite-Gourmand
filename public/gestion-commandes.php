@@ -28,10 +28,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newStatut  = $_POST['statut'] ?? '';
 
     if ($commandeId > 0 && $newStatut !== '') {
-
-        /* ===== Récupération statut actuel ===== */
-        $commandeAvant = getCommandeById($pdo, $commandeId);
-
         updateStatutCommande($pdo, $commandeId, $newStatut);
     }
 
@@ -158,6 +154,17 @@ $commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
                                         <option value="terminee" <?= $commande['statut'] === 'terminee' ? 'selected' : '' ?>>Terminée</option>
                                     </select>
                                 </form>
+
+                                <?php if (
+                                    $commande['statut'] === 'attente_retour_materiel'
+                                    && !empty($commande['date_limite_retour'])
+                                ): ?>
+                                    <div class="statut-info">
+                                        Retour matériel avant le
+                                        <strong><?= date('d/m/Y', strtotime($commande['date_limite_retour'])) ?></strong>
+                                    </div>
+                                <?php endif; ?>
+
                             <?php endif; ?>
                         </td>
 
