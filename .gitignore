@@ -5,4 +5,7 @@ Thumbs.db
 .idea/
 .env
 
+config/database.php
+
+
 /vendor/
