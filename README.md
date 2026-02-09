@@ -33,16 +33,19 @@ Dans phpMyAdmin, importer les fichiers suivants dans l’ordre :
 2.	database/seed.sql
 ________________________________________
 4. Configuration de la connexion MySQL
+
 Le fichier suivant n’est pas versionné pour des raisons de sécurité :
 config/database.php
-Créer ce fichier à partir de l’exemple fourni :
-config/database.example.php
-Exemple de configuration locale :
-<?php
-$host = 'localhost';
-$dbname = 'vite_gourmand';
-$user = 'root';
-$password = '';
+
+Pour configurer la base de données en local :
+
+1. Copier le fichier :
+   config/database.example.php
+2. Le renommer en :
+   config/database.php
+3. Adapter les paramètres de connexion MySQL locaux si nécessaire
+   (hôte, nom de base, utilisateur, mot de passe).
+
 ________________________________________
 5. MongoDB (statistiques)
 •	MongoDB est utilisé pour le stockage des statistiques
