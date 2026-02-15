@@ -109,7 +109,7 @@ revealOnScroll();
         const html = await response.text();
         menusList.innerHTML = html;
 
-        // Mise à jour de l’URL sans rechargement (bonne pratique jury)
+        // Mise à jour de l’URL sans rechargement
         const newUrl = `${window.location.pathname}?${params.toString()}`;
         window.history.pushState({}, '', newUrl);
 
