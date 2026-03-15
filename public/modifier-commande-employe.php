@@ -3,7 +3,7 @@
 
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 require_once __DIR__ . '/../services/commandeService.php';
 
 /* ========== Génération du token CSRF ========== */

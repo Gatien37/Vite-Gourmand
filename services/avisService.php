@@ -1,4 +1,8 @@
 <?php
+
+require_once __DIR__ . '/../repositories/sql/avisRepository.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+
 /* ========== Vérification de l’éligibilité à déposer un avis ========== */
 
 function verifierEligibiliteAvis(PDO $pdo, int $commandeId, int $userId): array

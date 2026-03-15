@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 
 /* ================== VALIDATION ================== */
 if (

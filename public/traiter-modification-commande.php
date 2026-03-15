@@ -1,6 +1,8 @@
 <?php
 /* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+require_once __DIR__ . '/../repositories/sql/menuRepository.php';
 
 /* ========== Sécurité CSRF ========== */
 if (
@@ -20,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 
 /* ================== VALIDATION POST ================== */
 if (
@@ -81,15 +83,7 @@ try {
             throw new Exception('Stock insuffisant');
         }
 
-        $stmtStock = $pdo->prepare("
-            UPDATE menu
-            SET stock = stock - :diff
-            WHERE id = :menu_id
-        ");
-        $stmtStock->execute([
-            'diff'    => $diff,
-            'menu_id' => $menuId
-        ]);
+        ajusterStockMenu($pdo, $menuId, $diff);
     }
 
     /* ================== RECALCUL PRIX ================== */
@@ -101,26 +95,13 @@ try {
     $prixTotal = $prixMenu - $reduction;
 
     /* ================== UPDATE COMMANDE ================== */
-    $stmtCmd = $pdo->prepare("
-        UPDATE commande
-        SET 
-            date_prestation = :date_prestation,
-            nb_personnes    = :nb,
-            prix_total      = :prix_total,
-            adresse         = :adresse,
-            ville           = :ville
-        WHERE id = :id
-    ");
-
-    $stmtCmd->execute([
+    updateCommandeRepository($pdo, $commandeId, [
         'date_prestation' => "$date $heure",
-        'nb'              => $newNb,
-        'prix_total'      => $prixTotal,
         'adresse'         => $adresse,
         'ville'           => $ville,
-        'id'              => $commandeId
+        'nb_personnes'    => $newNb,
+        'prix_total'      => $prixTotal
     ]);
-
     $pdo->commit();
 
     header(

@@ -4,9 +4,9 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 
-/* ========== Génération du token CSRF ========== */
+/* ========== Génération du token CSRF ========== */                    
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newStatut  = $_POST['statut'] ?? '';
 
     if ($commandeId > 0 && $newStatut !== '') {
-        updateStatutCommande($pdo, $commandeId, $newStatut);
+        updateCommandeStatutRepository($pdo, $commandeId, $newStatut);
     }
 
     /* Conserver les filtres */

@@ -5,7 +5,7 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/avisModel.php';
+require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
 
 /* ========== Sécurisation de la méthode HTTP ========== */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {

@@ -4,7 +4,7 @@ require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 
 /* ========== Récupération et validation des données ========== */
 $commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;

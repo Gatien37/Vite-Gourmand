@@ -4,7 +4,7 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 
 /* ========== Génération du token CSRF ========== */
 if (empty($_SESSION['csrf_token'])) {

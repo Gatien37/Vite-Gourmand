@@ -9,8 +9,8 @@ require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/commandeModel.php';
-require_once __DIR__ . '/../models/avisModel.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
 require_once __DIR__ . '/../services/avisService.php';
 
 /* ========== Sécurité : paramètre commande valide ========== */

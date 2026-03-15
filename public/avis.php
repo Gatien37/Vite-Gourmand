@@ -2,7 +2,7 @@
 /* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/avisModel.php';
+require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
 
 /* ========== Récupération des avis validés ========== */
 

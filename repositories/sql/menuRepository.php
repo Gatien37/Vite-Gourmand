@@ -1,5 +1,20 @@
 <?php
 
+function ajusterStockMenu(PDO $pdo, int $menuId, int $delta): void
+{
+    $stmt = $pdo->prepare("
+        UPDATE menu
+        SET stock = stock - :delta
+        WHERE id = :menu_id
+    ");
+
+    $stmt->execute([
+        'delta' => $delta,
+        'menu_id' => $menuId
+    ]);
+}
+
+
 /* ========== Menus filtrés (site public) ========== */
 
 function getFilteredMenus(PDO $pdo, array $filters): array

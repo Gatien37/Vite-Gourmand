@@ -1,5 +1,97 @@
 <?php
 
+function insertCommande(PDO $pdo, array $data): int
+{
+    $stmt = $pdo->prepare("
+        INSERT INTO commande
+        (utilisateur_id, menu_id, date_prestation, adresse, ville, nb_personnes, prix_total, statut)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ");
+
+    $stmt->execute([
+        $data['utilisateur_id'],
+        $data['menu_id'],
+        $data['date_prestation'],
+        $data['adresse'],
+        $data['ville'],
+        $data['nb_personnes'],
+        $data['prix_total'],
+        $data['statut']
+    ]);
+
+    return (int) $pdo->lastInsertId();
+}
+
+function insertCommandeSuiviRepository(PDO $pdo, int $commandeId, string $statut): void
+{
+    $stmt = $pdo->prepare("
+        INSERT INTO commande_suivi (commande_id, statut)
+        VALUES (?, ?)
+    ");
+
+    $stmt->execute([$commandeId, $statut]);
+}
+
+function updateCommandeRepository(PDO $pdo, int $commandeId, array $data): void
+{
+    $stmt = $pdo->prepare("
+        UPDATE commande
+        SET 
+            date_prestation = :date_prestation,
+            adresse = :adresse,
+            ville = :ville,
+            nb_personnes = :nb_personnes,
+            prix_total = :prix_total
+        WHERE id = :id
+    ");
+
+    $stmt->execute([
+        'date_prestation' => $data['date_prestation'],
+        'adresse' => $data['adresse'],
+        'ville' => $data['ville'],
+        'nb_personnes' => $data['nb_personnes'],
+        'prix_total' => $data['prix_total'],
+        'id' => $commandeId
+    ]);
+}
+
+function updateCommandeStatutRepository(PDO $pdo, int $commandeId, string $statut): void
+{
+    $stmt = $pdo->prepare("
+        UPDATE commande
+        SET statut = :statut
+        WHERE id = :id
+    ");
+
+    $stmt->execute([
+        'statut' => $statut,
+        'id' => $commandeId
+    ]);
+}
+
+function updateCommandePretMaterielRepository(
+    PDO $pdo,
+    int $commandeId,
+    string $statut,
+    string $dateLimite
+): void {
+    $stmt = $pdo->prepare("
+        UPDATE commande
+        SET
+            pret_materiel = 1,
+            date_limite_retour = :date_limite,
+            statut = :statut
+        WHERE id = :id
+    ");
+
+    $stmt->execute([
+        'date_limite' => $dateLimite,
+        'statut' => $statut,
+        'id' => $commandeId
+    ]);
+}
+
+
 /* ========== Récupération d’une commande (détail complet) ========== */
 
 function getCommandeById(PDO $pdo, int $id): array|false
@@ -34,64 +126,6 @@ function getCommandeById(PDO $pdo, int $id): array|false
     $stmt->execute(['id' => $id]);
 
     return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-/* ========== Suivi des statuts d’une commande ========== */
-
-function getCommandeSuivi(PDO $pdo, int $commandeId): array
-{
-    $sql = "
-        SELECT statut, date_statut
-        FROM commande_suivi
-        WHERE commande_id = :id
-        ORDER BY date_statut ASC
-    ";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(['id' => $commandeId]);
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-/* ========== Mise à jour d’une commande ========== */
-
-function updateCommande(PDO $pdo, int $commandeId, array $data): void
-{
-    $sql = "
-        UPDATE commande
-        SET date_prestation = :date_prestation,
-            adresse = :adresse,
-            ville = :ville,
-            nb_personnes = :nb_personnes,
-            prix_total = :prix_total
-        WHERE id = :id
-    ";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'date_prestation' => $data['date_prestation'],
-        'adresse' => $data['adresse'],
-        'ville' => $data['ville'],
-        'nb_personnes' => $data['nb_personnes'],
-        'prix_total' => $data['prix_total'],
-        'id' => $commandeId
-    ]);
-}
-
-/* ========== Ajout d’un statut de suivi ========== */
-
-function insertCommandeSuivi(PDO $pdo, int $commandeId, string $statut): void
-{
-    $sql = "
-        INSERT INTO commande_suivi (commande_id, statut)
-        VALUES (:id, :statut)
-    ";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        'id' => $commandeId,
-        'statut' => $statut
-    ]);
 }
 
 /* ========== Commandes d’un utilisateur ========== */
@@ -143,6 +177,23 @@ function getAllCommandesAvecDetails(PDO $pdo): array
     return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 }
 
+/* ========== Suivi des statuts d’une commande ========== */
+
+function getCommandeSuivi(PDO $pdo, int $commandeId): array
+{
+    $sql = "
+        SELECT statut, date_statut
+        FROM commande_suivi
+        WHERE commande_id = :id
+        ORDER BY date_statut ASC
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['id' => $commandeId]);
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 /* ========== Filtrage des commandes (admin) ========== */
 
 function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
@@ -185,7 +236,7 @@ function getCommandesFiltrees(PDO $pdo, ?string $statut, ?string $client): array
 
 /* ========== Mise à jour du statut d’une commande et notification mail ========== */
 
-require_once __DIR__ . '/../services/mailService.php';
+require_once __DIR__ . '/../../services/mailService.php';
 
 function updateStatutCommande(PDO $pdo, int $commandeId, string $statut): void
 {

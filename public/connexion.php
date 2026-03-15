@@ -16,7 +16,7 @@ if (empty($_SESSION['csrf_token'])) {
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/utilisateurModel.php';
+require_once __DIR__ . '/../repositories/sql/UtilisateurRepository.php';
 
 /* ========== Paramètres de redirection éventuelle ========== */
 $redirect = $_GET['redirect'] ?? null;

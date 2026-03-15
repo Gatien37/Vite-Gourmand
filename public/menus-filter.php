@@ -2,7 +2,7 @@
 /* ========= ENDPOINT AJAX : FILTRAGE MENUS ========= */
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/menuModel.php';
+require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
 require_once __DIR__ . '/../services/menuService.php';
 
 /* ========= Filtres ========= */

@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/menuModel.php';
+require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
 
 /* ===== CSRF ===== */
 if (empty($_SESSION['csrf_token'])) {

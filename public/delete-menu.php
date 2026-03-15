@@ -20,7 +20,7 @@ if (
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../models/menuModel.php';
+require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
 
 /* ========== Validation de l’ID menu ========== */
 $menuId = (int) ($_POST['menu_id'] ?? 0);
