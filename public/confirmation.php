@@ -6,6 +6,10 @@ require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../services/CommandeService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ========== Sécurité : paramètre de commande valide ========== */
 
@@ -17,7 +21,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 /* ========== Récupération de la commande ========== */
 
 $commandeId = (int) $_GET['id'];
-$commande   = getCommandeById($pdo, $commandeId);
+$commande   = $commandeRepository->getCommandeById($commandeId);
 
 /* ========== Sécurité : commande existante ========== */
 

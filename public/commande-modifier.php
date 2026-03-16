@@ -13,11 +13,14 @@ require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 require_once __DIR__ . '/../services/commandeService.php';
 require_once __DIR__ . '/../config/commandeStatus.php';
 
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
+
 /* ========== Récupération et validation de l’ID ========== */
 $commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $userId     = (int) $_SESSION['user']['id'];
 
-$commande = getCommandeById($pdo, $commandeId);
+$commande = $commandeRepository->getCommandeById($commandeId);
 
 /* ========== Sécurité : propriété de la commande ========== */
 if (!$commande || (int) $commande['utilisateur_id'] !== $userId) {
@@ -45,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         die('Action non autorisée.');
     }
 
-    $error = modifierCommandeUtilisateur($pdo, $commande, $_POST);
+    $error = $commandeService->modifierCommandeUtilisateur($commande, $_POST);
 
     if (!$error) {
         $_SESSION['success'] = "Commande modifiée avec succès.";

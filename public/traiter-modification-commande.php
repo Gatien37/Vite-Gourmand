@@ -1,8 +1,6 @@
 <?php
 /* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
-require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
-require_once __DIR__ . '/../repositories/sql/menuRepository.php';
 
 /* ========== Sécurité CSRF ========== */
 if (
@@ -22,7 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+require_once __DIR__ . '/../services/commandeService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ================== VALIDATION POST ================== */
 if (
@@ -43,7 +45,7 @@ $adresse    = trim($_POST['adresse'] ?? '');
 $ville      = trim($_POST['ville'] ?? '');
 
 /* ================== RECUP COMMANDE ================== */
-$commande = getCommandeById($pdo, $commandeId);
+$commande = $commandeRepository->getCommandeById($commandeId);
 
 if (!$commande || $commande['statut'] === 'annulee') {
     header('Location: gestion-commandes.php');
@@ -95,7 +97,7 @@ try {
     $prixTotal = $prixMenu - $reduction;
 
     /* ================== UPDATE COMMANDE ================== */
-    updateCommandeRepository($pdo, $commandeId, [
+    $commandeService->modifierCommande($commandeId, [
         'date_prestation' => "$date $heure",
         'adresse'         => $adresse,
         'ville'           => $ville,

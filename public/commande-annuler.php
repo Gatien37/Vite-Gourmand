@@ -3,6 +3,13 @@
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+require_once __DIR__ . '/../services/CommandeService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
+
 /* ========== Sécurisation de la méthode HTTP ========== */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: commande-utilisateur.php');
@@ -28,7 +35,7 @@ $commandeId = (int) ($_POST['commande_id'] ?? 0);
 $userId     = (int) $_SESSION['user']['id'];
 
 /* ========== Récupération de la commande ========== */
-$commande = getCommandeById($pdo, $commandeId);
+$commande = $commandeRepository->getCommandeById($commandeId);
 
 /* ========== Sécurité : propriété de la commande ========== */
 if (!$commande || (int) $commande['utilisateur_id'] !== $userId) {

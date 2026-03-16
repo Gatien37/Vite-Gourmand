@@ -12,7 +12,11 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../repositories/sql/menuRepository.php';
 require_once __DIR__ . '/../repositories/sql/UtilisateurRepository.php';
 require_once __DIR__ . '/../services/commandeService.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
 require_once __DIR__ . '/../services/mailService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ========== Sécurité : menu valide ========== */
 if (!isset($_GET['menu_id']) || !is_numeric($_GET['menu_id'])) {
@@ -61,11 +65,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
 
         /* Traitement métier */
-        $resultat = traiterCommande(
-            $pdo,
+        $resultat = $commandeService->traiterCommande(
             $menu,
             $_POST,
-            $_SESSION['user'] // source fiable côté métier
+            $_SESSION['user']
         );
 
         if (!empty($resultat['error'])) {

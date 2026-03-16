@@ -2,6 +2,8 @@
 /* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
+
+
 /* ========== Sécurité CSRF ========== */
 if (
     empty($_POST['csrf_token']) ||
@@ -21,6 +23,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../services/CommandeService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
+
 
 /* ================== VALIDATION ================== */
 if (
@@ -39,7 +46,7 @@ $motif       = trim($_POST['motif']);
 $action      = $_POST['action'];
 
 /* ================== RECUP COMMANDE ================== */
-$commande = getCommandeById($pdo, $commandeId);
+$commande = $commandeRepository->getCommandeById($commandeId);
 
 if (!$commande) {
     header('Location: gestion-commandes.php');

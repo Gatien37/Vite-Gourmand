@@ -1,18 +1,112 @@
 <?php
-/* ========== Dépendances ========== */
 
-require_once __DIR__ . '/livraisonService.php';
 require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
-require_once __DIR__ . '/../repositories/sql/menuRepository.php';
 
-/* ========== Création d’une commande utilisateur ========== */
+class CommandeService
+{
+    private PDO $pdo;
+    private CommandeRepository $commandeRepository;
 
-function traiterCommande($pdo, $menu, $post, $user)
+    public function __construct(PDO $pdo, CommandeRepository $commandeRepository)
+    {
+        $this->pdo = $pdo;
+        $this->commandeRepository = $commandeRepository;
+    }
+
+    public function creerCommande(array $data): int
+    {
+        $commandeId = $this->commandeRepository->insertCommande($data);
+        $this->commandeRepository->insertCommandeSuivi($commandeId, $data['statut']);
+
+        return $commandeId;
+    }
+
+    public function modifierCommande(int $commandeId, array $data): void
+    {
+        $this->commandeRepository->updateCommande($commandeId, $data);
+    }
+
+    public function changerStatut(int $commandeId, string $statut): void
+    {
+        $this->commandeRepository->updateCommandeStatut($commandeId, $statut);
+        $this->commandeRepository->insertCommandeSuivi($commandeId, $statut);
+    }
+
+    public function marquerCommeLivreeAvecPret(int $commandeId): string
+    {
+        $dateLimite = $this->calculerDateLimiteRetour();
+        $statut = 'attente_retour_materiel';
+
+        $this->commandeRepository->updateCommandePretMateriel($commandeId, $statut, $dateLimite);
+        $this->commandeRepository->insertCommandeSuivi($commandeId, $statut);
+
+        return $dateLimite;
+    }
+
+    public function changerStatutDepuisEmploye(int $commandeId, string $statut): ?string
+    {
+        if ($statut === 'attente_retour_materiel') {
+            return $this->marquerCommeLivreeAvecPret($commandeId);
+        }
+
+        $this->changerStatut($commandeId, $statut);
+        return null;
+    }
+
+    private function calculerDateLimiteRetour(): string
+    {
+        $date = new DateTime();
+        $joursAjoutes = 0;
+
+        while ($joursAjoutes < 3) {
+            $date->modify('+1 day');
+
+            if ((int) $date->format('N') < 6) {
+                $joursAjoutes++;
+            }
+        }
+
+        return $date->format('Y-m-d');
+    }
+
+    public function modifierCommandeUtilisateur(array $commande, array $post): ?string
+    {
+        $date = trim($post['date_prestation'] ?? '');
+        $heure = trim($post['heure_prestation'] ?? '');
+        $adresse = trim($post['adresse'] ?? '');
+        $ville = trim($post['ville'] ?? '');
+        $nbPersonnes = (int) ($post['nb_personnes'] ?? 0);
+
+        if ($date === '' || $heure === '' || $adresse === '' || $ville === '' || $nbPersonnes <= 0) {
+            return 'Tous les champs sont obligatoires.';
+        }
+
+        $datePrestation = $date . ' ' . $heure . ':00';
+
+        $prixBase = (float) $commande['prix_base'];
+        $prixTotal = $prixBase * $nbPersonnes;
+
+        $data = [
+            'date_prestation' => $datePrestation,
+            'adresse' => $adresse,
+            'ville' => $ville,
+            'nb_personnes' => $nbPersonnes,
+            'prix_total' => $prixTotal
+        ];
+
+        $this->modifierCommande((int) $commande['id'], $data);
+
+        return null;
+    }
+
+    public function traiterCommande(array $menu, array $post, array $utilisateur): array
 {
     require_once __DIR__ . '/../config/commandeStatus.php';
+    require_once __DIR__ . '/livraisonService.php';
+    require_once __DIR__ . '/../repositories/sql/menuRepository.php';
 
     try {
-        $pdo->beginTransaction();
+        $this->pdo->beginTransaction();
 
         $statut = STATUT_EN_ATTENTE;
 
@@ -25,7 +119,7 @@ function traiterCommande($pdo, $menu, $post, $user)
         $ville   = trim($post['ville'] ?? '');
         $cp      = trim($post['code_postal'] ?? '');
 
-        if ($nb < $menu['nb_personnes_min'] || !$date || !$heure || !$reception) {
+        if ($nb < (int) $menu['nb_personnes_min'] || !$date || !$heure || !$reception) {
             return ['error' => 'Champs obligatoires manquants'];
         }
 
@@ -40,12 +134,12 @@ function traiterCommande($pdo, $menu, $post, $user)
             return ['error' => 'Adresse de livraison invalide'];
         }
 
-        if ($menu['stock'] < $nb) {
+        if ((int) $menu['stock'] < $nb) {
             return ['error' => 'Stock insuffisant pour ce menu'];
         }
 
-        $prixMenu = $nb * $menu['prix_base'];
-        $reduction = ($nb >= $menu['nb_personnes_min'] + 5)
+        $prixMenu = $nb * (float) $menu['prix_base'];
+        $reduction = ($nb >= ((int) $menu['nb_personnes_min'] + 5))
             ? $prixMenu * 0.10
             : 0;
 
@@ -58,9 +152,9 @@ function traiterCommande($pdo, $menu, $post, $user)
 
         $total = $prixMenu - $reduction + $fraisLivraison;
 
-        $commandeId = insertCommande($pdo, [
-            'utilisateur_id' => $user['id'],
-            'menu_id' => $menu['id'],
+        $commandeId = $this->creerCommande([
+            'utilisateur_id' => (int) $utilisateur['id'],
+            'menu_id' => (int) $menu['id'],
             'date_prestation' => "$date $heure",
             'adresse' => $reception === 'livraison' ? $adresse : 'Retrait sur place',
             'ville' => $reception === 'livraison' ? $ville : 'Bordeaux',
@@ -69,104 +163,29 @@ function traiterCommande($pdo, $menu, $post, $user)
             'statut' => $statut
         ]);
 
-        insertCommandeSuiviRepository($pdo, (int) $commandeId, $statut);
+        ajusterStockMenu($this->pdo, (int) $menu['id'], $nb);
 
-        ajusterStockMenu($pdo, (int) $menu['id'], $nb);
-
-        $pdo->commit();
+        $this->pdo->commit();
 
         return [
-            'error'       => null,
+            'error' => null,
             'commande_id' => $commandeId,
-            'recap'       => [
-                'menu'      => $menu['nom'],
-                'total'     => $total,
-                'date'      => $date,
-                'heure'     => $heure,
-                'nb'        => $nb,
+            'recap' => [
+                'menu' => $menu['nom'],
+                'total' => $total,
+                'date' => $date,
+                'heure' => $heure,
+                'nb' => $nb,
                 'reception' => $reception
             ]
         ];
 
     } catch (Exception $e) {
-        $pdo->rollBack();
+        if ($this->pdo->inTransaction()) {
+            $this->pdo->rollBack();
+        }
 
         return ['error' => 'Erreur lors de la création de la commande'];
     }
 }
-
-/* ========== Modification d’une commande par l’utilisateur ========== */
-
-function modifierCommandeUtilisateur(PDO $pdo, array $commande, array $post): ?string
-{
-    require_once __DIR__ . '/../config/commandeStatus.php';
-
-    $date  = $post['date'] ?? '';
-    $heure = $post['heure'] ?? '';
-    $nb    = (int) ($post['nb_personnes'] ?? 0);
-
-    $mode    = $post['reception'] ?? 'retrait';
-    $adresse = trim($post['adresse'] ?? '');
-    $ville   = trim($post['ville'] ?? '');
-    $cp      = trim($post['code_postal'] ?? '');
-
-    if (!$date || !$heure || $nb <= 0) {
-        return "Veuillez remplir la date, l'heure et le nombre de personnes.";
-    }
-
-    if ($nb < (int) $commande['nb_personnes_min']) {
-        return "Le minimum pour ce menu est {$commande['nb_personnes_min']} personnes.";
-    }
-
-    if (
-        $mode === 'livraison' &&
-        (
-            !$adresse ||
-            !$ville ||
-            !preg_match('/^\d{5}$/', $cp)
-        )
-    ) {
-        return "Adresse de livraison invalide.";
-    }
-
-    $ancienneQte = (int) ($commande['quantite'] ?? $commande['nb_personnes'] ?? 0);
-    $delta       = $nb - $ancienneQte;
-
-    if ($delta > 0 && (int) $commande['stock'] < $delta) {
-        return "Stock insuffisant pour augmenter cette commande.";
-    }
-
-    try {
-        $pdo->beginTransaction();
-
-        if ($delta !== 0) {
-            ajusterStockMenu($pdo, (int) $commande['menu_id'], $delta);
-        }
-
-        $total           = $nb * (float) $commande['prix_base'];
-        $date_prestation = "$date $heure";
-
-        updateCommandeRepository($pdo, (int) $commande['id'], [
-            'date_prestation' => $date_prestation,
-            'adresse'         => $mode === 'livraison' ? $adresse : 'Retrait sur place',
-            'ville'           => $mode === 'livraison' ? $ville : 'Bordeaux',
-            'nb_personnes'    => $nb,
-            'prix_total'      => $total
-        ]);
-
-        insertCommandeSuiviRepository(
-            $pdo,
-            (int) $commande['id'],
-            STATUT_EN_ATTENTE
-        );
-
-        $pdo->commit();
-
-        return null;
-
-    } catch (Exception $e) {
-        $pdo->rollBack();
-
-        return "Erreur lors de la modification.";
-    }
 }

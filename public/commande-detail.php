@@ -4,13 +4,17 @@ require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+require_once __DIR__ . '/../services/commandeService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ========== Récupération et validation des données ========== */
 $commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 $userId     = (int) $_SESSION['user']['id'];
 
-$commande = getCommandeById($pdo, $commandeId);
+$commande = $commandeRepository->getCommandeById($commandeId);
 
 /* ========== Sécurité : propriété de la commande ========== */
 if (!$commande || (int) $commande['utilisateur_id'] !== $userId) {
@@ -19,7 +23,7 @@ if (!$commande || (int) $commande['utilisateur_id'] !== $userId) {
 }
 
 /* ========== Suivi et données dérivées ========== */
-$suivi = getCommandeSuivi($pdo, $commandeId);
+$suivi = $commandeRepository->getCommandeSuivi($commandeId);
 $date  = new DateTime($commande['date_prestation']);
 ?>
 

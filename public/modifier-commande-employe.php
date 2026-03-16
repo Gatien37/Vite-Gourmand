@@ -6,6 +6,9 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 require_once __DIR__ . '/../services/commandeService.php';
 
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
+
 /* ========== Génération du token CSRF ========== */
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
@@ -22,7 +25,7 @@ $commandeId = (int) $_GET['id'];
 
 /* ========== Récupération de la commande modifiable ========== */
 
-$commande = getCommandeEditableParEmploye($pdo, $commandeId);
+$commande = $commandeRepository->getCommandeEditableParEmploye($id);
 
 if (!$commande) {
     header('Location: gestion-commandes.php');

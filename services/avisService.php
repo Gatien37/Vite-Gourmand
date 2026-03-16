@@ -1,15 +1,15 @@
 <?php
 
 require_once __DIR__ . '/../repositories/sql/avisRepository.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
 
 /* ========== Vérification de l’éligibilité à déposer un avis ========== */
 
-function verifierEligibiliteAvis(PDO $pdo, int $commandeId, int $userId): array
+function verifierEligibiliteAvis(PDO $pdo, CommandeRepository $commandeRepository, int $commandeId, int $userId): array
 {
     /* ========== Récupération de la commande ========== */
 
-    $commande = getCommandeById($pdo, $commandeId);
+    $commande = $commandeRepository->getCommandeById($commandeId);
 
     /* ========== Vérifications de sécurité et de statut ========== */
 

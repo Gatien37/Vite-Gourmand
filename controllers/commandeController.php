@@ -1,30 +1,14 @@
 <?php
 
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../services/commandeService.php';
 require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
-require_once __DIR__ . '/../repositories/sql/menuRepository.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../services/CommandeService.php';
 require_once __DIR__ . '/../services/mailService.php';
 
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
-function ajouterJoursOuvres(DateTime $date, int $jours): DateTime
-{
-    $date = clone $date;
-    $ajoutes = 0;
-
-    while ($ajoutes < $jours) {
-        $date->modify('+1 day');
-        if ($date->format('N') < 6) {
-            $ajoutes++;
-        }
-    }
-
-    return $date;
-}
-
-
-function handleUpdateStatutCommande(PDO $pdo): void
+function handleUpdateStatutCommande(PDO $pdo, CommandeService $commandeService, CommandeRepository $commandeRepository): void
 {
     header('Content-Type: application/json');
 
@@ -40,7 +24,7 @@ function handleUpdateStatutCommande(PDO $pdo): void
     }
 
     $commandeId = (int) $data['commande_id'];
-    $statut     = $data['statut'];
+    $statut = $data['statut'];
 
     $statutsAutorises = [
         'en_attente',
@@ -62,27 +46,25 @@ function handleUpdateStatutCommande(PDO $pdo): void
         $pdo->beginTransaction();
 
         if ($statut === 'attente_retour_materiel') {
-            $dateLimite = ajouterJoursOuvres(new DateTime(), 10);
 
-            updateCommandePretMaterielRepository(
-                $pdo,
-                $commandeId,
-                $statut,
-                $dateLimite->format('Y-m-d')
-            );
+            $dateLimite = $commandeService->marquerCommeLivreeAvecPret($commandeId);
 
-            insertCommandeSuiviRepository($pdo, $commandeId, $statut);
+            $commande = $commandeRepository->getCommandeById($commandeId);
 
-            $commande = getCommandeById($pdo, $commandeId);
+            if ($commande && !empty($commande['client_email'])) {
 
-            envoyerMailPretMateriel(
-                $commande['email'],
-                $commande['menu_nom'],
-                $dateLimite->format('d/m/Y')
-            );
+                envoyerMailPretMateriel(
+                    $commande['client_email'],
+                    $commande['menu_nom'],
+                    date('d/m/Y', strtotime($dateLimite))
+                );
+
+            }
+
         } else {
-            updateCommandeStatutRepository($pdo, $commandeId, $statut);
-            insertCommandeSuiviRepository($pdo, $commandeId, $statut);
+
+            $commandeService->changerStatut($commandeId, $statut);
+
         }
 
         $pdo->commit();
@@ -90,9 +72,17 @@ function handleUpdateStatutCommande(PDO $pdo): void
         echo json_encode(['success' => true]);
 
     } catch (Exception $e) {
-        $pdo->rollBack();
+
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
 
         http_response_code(500);
         echo json_encode(['error' => 'Erreur serveur']);
+
     }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    handleUpdateStatutCommande($pdo, $commandeService, $commandeRepository);
 }

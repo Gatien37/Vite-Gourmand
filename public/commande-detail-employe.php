@@ -4,7 +4,11 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+require_once __DIR__ . '/../services/CommandeService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ========== Génération du token CSRF ========== */
 if (empty($_SESSION['csrf_token'])) {
@@ -18,7 +22,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 }
 
 $commandeId = (int) $_GET['id'];
-$commande   = getCommandeById($pdo, $commandeId);
+$commande   = $commandeRepository->getCommandeById($commandeId);
 
 /* ========== Commande inexistante ========== */
 if (!$commande) {
@@ -33,10 +37,10 @@ $date = new DateTime($commande['date_prestation']);
 $motifAnnulation = null;
 
 if ($commande['statut'] === 'annulee') {
-    $motifAnnulation = getMotifAnnulation($pdo, $commandeId);
+    $motifAnnulation = $commandeRepository->getMotifAnnulation($commandeId);
 }
 
-$derniereModification = getDerniereModificationCommande($pdo, $commandeId);
+$derniereModification = $commandeRepository->getDerniereModificationCommande($commandeId);
 ?>
 
 <!DOCTYPE html>

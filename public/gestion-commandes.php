@@ -4,7 +4,11 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+require_once __DIR__ . '/../services/CommandeService.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ========== Génération du token CSRF ========== */                    
 if (empty($_SESSION['csrf_token'])) {
@@ -27,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newStatut  = $_POST['statut'] ?? '';
 
     if ($commandeId > 0 && $newStatut !== '') {
-        updateCommandeStatutRepository($pdo, $commandeId, $newStatut);
+        $commandeService->changerStatut($commandeId, $newStatut);
     }
 
     /* Conserver les filtres */
@@ -45,7 +49,7 @@ $statut = $_GET['statut'] ?? '';
 $client = $_GET['client'] ?? '';
 
 /* ========== Récupération des commandes filtrées ========== */
-$commandes = getCommandesFiltrees($pdo, $statut ?: null, $client ?: null);
+$commandes = $commandeRepository->getCommandesFiltrees($statut ?: null, $client ?: null);
 ?>
 
 <!DOCTYPE html>

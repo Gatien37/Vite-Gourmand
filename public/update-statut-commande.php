@@ -2,6 +2,11 @@
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../controllers/commandeController.php';
+require_once __DIR__ . '/../services/commandeService.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+
+$commandeRepository = new CommandeRepository($pdo);
+$commandeService = new CommandeService($pdo, $commandeRepository);
 
 $headers = getallheaders();
 
@@ -15,4 +20,4 @@ if (
     exit;
 }
 
-handleUpdateStatutCommande($pdo);
+handleUpdateStatutCommande($pdo, $commandeService, $commandeRepository);
