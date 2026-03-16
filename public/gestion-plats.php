@@ -3,7 +3,7 @@
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../models/platModel.php';
 
 /* ========== Génération du token CSRF ========== */
@@ -14,7 +14,7 @@ if (empty($_SESSION['csrf_token'])) {
 /* ========== Récupération des plats ========== */
 $plats = getAllPlats($pdo);
 ?>
-
+    
 <!DOCTYPE html>
 <html lang="fr">
 <head>

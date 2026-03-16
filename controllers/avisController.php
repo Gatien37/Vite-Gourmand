@@ -2,41 +2,45 @@
 
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../repositories/sql/avisRepository.php';
+require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+require_once __DIR__ . '/../services/avisService.php';
 
+/* ===== Initialisation des objets ===== */
+
+$avisRepository = new AvisRepository($pdo);
+$commandeRepository = new CommandeRepository($pdo);
+
+$avisService = new AvisService(
+    $pdo,
+    $avisRepository,
+    $commandeRepository
+);
 
 /* =====================================================
    Récupération des avis validés (site public)
    ===================================================== */
 
-function handleGetAvisValides(int $limit = 3): array
+function handleGetAvisValides(AvisService $avisService, int $limit = 3): array
 {
-    global $pdo;
-
-    return getAvisValides($pdo, $limit);
+    return $avisService->getAvisValides($limit);
 }
-
 
 /* =====================================================
    Gestion des avis (admin)
    ===================================================== */
 
-function handleGetAllAvis(): array
+function handleGetAllAvis(AvisService $avisService): array
 {
-    global $pdo;
-
-    return getAllAvis($pdo);
+    return $avisService->getAllAvis();
 }
-
 
 /* =====================================================
    Validation / refus d’un avis
    ===================================================== */
 
-function handleToggleAvis(int $avisId, string $action): void
+function handleToggleAvis(AvisService $avisService, int $avisId, string $action): void
 {
-    global $pdo;
-
     $valide = ($action === 'valider');
 
-    setAvisValide($pdo, $avisId, $valide);
+    $avisService->setAvisValide($avisId, $valide);
 }

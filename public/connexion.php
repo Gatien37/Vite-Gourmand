@@ -1,8 +1,9 @@
 <?php
+
 /* ========== Sécurisation cookies de session ========== */
 session_set_cookie_params([
     'httponly' => true,
-    'secure'   => true,   // à laisser à true en HTTPS
+    'secure' => true,
     'samesite' => 'Strict'
 ]);
 
@@ -15,8 +16,7 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/UtilisateurRepository.php';
+require_once __DIR__ . '/../config/services.php';
 
 /* ========== Paramètres de redirection éventuelle ========== */
 $redirect = $_GET['redirect'] ?? null;
@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
 
     /* Récupération de l’utilisateur par email */
-    $user = getUtilisateurByEmail($pdo, $email);
+    $user = $utilisateurRepository->getUtilisateurByEmail($email);
 
     /* Vérifications successives */
     if (!$user) {
@@ -72,6 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         /* Redirection selon le rôle */
         switch ($user['role']) {
+
             case 'admin':
                 header('Location: espace-admin.php');
                 break;

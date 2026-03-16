@@ -35,7 +35,7 @@ if (
 }
 
 /* ========== Détermination du statut ========== */
-handleToggleAvis($id, $action);
+handleToggleAvis($avisService, $id, $action);
 
 /* ========== Message de confirmation ========== */
 $_SESSION['success'] = ($action === 'valider')

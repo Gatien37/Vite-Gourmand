@@ -8,10 +8,7 @@ if (empty($_SESSION['csrf_token'])) {
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
-require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
-require_once __DIR__ . '/../services/avisService.php';
+require_once __DIR__ . '/../config/services.php';
 
 /* ========== Sécurité : paramètre commande valide ========== */
 if (!isset($_GET['commande_id']) || !is_numeric($_GET['commande_id'])) {
@@ -24,7 +21,7 @@ $userId     = (int) $_SESSION['user']['id'];
 $commandeId = (int) $_GET['commande_id'];
 
 /* ========== Vérification de l’éligibilité à déposer un avis ========== */
-$result = verifierEligibiliteAvis($pdo, $commandeId, $userId);
+$result = $avisService->verifierEligibiliteAvis($commandeId, $userId);
 
 if (!empty($result['error'])) {
     $_SESSION['error'] = $result['error'];
@@ -49,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Action non autorisée (CSRF).');
     }
 
-    $error = traiterDepotAvis($pdo, $commandeId, $_POST);
+    $error = $avisService->traiterDepotAvis($commandeId, $_POST);
 
     if (!$error) {
         $_SESSION['success'] = "Merci pour votre avis. Il sera publié après validation.";

@@ -1,4 +1,5 @@
 <?php
+
 /* ========== Sécurité : accès administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireAdmin.php';
 
@@ -8,11 +9,11 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/UtilisateurRepository.php';
+require_once __DIR__ . '/../config/services.php';
 
 /* ========== Récupération des employés ========== */
-$employes = getEmployes($pdo);
+$employes = $utilisateurRepository->getEmployes();
+
 ?>
 
 <!DOCTYPE html>

@@ -1,15 +1,14 @@
 <?php
 /* ========= ENDPOINT AJAX : FILTRAGE MENUS ========= */
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../services/menuService.php';
 
 /* ========= Filtres ========= */
 $filters = buildMenuFilters($_GET);
 
 /* ========= Données ========= */
-$menus = getFilteredMenus($pdo, $filters);
+$menus = $menuRepository->getFilteredMenus($filters);
 
 /* ========= Rendu partiel ========= */
 if (empty($menus)) {

@@ -12,7 +12,7 @@ require_once __DIR__ . '/../middlewares/requireEmploye.php';
 require_once __DIR__ . '/../controllers/avisController.php';
 
 /* ========== Récupération des avis clients ========== */
-$avisList = handleGetAllAvis();
+$avisList = handleGetAllAvis($avisService);
 ?>
 
 <!DOCTYPE html>

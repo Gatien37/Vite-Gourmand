@@ -1,14 +1,14 @@
 <?php
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
+require_once __DIR__ . '/../config/services.php';
 
 /* ===== CSRF ===== */
 if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-$menus = getAllMenus($pdo);
+/* ===== Récupération des menus ===== */
+$menus = $menuRepository->getAllMenus();
 ?>
 
 <!DOCTYPE html>

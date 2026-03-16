@@ -1,4 +1,5 @@
 <?php
+
 /* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
@@ -8,7 +9,7 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../models/horaireModel.php';
 require_once __DIR__ . '/../services/horaireService.php';
 

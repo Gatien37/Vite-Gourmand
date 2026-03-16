@@ -1,7 +1,6 @@
 <?php
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/menuRepository.php';
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../models/platModel.php';
 require_once __DIR__ . '/../services/menuService.php';
 
@@ -32,7 +31,7 @@ foreach ($plats as $p) {
 
 /* ========= Mode édition ========= */
 if ($id) {
-    $menu = getMenuById($pdo, $id);
+    $menu = $menuRepository->getMenuById($id);
 
     if (!$menu) {
         header('Location: gestion-menus.php');

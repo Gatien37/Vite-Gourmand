@@ -1,8 +1,7 @@
 <?php
 /* ========== Chargement des dépendances ========== */
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
+require_once __DIR__ . '/../config/services.php';
 
 /* ========== Sécurité : paramètre menu valide ========== */
 
@@ -14,7 +13,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 /* ========== Récupération du menu ========== */
 
 $menuId = (int) $_GET['id'];
-$menu   = getMenuById($pdo, $menuId);
+$menu   = $menuRepository->getMenuById($menuId);
 
 /* ========== Sécurité : menu existant ========== */
 
@@ -25,8 +24,8 @@ if (!$menu) {
 
 /* ========== Récupération des données associées ========== */
 
-$plats      = getPlatsByMenu($pdo, $menuId);
-$allergenes = getAllergenesByMenu($pdo, $menuId);
+$plats      = $menuRepository->getPlatsByMenu($menuId);
+$allergenes = $menuRepository->getAllergenesByMenu($menuId);
 ?>
 
 <!DOCTYPE html>

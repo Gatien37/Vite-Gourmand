@@ -1,14 +1,18 @@
 <?php
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
+
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../services/menuService.php';
 
-/* ========= FILTRES (chargement initial uniquement) ========= */
+/* ========= FILTRES ========= */
+
 $filters = buildMenuFilters($_GET);
 
-/* ========= DONNÉES INITIALES ========= */
-$menus = getFilteredMenus($pdo, $filters);
+/* ========= MENUS ========= */
+
+$menus = $menuRepository->getFilteredMenus($filters);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>

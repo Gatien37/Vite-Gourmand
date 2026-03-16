@@ -7,14 +7,9 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-/* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
-require_once __DIR__ . '/../services/commandeService.php';
+/* ========== Services centralisés ========== */
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../config/commandeStatus.php';
-
-$commandeRepository = new CommandeRepository($pdo);
-$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ========== Récupération et validation de l’ID ========== */
 $commandeId = isset($_GET['id']) ? (int) $_GET['id'] : 0;

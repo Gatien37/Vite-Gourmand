@@ -1,4 +1,5 @@
 <?php
+
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
@@ -8,12 +9,11 @@ if (empty($_SESSION['csrf_token'])) {
 }
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/UtilisateurRepository.php';
+require_once __DIR__ . '/../config/services.php';
 
 /* ========== Récupération de l’utilisateur ========== */
 $userId = (int) $_SESSION['user']['id'];
-$user   = getUtilisateurById($pdo, $userId);
+$user = $utilisateurRepository->getUtilisateurById($userId);
 
 if (!$user) {
     header('Location: espace-utilisateur.php');
@@ -22,7 +22,7 @@ if (!$user) {
 
 /* ========== Initialisation des messages ========== */
 $success = null;
-$error   = null;
+$error = null;
 
 /* ========== Traitement du formulaire de mise à jour ========== */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit('Action non autorisée (CSRF).');
     }
 
-    $adresse    = trim($_POST['adresse'] ?? '');
-    $ville      = trim($_POST['ville'] ?? '');
+    $adresse = trim($_POST['adresse'] ?? '');
+    $ville = trim($_POST['ville'] ?? '');
     $codePostal = trim($_POST['code_postal'] ?? '');
 
     /* ===== Validation des données ===== */
@@ -51,16 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
 
         /* ===== Mise à jour de l’adresse ===== */
-        updateAdresseUtilisateur($pdo, $userId, [
-            'adresse'     => $adresse,
-            'ville'       => $ville,
+        $utilisateurRepository->updateAdresseUtilisateur($userId, [
+            'adresse' => $adresse,
+            'ville' => $ville,
             'code_postal' => $codePostal
         ]);
 
         $success = "Adresse mise à jour avec succès.";
 
         /* ===== Rechargement utilisateur ===== */
-        $user = getUtilisateurById($pdo, $userId);
+        $user = $utilisateurRepository->getUtilisateurById($userId);
 
         /* ===== Invalidation du token CSRF ===== */
         unset($_SESSION['csrf_token']);

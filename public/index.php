@@ -2,11 +2,22 @@
 /* ========== Chargement des dépendances ========== */
 
 require_once __DIR__ . '/../config/database.php';
+
 require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
+require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
 
-/* ========== Récupération des avis clients validés ========== */
+require_once __DIR__ . '/../services/AvisService.php';
 
-$avisList = getAvisValides($pdo, 3);
+/* ===== Initialisation ===== */
+
+$avisRepository = new AvisRepository($pdo);
+$commandeRepository = new CommandeRepository($pdo);
+
+$avisService = new AvisService($pdo, $avisRepository, $commandeRepository);
+
+/* ===== Récupération des avis ===== */
+
+$avisList = $avisService->getAvisValides(3);
 ?>
 
 <!DOCTYPE html>

@@ -19,12 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
-require_once __DIR__ . '/../services/commandeService.php';
+require_once __DIR__ . '/../config/services.php';
 
-$commandeRepository = new CommandeRepository($pdo);
-$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ================== VALIDATION POST ================== */
 if (
@@ -85,7 +81,7 @@ try {
             throw new Exception('Stock insuffisant');
         }
 
-        ajusterStockMenu($pdo, $menuId, $diff);
+        $menuRepository->ajusterStockMenu($menuId, $diff);
     }
 
     /* ================== RECALCUL PRIX ================== */

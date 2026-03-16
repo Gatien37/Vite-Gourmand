@@ -1,8 +1,13 @@
 <?php
+
 /* ========== Sécurité : accès employé ou administrateur ========== */
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
-
+/* ========== Sécurité : méthode HTTP ========== */
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    header('Location: gestion-commandes.php');
+    exit;
+}
 
 /* ========== Sécurité CSRF ========== */
 if (
@@ -14,19 +19,8 @@ if (
     exit('Action non autorisée (CSRF).');
 }
 
-/* ========== Sécurité : méthode HTTP ========== */
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: gestion-commandes.php');
-    exit;
-}
-
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/CommandeRepository.php';
-require_once __DIR__ . '/../services/CommandeService.php';
-
-$commandeRepository = new CommandeRepository($pdo);
-$commandeService = new CommandeService($pdo, $commandeRepository);
+require_once __DIR__ . '/../config/services.php';
 
 
 /* ================== VALIDATION ================== */

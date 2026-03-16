@@ -20,7 +20,10 @@ if (
 
 /* ========== Chargement des dépendances ========== */
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/MenuRepository.php';
+require_once __DIR__ . '/../repositories/sql/menuRepository.php';
+
+/* ========== Instanciation du repository ========== */
+$menuRepository = new MenuRepository($pdo);
 
 /* ========== Validation de l’ID menu ========== */
 $menuId = (int) ($_POST['menu_id'] ?? 0);
@@ -31,7 +34,7 @@ if ($menuId <= 0) {
 }
 
 /* ========== Suppression du menu ========== */
-deleteMenu($pdo, $menuId);
+$menuRepository->deleteMenu($menuId);
 
 /* ========== Redirection finale ========== */
 header('Location: gestion-menus.php');

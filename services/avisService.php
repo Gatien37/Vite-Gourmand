@@ -3,53 +3,64 @@
 require_once __DIR__ . '/../repositories/sql/avisRepository.php';
 require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
 
-/* ========== Vérification de l’éligibilité à déposer un avis ========== */
-
-function verifierEligibiliteAvis(PDO $pdo, CommandeRepository $commandeRepository, int $commandeId, int $userId): array
+class AvisService
 {
-    /* ========== Récupération de la commande ========== */
+    private PDO $pdo;
+    private AvisRepository $avisRepository;
+    private CommandeRepository $commandeRepository;
 
-    $commande = $commandeRepository->getCommandeById($commandeId);
-
-    /* ========== Vérifications de sécurité et de statut ========== */
-
-    if (
-        !$commande ||
-        (int) $commande['utilisateur_id'] !== $userId ||
-        $commande['statut'] !== 'terminee'
-    ) {
-        return ['error' => 'Accès non autorisé'];
+    public function __construct(PDO $pdo, AvisRepository $avisRepository, CommandeRepository $commandeRepository)
+    {
+        $this->pdo = $pdo;
+        $this->avisRepository = $avisRepository;
+        $this->commandeRepository = $commandeRepository;
     }
 
-    /* ========== Vérification d’un avis déjà existant ========== */
+    public function verifierEligibiliteAvis(int $commandeId, int $userId): array
+    {
+        $commande = $this->commandeRepository->getCommandeById($commandeId);
 
-    if (avisExistePourCommande($pdo, $commandeId)) {
-        return ['error' => 'Avis déjà existant'];
+        if (
+            !$commande ||
+            (int) $commande['utilisateur_id'] !== $userId ||
+            $commande['statut'] !== 'terminee'
+        ) {
+            return ['error' => 'Accès non autorisé'];
+        }
+
+        if ($this->avisRepository->avisExistePourCommande($commandeId)) {
+            return ['error' => 'Avis déjà existant'];
+        }
+
+        return ['commande' => $commande];
     }
 
-    /* ========== Commande éligible ========== */
+    public function traiterDepotAvis(int $commandeId, array $post): ?string
+    {
+        $note = (int) ($post['note'] ?? 0);
+        $commentaire = trim($post['commentaire'] ?? '');
 
-    return ['commande' => $commande];
-}
+        if ($note < 1 || $note > 5) {
+            return 'Veuillez sélectionner une note.';
+        }
 
-/* ========== Traitement du dépôt d’un avis ========== */
+        $this->avisRepository->insertAvis($commandeId, $note, $commentaire);
 
-function traiterDepotAvis(PDO $pdo, int $commandeId, array $post): ?string
-{
-    /* ========== Récupération et normalisation des données ========== */
-
-    $note        = (int) ($post['note'] ?? 0);
-    $commentaire = trim($post['commentaire'] ?? '');
-
-    /* ========== Validation de la note ========== */
-
-    if ($note < 1 || $note > 5) {
-        return 'Veuillez sélectionner une note.';
+        return null;
     }
 
-    /* ========== Insertion de l’avis en base ========== */
+    public function getAvisValides(int $limit = 3): array
+    {
+        return $this->avisRepository->getAvisValides($limit);
+    }
 
-    insertAvis($pdo, $commandeId, $note, $commentaire);
+    public function getAllAvis(): array
+    {
+        return $this->avisRepository->getAllAvis();
+    }
 
-    return null;
+    public function setAvisValide(int $avisId, bool $valide): void
+    {
+        $this->avisRepository->setAvisValide($avisId, $valide);
+    }
 }

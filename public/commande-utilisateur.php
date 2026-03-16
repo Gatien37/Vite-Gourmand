@@ -3,13 +3,8 @@
 /* ========== Sécurisation : accès utilisateur ========== */
 require_once __DIR__ . '/../middlewares/requireUtilisateur.php';
 
-/* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
-require_once __DIR__ . '/../services/commandeService.php';
-
-$commandeRepository = new CommandeRepository($pdo);
-$commandeService = new CommandeService($pdo, $commandeRepository);
+/* ========== Services centralisés ========== */
+require_once __DIR__ . '/../config/services.php';
 
 /* ========== Génération du token CSRF ========== */
 if (empty($_SESSION['csrf_token'])) {

@@ -1,11 +1,12 @@
 <?php
 /* ========== Chargement des dépendances ========== */
 
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../controllers/avisController.php';
 
 /* ========== Récupération des avis validés ========== */
 
-$avisList = handleGetAvisValides(50);
+$avisList = handleGetAvisValides($avisService, 50);
 ?>
 
 <!DOCTYPE html>

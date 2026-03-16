@@ -7,16 +7,9 @@ if (empty($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
-/* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/menuRepository.php';
-require_once __DIR__ . '/../repositories/sql/UtilisateurRepository.php';
-require_once __DIR__ . '/../services/commandeService.php';
-require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
+/* ========== Services centralisés ========== */
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../services/mailService.php';
-
-$commandeRepository = new CommandeRepository($pdo);
-$commandeService = new CommandeService($pdo, $commandeRepository);
 
 /* ========== Sécurité : menu valide ========== */
 if (!isset($_GET['menu_id']) || !is_numeric($_GET['menu_id'])) {
@@ -25,7 +18,7 @@ if (!isset($_GET['menu_id']) || !is_numeric($_GET['menu_id'])) {
 }
 
 $menuId = (int) $_GET['menu_id'];
-$menu   = getMenuById($pdo, $menuId);
+$menu   = $menuRepository->getMenuById($menuId);
 
 if (!$menu) {
     header('Location: menus.php');
@@ -34,8 +27,8 @@ if (!$menu) {
 
 /* ========== Récupération utilisateur connecté (BDD) ========== */
 $userId = (int) $_SESSION['user']['id'];
-$utilisateur = getUtilisateurById($pdo, $userId);
-
+$utilisateur = $utilisateurRepository->getUtilisateurById($userId);
+    
 if (!$utilisateur) {
     die('Utilisateur introuvable.');
 }

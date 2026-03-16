@@ -1,13 +1,13 @@
 <?php
 
 /* ========== Sécurisation : accès Admin ========== */
-
 require_once __DIR__ . '/../middlewares/requireAdmin.php';
 
 /* ========== Chargement des dépendances ========== */
-
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../controllers/statistiqueController.php';
 
+/* ========== Traitement ========= */
 $data = handleChiffreAffaire($_GET);
 
 $totalCA        = $data['totalCA'];

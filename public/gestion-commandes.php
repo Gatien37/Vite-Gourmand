@@ -3,12 +3,7 @@
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
-require_once __DIR__ . '/../services/CommandeService.php';
-
-$commandeRepository = new CommandeRepository($pdo);
-$commandeService = new CommandeService($pdo, $commandeRepository);
+require_once __DIR__ . '/../config/services.php';
 
 /* ========== Génération du token CSRF ========== */                    
 if (empty($_SESSION['csrf_token'])) {
