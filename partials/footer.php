@@ -14,7 +14,7 @@ $horaires = getHoraires($pdo);
                     <p>
                         <strong><?= ucfirst($h['jour']) ?> :</strong>
                         <?php if ($h['ouverture'] && $h['fermeture']): ?>
-                            <?= substr($h['ouverture'], 0, 5) ?> – <?= substr($h['fermeture'], 0, 5) ?>
+                            <?= substr($h['ouverture'], 0, 5) ?> - <?= substr($h['fermeture'], 0, 5) ?>
                         <?php else: ?>
                             Fermé
                         <?php endif; ?>

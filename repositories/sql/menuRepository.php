@@ -178,3 +178,17 @@ function saveMenu(PDO $pdo, array $data, ?int $menuId = null): void
 
     $stmt->execute($params);
 }
+
+
+/* ========== Liste simple des noms de menus (statistiques) ========== */
+
+function getMenuNames(PDO $pdo): array
+{
+    $stmt = $pdo->query("
+        SELECT nom
+        FROM menu
+        ORDER BY nom ASC
+    ");
+
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}

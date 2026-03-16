@@ -1,12 +1,11 @@
 <?php
 /* ========== Chargement des dépendances ========== */
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
+require_once __DIR__ . '/../controllers/avisController.php';
 
 /* ========== Récupération des avis validés ========== */
 
-$avisList = getAvisValides($pdo, 50);
+$avisList = handleGetAvisValides(50);
 ?>
 
 <!DOCTYPE html>

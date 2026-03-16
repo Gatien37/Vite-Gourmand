@@ -9,11 +9,10 @@ if (empty($_SESSION['csrf_token'])) {
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
+require_once __DIR__ . '/../controllers/avisController.php';
 
 /* ========== Récupération des avis clients ========== */
-$avisList = getAllAvis($pdo);
+$avisList = handleGetAllAvis();
 ?>
 
 <!DOCTYPE html>

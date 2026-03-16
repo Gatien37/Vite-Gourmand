@@ -1,11 +1,9 @@
 <?php
 require_once __DIR__ . '/../middlewares/requireAdmin.php';
-require_once __DIR__ . '/../config/mongo.php';
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../services/statistiquesService.php';
+require_once __DIR__ . '/../controllers/statistiqueController.php';
 
 /* ===== RÉCUPÉRATION DES DONNÉES ===== */
-$stats = getStatistiquesMenus($menuStatsCollection, $pdo);
+$stats = handleStatistiquesMenus();
 
 $labels      = $stats['labels'];
 $data        = $stats['data'];

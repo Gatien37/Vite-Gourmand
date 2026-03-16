@@ -6,32 +6,16 @@ require_once __DIR__ . '/../middlewares/requireAdmin.php';
 
 /* ========== Chargement des dépendances ========== */
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../config/mongo.php';
-require_once __DIR__ . '/../services/statistiquesService.php';
+require_once __DIR__ . '/../controllers/statistiqueController.php';
 
-/* ========== Filtres (GET) ========== */
+$data = handleChiffreAffaire($_GET);
 
-$filter = buildChiffreAffaireFilter($_GET);
+$totalCA        = $data['totalCA'];
+$totalCommandes = $data['totalCommandes'];
+$ticketMoyen    = $data['ticketMoyen'];
+$statsParMenu   = $data['statsParMenu'];
+$menus          = $data['menus'];
 
-/* ========== Données chiffre d'affaires (MongoDB) ========== */
-
-$cursor = $menuStatsCollection->find($filter);
-$stats = iterator_to_array($cursor);
-
-/* ========== Calculs statistiques (service) ========== */
-
-$resultats = calculerStatistiques($stats);
-
-$totalCA         = $resultats['totalCA'];
-$totalCommandes  = $resultats['totalCommandes'];
-$ticketMoyen     = $resultats['ticketMoyen'];
-$statsParMenu    = $resultats['statsParMenu'];
-
-/* ========== Menus disponibles (SQL) ========== */
-
-$stmt = $pdo->query("SELECT id, nom FROM menu ORDER BY nom ASC");
-$menus = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>

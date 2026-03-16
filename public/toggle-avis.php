@@ -4,8 +4,7 @@
 require_once __DIR__ . '/../middlewares/requireEmploye.php';
 
 /* ========== Chargement des dépendances ========== */
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/AvisRepository.php';
+require_once __DIR__ . '/../controllers/avisController.php';
 
 /* ========== Sécurisation de la méthode HTTP ========== */
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -36,16 +35,13 @@ if (
 }
 
 /* ========== Détermination du statut ========== */
-$valide = ($action === 'valider');
-
-/* ========== Mise à jour de l’avis ========== */
-setAvisValide($pdo, $id, $valide);
+handleToggleAvis($id, $action);
 
 /* ========== Message de confirmation ========== */
-$_SESSION['success'] = $valide
+$_SESSION['success'] = ($action === 'valider')
     ? "Avis validé avec succès."
     : "Avis refusé avec succès.";
-
+    
 /* ========== Redirection finale ========== */
 header('Location: gestion-avis.php');
 exit;
