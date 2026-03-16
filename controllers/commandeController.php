@@ -1,12 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../repositories/sql/commandeRepository.php';
-require_once __DIR__ . '/../services/CommandeService.php';
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../services/mailService.php';
-
-$commandeRepository = new CommandeRepository($pdo);
-$commandeService = new CommandeService($pdo, $commandeRepository);
 
 function handleUpdateStatutCommande(PDO $pdo, CommandeService $commandeService, CommandeRepository $commandeRepository): void
 {

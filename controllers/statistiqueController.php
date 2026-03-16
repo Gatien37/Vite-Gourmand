@@ -1,38 +1,30 @@
 <?php
 
-require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/services.php';
 require_once __DIR__ . '/../config/mongo.php';
-
 require_once __DIR__ . '/../services/statistiquesService.php';
-
 require_once __DIR__ . '/../repositories/mongo/StatistiqueMongoRepository.php';
-require_once __DIR__ . '/../repositories/sql/menuRepository.php';
-
 
 function handleStatistiquesMenus(): array
 {
-    global $pdo, $menuStatsCollection;
+    global $menuStatsCollection, $menuRepository;
 
     $mongoRepository = new StatistiqueMongoRepository($menuStatsCollection);
-
     $stats = $mongoRepository->aggregateMenus();
-    $allMenus = getMenuNames($pdo);
+    $allMenus = $menuRepository->getMenuNames();
 
     return formaterStatistiquesMenus($stats, $allMenus);
 }
 
-
 function handleChiffreAffaire(array $query): array
 {
-    global $pdo, $menuStatsCollection;
+    global $menuStatsCollection, $menuRepository;
 
     $mongoRepository = new StatistiqueMongoRepository($menuStatsCollection);
-
     $filter = buildChiffreAffaireFilter($query);
     $stats = $mongoRepository->findByFilter($filter);
     $resultats = calculerStatistiques($stats);
-
-    $menus = getAllMenus($pdo);
+    $menus = $menuRepository->getAllMenus();
 
     return [
         'totalCA' => $resultats['totalCA'],
